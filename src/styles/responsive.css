@@ -1,0 +1,939 @@
+/* ╔══════════════════════════════════════════════════════════════════════╗
+   ║  ALMENSO — GLOBAL RESPONSIVE SYSTEM                                 ║
+   ║  Mobile-first · All breakpoints · Utility classes                   ║
+   ║  Drop this file in src/styles/ and import in main.jsx               ║
+   ╚══════════════════════════════════════════════════════════════════════╝
+
+   BREAKPOINTS
+   ─────────────────────────────────────────────
+   xs  : 0–319px    (very small phones)
+   sm  : 320–639px  (phones)
+   md  : 640–1023px (tablets)
+   lg  : 1024–1439px (laptops/desktops)
+   xl  : 1440px+    (large monitors)
+*/
+
+/* ═══════════════════════════════════════════════════════════════════════
+   1. CONTAINER SYSTEM
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Base container — fluid on mobile, centered+capped on desktop */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+@media (min-width: 640px)  { .container { padding-left: 24px; padding-right: 24px; } }
+@media (min-width: 1024px) { .container { padding-left: 32px; padding-right: 32px; } }
+@media (min-width: 1440px) { .container { padding-left: 48px; padding-right: 48px; max-width: 1360px; } }
+
+/* Narrow container for text-heavy pages (privacy, terms, about, blog) */
+.container-narrow {
+  width: 100%;
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+@media (min-width: 640px)  { .container-narrow { padding-left: 24px; padding-right: 24px; } }
+@media (min-width: 1024px) { .container-narrow { padding-left: 32px; padding-right: 32px; } }
+
+/* Wide container for dashboards/admin */
+.container-wide {
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+@media (min-width: 640px)  { .container-wide { padding-left: 24px; padding-right: 24px; } }
+@media (min-width: 1024px) { .container-wide { padding-left: 40px; padding-right: 40px; } }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   2. RESPONSIVE GRID UTILITIES
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Standard tool card grid — 1→2→3→4 */
+.grid-tools {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+@media (min-width: 480px)  { .grid-tools { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+@media (min-width: 768px)  { .grid-tools { grid-template-columns: repeat(3, 1fr); gap: 14px; } }
+@media (min-width: 1100px) { .grid-tools { grid-template-columns: repeat(4, 1fr); gap: 16px; } }
+
+/* Service/feature card grid — 1→2→3 */
+.grid-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 580px)  { .grid-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px)  { .grid-cards { grid-template-columns: repeat(3, 1fr); } }
+
+/* Testimonial grid — 1→2→4 */
+.grid-testi {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 580px)  { .grid-testi { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .grid-testi { grid-template-columns: repeat(4, 1fr); } }
+
+/* Two-column split (hero sidebar) */
+.grid-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+@media (min-width: 960px) { .grid-split { grid-template-columns: 1fr 380px; gap: 40px; } }
+
+/* Form fields — 1→2 on tablet+ */
+.grid-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 640px) { .grid-form { grid-template-columns: 1fr 1fr; } }
+
+/* Product mini grid — 2→3→4 */
+.grid-products {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+@media (min-width: 600px)  { .grid-products { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 900px)  { .grid-products { grid-template-columns: repeat(4, 1fr); } }
+
+/* Stats row — wrap-flex on mobile, row on desktop */
+.flex-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+@media (min-width: 640px) { .flex-stats { flex-wrap: nowrap; } }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   3. RESPONSIVE TYPOGRAPHY
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Hero headings */
+.text-hero-xl {
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 900;
+  line-height: 1.06;
+  letter-spacing: -0.04em;
+}
+.text-hero-lg {
+  font-size: clamp(1.6rem, 5vw, 3rem);
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+/* Section headings */
+.text-section-h {
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+/* Card title */
+.text-card-h {
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+
+/* Body text */
+.text-body {
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* Small/meta */
+.text-small {
+  font-size: clamp(0.7rem, 1.2vw, 0.8rem);
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   4. SPACING UTILITIES (responsive section padding)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.section-pad {
+  padding-top: clamp(32px, 5vw, 64px);
+  padding-bottom: clamp(32px, 5vw, 64px);
+}
+.section-pad-sm {
+  padding-top: clamp(20px, 3vw, 40px);
+  padding-bottom: clamp(20px, 3vw, 40px);
+}
+.gap-section { gap: clamp(16px, 3vw, 32px); }
+.gap-card    { gap: clamp(10px, 2vw, 16px); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   5. TOUCH-FRIENDLY ELEMENT SIZING
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* All interactive elements get 44px minimum tap target */
+button:not(.icon-btn-sm):not(.tn-ham):not(.tn-search-close),
+a:not(.legal-toc-link):not(.ft-col a):not(.legal-footer-links a) {
+  min-height: 44px;
+}
+
+/* Input, select, textarea — full width + 16px font to prevent iOS zoom */
+input, select, textarea {
+  width: 100%;
+  font-size: 16px;
+  min-height: 44px;
+  border-radius: 10px;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  background: #f8fafc;
+  color: var(--text);
+  font-family: var(--font);
+  box-sizing: border-box;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--green);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(15,138,31,0.1);
+  outline: none;
+}
+textarea { min-height: 100px; resize: vertical; }
+
+/* Dark mode inputs */
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background: #1e2535;
+  border-color: var(--border);
+  color: var(--text);
+}
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus,
+[data-theme="dark"] textarea:focus {
+  background: #151b2b;
+  border-color: #22c55e;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   6. GLOBAL PAGE WRAPPER FIXES
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Remove the 520px mobile-only restriction — make all pages full-width */
+.page-wrap {
+  max-width: 100% !important;
+  width: 100%;
+  margin: 0;
+  box-shadow: none !important;
+}
+
+/* Main content — pad for bottom mobile nav */
+.main-content {
+  min-height: 100vh;
+}
+@media (max-width: 767px) { .main-content { padding-bottom: 68px; } }
+
+/* Prevent horizontal overflow everywhere */
+html, body, #root, .app-root, .app-wrap {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   7. NAVBAR RESPONSIVE FIXES
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Ensure nav bar never overflows */
+.tn-bar {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 16px;
+  gap: 6px;
+}
+@media (min-width: 768px) { .tn-bar { padding: 0 24px; } }
+@media (min-width: 1440px) { .tn-bar { padding: 0 48px; } }
+
+/* Logo always visible */
+.tn-logo { flex-shrink: 0; }
+.tn-logo-text { font-size: clamp(1.1rem, 2.5vw, 1.35rem); }
+
+/* Nav links — hide overflow gracefully on mid-size screens */
+.tn-links { gap: 0; flex: 1; overflow: hidden; }
+.tn-link  { padding: 0 clamp(6px, 1.2vw, 14px); font-size: clamp(0.75rem, 1.1vw, 0.84rem); white-space: nowrap; }
+
+/* Search wraps at tablet */
+@media (min-width: 768px) and (max-width: 900px) {
+  .tn-search-wrap { display: none; }
+}
+@media (min-width: 901px) {
+  .tn-search-wrap { display: block; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   8. HOMEPAGE RESPONSIVE FIXES
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Body container centered on large screens */
+.hp3-body {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: clamp(14px, 3vw, 28px) clamp(14px, 2.5vw, 28px) clamp(40px, 6vw, 64px);
+}
+
+/* Hero inner — respect max-width */
+.hero3-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* Tool cards grid — 1→2→3 on homepage */
+.htc-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+@media (min-width: 480px) { .htc-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 860px) { .htc-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; } }
+@media (min-width: 1200px) { .htc-grid { grid-template-columns: repeat(4, 1fr); } }
+
+/* Service card grid — 1→2→3 */
+.hsc-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+@media (min-width: 520px) { .hsc-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 860px) { .hsc-grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* Testimonial grid — 1→2→4 */
+.htesti-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+@media (min-width: 520px)  { .htesti-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .htesti-grid { grid-template-columns: repeat(4, 1fr); } }
+
+/* Products mini grid — fix overflow on tiny screens */
+.hp3-prods-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+@media (min-width: 440px) { .hp3-prods-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 768px) { .hp3-prods-grid { grid-template-columns: repeat(4, 1fr); } }
+
+/* Stats row — wrap on small screens */
+.hero3-stats {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 520px;
+}
+@media (min-width: 640px) { .hero3-stats { flex-wrap: nowrap; width: fit-content; } }
+.hero3-stat { flex: 1; min-width: 80px; }
+
+/* Hero CTAs — stack on very small screens */
+.hero3-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+@media (max-width: 360px) {
+  .hero3-btn-tools, .hero3-btn-service { width: 100%; justify-content: center; }
+  .hero3-btn-wa { width: 100%; border-radius: 13px; }
+}
+
+/* Section header — stack on mobile */
+.hp3-sec-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+/* Contact bar — stack on small screens */
+.hp3-contact-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: #f8fafc;
+  border-radius: 14px;
+  border: 1px solid #e4e8ef;
+  flex-wrap: wrap;
+}
+.hp3-cb-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+@media (max-width: 400px) {
+  .hp3-cb-wa, .hp3-cb-call { width: 100%; justify-content: center; }
+}
+
+/* CTA band — stack on mobile, side-by-side on tablet */
+.hp3-cta-band-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: clamp(24px, 4vw, 44px) clamp(18px, 3.5vw, 36px);
+}
+@media (min-width: 768px) {
+  .hp3-cta-band-inner {
+    flex-direction: row;
+    align-items: center;
+    gap: 48px;
+  }
+  .hp3-cta-left  { flex: 1; }
+  .hp3-cta-right { flex: 0 0 240px; }
+}
+@media (min-width: 1024px) { .hp3-cta-right { flex: 0 0 280px; } }
+
+/* Rating bar — stack on mobile */
+.hp3-rating-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  flex-wrap: wrap;
+}
+@media (min-width: 640px) {
+  .hp3-rb-brands { margin-left: auto; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   9. TOOLS PAGE RESPONSIVE FIXES
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Body wrapper — centered on large screens */
+.tp2-body-wrap {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: clamp(12px, 2.5vw, 24px) clamp(12px, 2vw, 20px) clamp(40px, 6vw, 60px);
+}
+
+/* Tool card grid */
+.tp2-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+@media (min-width: 440px)  { .tp2-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 768px)  { .tp2-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; } }
+@media (min-width: 1100px) { .tp2-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 1400px) { .tp2-grid { grid-template-columns: repeat(5, 1fr); } }
+
+/* Category filter scroll on mobile */
+.tp2-cats {
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  margin-bottom: 16px;
+}
+.tp2-cats::-webkit-scrollbar { display: none; }
+@media (min-width: 768px) {
+  .tp2-cats { flex-wrap: wrap; overflow-x: visible; }
+}
+
+.tp2-cat {
+  flex-shrink: 0; /* Prevent squeeze on mobile scroll */
+}
+
+/* Tool hero — responsive text */
+.tp2-h1 { font-size: clamp(1.6rem, 5vw, 2.8rem); }
+.tp2-sub { font-size: clamp(0.82rem, 1.5vw, 0.95rem); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   10. TOOL PAGE (individual tool) RESPONSIVE FIXES
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Tool page body */
+.tp-body {
+  padding: clamp(14px, 2.5vw, 24px);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(14px, 2vw, 20px);
+  max-width: 1360px;
+  margin: 0 auto;
+}
+@media (min-width: 640px)  { .tp-body { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px)  { .tp-body { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1200px) { .tp-body { grid-template-columns: repeat(4, 1fr); } }
+
+/* Hero responsive */
+.tp-hero {
+  padding: clamp(28px, 5vw, 48px) clamp(16px, 3vw, 28px);
+}
+.tp-hero-title { font-size: clamp(1.4rem, 4vw, 2.2rem); }
+.tp-hero-sub   { font-size: clamp(0.82rem, 1.5vw, 0.95rem); }
+.tp-hero-ico   { font-size: clamp(2.5rem, 6vw, 4rem); }
+
+/* Tool shared card */
+.tp-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: clamp(14px, 2vw, 22px);
+  border: 1.5px solid #e5e7eb;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+[data-theme="dark"] .tp-card {
+  background: var(--card);
+  border-color: var(--border);
+}
+
+/* Tool form inputs — always full width */
+.ts-field input,
+.ts-field select,
+.ts-field textarea,
+.tp-field input,
+.tp-field select {
+  width: 100%;
+}
+
+/* Result section — no overflow */
+.tp-result, .ts-result {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   11. SERVICE PAGES (Electrician, Solar, Interior) FIXES
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Hero split — stack on mobile */
+.ep-hero-wrap, .sp-hero, .ip-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+@media (min-width: 900px) {
+  .ep-hero-wrap { flex-direction: row; align-items: flex-start; gap: 40px; }
+  .ep-hero-left { flex: 1; }
+  .ep-hero-right { flex: 0 0 340px; }
+
+  .sp-hero { flex-direction: row; align-items: flex-start; gap: 40px; }
+  .sp-hero-left { flex: 1; }
+  .sp-hero-right { flex: 0 0 340px; }
+}
+@media (min-width: 1100px) {
+  .ep-hero-right, .sp-hero-right { flex: 0 0 380px; }
+}
+
+/* Service body — max-width centered */
+.ep-body, .sp-body, .ip-body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(14px, 2.5vw, 24px) clamp(14px, 2.5vw, 20px) clamp(40px, 6vw, 60px);
+}
+
+/* Service grid 1→2→3 */
+.ep-svcs-grid, .sp-svcs-grid, .ip-svcs-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 540px) { .ep-svcs-grid, .sp-svcs-grid, .ip-svcs-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .ep-svcs-grid, .sp-svcs-grid, .ip-svcs-grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* Stat numbers — wrap on mobile */
+.ep-stats, .sp-hero-numbers {
+  flex-wrap: wrap;
+  width: 100%;
+}
+@media (min-width: 580px) {
+  .ep-stats, .sp-hero-numbers { flex-wrap: nowrap; width: fit-content; }
+}
+
+/* CTA buttons — stack on very small screens */
+.ep-hero-ctas, .sp-hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+@media (max-width: 380px) {
+  .ep-hero-ctas > *, .sp-hero-ctas > * { width: 100%; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   12. FOOTER RESPONSIVE FIXES
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.footer { padding: clamp(28px, 4vw, 40px) clamp(16px, 3vw, 24px) clamp(20px, 3vw, 28px); }
+@media (max-width: 767px) { .footer { padding-bottom: 84px; } } /* Above mobile nav */
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(20px, 3vw, 28px) 16px;
+}
+@media (min-width: 580px) { .footer-inner { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 900px) { .footer-inner { grid-template-columns: 2fr 1fr 1fr 1fr; } }
+
+.ft-brand { grid-column: 1 / -1; }
+@media (min-width: 900px) { .ft-brand { grid-column: auto; } }
+
+.ft-bottom {
+  max-width: 1200px;
+  margin: clamp(20px, 3vw, 28px) auto 0;
+  padding-top: clamp(14px, 2vw, 20px);
+  border-top: 1px solid #1e293b;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: #475569;
+}
+@media (min-width: 600px) { .ft-bottom { flex-direction: row; justify-content: space-between; } }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   13. CONTACT & LEGAL PAGES
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Legal container — max-width centered */
+.legal-container { max-width: 860px; }
+.legal-content { padding: clamp(24px, 4vw, 48px) clamp(18px, 3.5vw, 40px); }
+.legal-header  { padding: clamp(36px, 6vw, 60px) clamp(20px, 4vw, 40px); }
+.legal-title   { font-size: clamp(1.6rem, 4vw, 2.5rem); }
+
+/* Contact cards — 2 col on mobile, 4 on desktop */
+.contact-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+@media (min-width: 640px) { .contact-cards-grid { grid-template-columns: repeat(4, 1fr); } }
+
+/* About stats — 2→4 */
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+@media (min-width: 640px) { .about-stats { grid-template-columns: repeat(4, 1fr); } }
+
+/* About services — 1→2 */
+.about-services-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 540px) { .about-services-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* About values — 1→2 */
+.about-values-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 480px) { .about-values-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   14. BLOG PAGE RESPONSIVE
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Blog grid 1→2→3 */
+.blog-grid, .hbl-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 540px) { .blog-grid, .hbl-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .blog-grid, .hbl-grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* Blog article — max-width reading line length */
+.article-body, .blog-article { max-width: 720px; margin: 0 auto; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   15. AFFILIATE / EARN PAGE
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.earn-grid, .afw-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 480px)  { .earn-grid, .afw-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px)  { .earn-grid, .afw-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1200px) { .earn-grid, .afw-grid { grid-template-columns: repeat(4, 1fr); } }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   16. MOBILE NAV (Bottom Bar)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.mob-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 150;
+  background: #fff;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 60px;
+  padding: 0 4px;
+  /* Safe area for iPhone X+ */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (min-width: 768px) { .mob-nav { display: none !important; } }
+[data-theme="dark"] .mob-nav {
+  background: #111827;
+  border-top-color: #1f2937;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   17. COOKIE CONSENT & FLOATING BUTTONS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* WhatsApp FAB — above mobile nav on mobile */
+.whatsapp-btn, .fab-wa {
+  position: fixed;
+  bottom: 72px;
+  left: 16px;
+  z-index: 140;
+}
+@media (min-width: 768px) {
+  .whatsapp-btn, .fab-wa { bottom: 28px; }
+}
+
+/* Scroll to top — above mobile nav */
+.stt-btn {
+  bottom: 72px;
+  right: 72px;
+}
+@media (min-width: 768px) {
+  .stt-btn { bottom: 28px; right: 28px; }
+}
+
+/* Cookie consent — full width on mobile */
+.cookie-bar, .cc-bar {
+  left: 0;
+  right: 0;
+  bottom: 60px; /* Above mobile nav */
+  border-radius: 0;
+  padding: 14px 16px;
+}
+@media (min-width: 768px) {
+  .cookie-bar, .cc-bar {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    border-radius: 14px;
+    max-width: 540px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   18. DARK MODE IMPROVEMENTS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* Ensure text contrast in dark mode */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] .tc-name,
+[data-theme="dark"] .htc-name,
+[data-theme="dark"] .hsc-title,
+[data-theme="dark"] .htesti-name,
+[data-theme="dark"] .hp3-sec-h2,
+[data-theme="dark"] .tp-hero-title,
+[data-theme="dark"] .tp2-h1,
+[data-theme="dark"] .ep-h1,
+[data-theme="dark"] .sp-hero-h1,
+[data-theme="dark"] .legal-title {
+  color: var(--text);
+}
+
+/* Muted text — readable in dark */
+[data-theme="dark"] .tc-desc,
+[data-theme="dark"] .htc-benefit,
+[data-theme="dark"] .hp3-sec-p,
+[data-theme="dark"] .hsc-tagline,
+[data-theme="dark"] .htesti-text,
+[data-theme="dark"] .tp2-sub,
+[data-theme="dark"] .ep-sub,
+[data-theme="dark"] .legal-intro {
+  color: #94a3b8;
+}
+
+/* Dark tool page sections */
+[data-theme="dark"] .hp3-sec,
+[data-theme="dark"] .hp3-testi-sec {
+  background: var(--card);
+  border-color: var(--border);
+}
+[data-theme="dark"] .hp3-root { background: #050810; }
+[data-theme="dark"] .tp2-page { background: #0b0f1a; }
+[data-theme="dark"] .tp2-body-wrap .tp2-sec { background: var(--card); border-color: var(--border); }
+
+/* Dark cards */
+[data-theme="dark"] .htc-card,
+[data-theme="dark"] .tc-card,
+[data-theme="dark"] .hsc-card,
+[data-theme="dark"] .htesti-card,
+[data-theme="dark"] .tp-card,
+[data-theme="dark"] .tool-card {
+  background: var(--card);
+  border-color: var(--border);
+}
+[data-theme="dark"] .htc-card:hover { border-color: #10b981; }
+[data-theme="dark"] .tc-card:hover  { border-color: #10b981; }
+
+/* Dark ad placeholder */
+[data-theme="dark"] .ad-placeholder {
+  background: #1a1d27;
+  border-color: #2d3348;
+}
+
+/* Dark mobile nav */
+[data-theme="dark"] .mob-nav-item { color: #64748b; }
+[data-theme="dark"] .mob-nav-item.active { color: #10b981; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   19. PREVENT LAYOUT OVERFLOW — GLOBAL RULES
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Images never stretch beyond container */
+img, svg, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Long words/URLs wrap instead of overflow */
+p, li, td, th, .tc-name, .htc-name, .tp-hero-title, h1, h2, h3, h4 {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* No horizontal scroll on any section */
+section, article, aside, div.hp3-sec, div.tp2-sec, div.sp-sec, div.ep-sec {
+  max-width: 100%;
+}
+
+/* Tables — scrollable on mobile */
+table {
+  width: 100%;
+  overflow-x: auto;
+  display: block;
+}
+@media (min-width: 640px) { table { display: table; } }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   20. UTILITY DISPLAY HELPERS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.hide-mobile  { display: none !important; }
+@media (min-width: 640px)  { .hide-mobile  { display: revert !important; } }
+
+.hide-tablet  { display: revert; }
+@media (min-width: 640px) and (max-width: 1023px) { .hide-tablet { display: none !important; } }
+
+.hide-desktop { display: revert; }
+@media (min-width: 1024px) { .hide-desktop { display: none !important; } }
+
+.show-mobile-only { display: revert; }
+@media (min-width: 640px) { .show-mobile-only { display: none !important; } }
+
+/* Text alignment helpers */
+.text-center-mobile { text-align: center; }
+@media (min-width: 640px) { .text-center-mobile { text-align: left; } }
+
+/* Full-width on mobile only */
+.full-mobile { width: 100%; }
+@media (min-width: 640px) { .full-mobile { width: auto; } }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   21. ADMIN PAGE (Desktop-first layout)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.admin-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+@media (min-width: 768px) { .admin-wrap { padding: 24px; } }
+@media (min-width: 1024px) { .admin-wrap { padding: 32px; } }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   22. PERFORMANCE: REDUCE REPAINTS ON MOBILE
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Contain layout repaints to cards */
+.tc-card, .htc-card, .hsc-card, .tool-card, .htesti-card {
+  contain: layout style;
+}
+
+/* Use will-change only for animated elements */
+.hero3-pill, .htesti-card, .hfc-item {
+  will-change: transform;
+}
+
+/* Safe iOS tap highlight removal */
+button, a, [role="button"], [tabindex] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   23. LARGE SCREEN (1440px+) OPTIMIZATIONS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@media (min-width: 1440px) {
+  /* Typography scale up slightly */
+  .hp3-sec-h2    { font-size: 1.7rem; }
+  .hero3-h1-line1, .hero3-h1-line2 { font-size: 4.2rem; }
+  .hero3-h1-accent { font-size: 4.6rem; }
+
+  /* More spacious sections */
+  .hp3-body { padding-top: 36px; padding-bottom: 72px; }
+  .hp3-sec  { padding: 36px 40px; }
+
+  /* Wider grids on XL */
+  .htc-grid { grid-template-columns: repeat(4, 1fr); }
+  .tp2-grid { grid-template-columns: repeat(5, 1fr); }
+}
+
+@media (min-width: 1920px) {
+  /* Ultra-wide — cap content and add more breathing room */
+  .hp3-body, .tp2-body-wrap, .ep-body, .sp-body { max-width: 1600px; }
+  .hero3-inner { max-width: 1400px; }
+}

@@ -1,0 +1,51 @@
+/* ── LanguageToggle ──────────────────────────────────────────── */
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border, #e2e8f0);
+  background: var(--bg-card, #fff);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted, #64748b);
+  transition: all 0.18s ease;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.lang-toggle:hover {
+  border-color: var(--accent, #10b981);
+  color: var(--accent, #10b981);
+  background: var(--accent-light, #ecfdf5);
+}
+
+.lang-option {
+  padding: 0 3px;
+  transition: color 0.18s;
+}
+
+.lang-option.active {
+  color: var(--accent, #10b981);
+  font-weight: 700;
+}
+
+.lang-divider {
+  opacity: 0.35;
+  font-weight: 300;
+}
+
+/* Dark mode */
+[data-theme='dark'] .lang-toggle {
+  border-color: #334155;
+  background: #1e293b;
+  color: #94a3b8;
+}
+
+[data-theme='dark'] .lang-toggle:hover {
+  border-color: #10b981;
+  color: #10b981;
+  background: #064e3b22;
+}

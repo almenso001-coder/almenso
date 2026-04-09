@@ -1,0 +1,162 @@
+/* ══════════════════════════════════════════════════════════
+   AFFILIATE WIDGET — All layouts
+   ══════════════════════════════════════════════════════════ */
+
+.afw-wrap {
+  background: #fffbeb;
+  border: 1.5px solid #fde68a;
+  border-radius: 18px;
+  padding: 18px;
+  margin: 16px 0;
+}
+@media (min-width: 768px) { .afw-wrap { padding: 22px 24px; } }
+
+/* Header */
+.afw-head    { margin-bottom: 14px; }
+.afw-title   { font-size: 0.95rem; font-weight: 900; color: #0b1d3a; margin-bottom: 2px; letter-spacing: -0.02em; }
+.afw-sub     { font-size: 0.72rem; color: #92400e; font-weight: 600; }
+
+/* ── Horizontal layout (default — for tools) ── */
+.afw-horizontal .afw-products {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+@media (min-width: 600px) {
+  .afw-horizontal .afw-products { flex-direction: row; gap: 12px; }
+  .afw-horizontal .afw-card     { flex: 1; }
+}
+
+/* ── Grid layout (for Products page) ── */
+.afw-grid .afw-products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+/* ── Compact layout (small inline widget) ── */
+.afw-compact .afw-products {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.afw-compact .afw-card {
+  flex-direction: row !important;
+  gap: 10px;
+  padding: 10px 12px;
+}
+.afw-compact .afw-img { font-size: 1.5rem; flex-shrink: 0; }
+.afw-compact .afw-info { flex: 1; }
+.afw-compact .afw-cta  { flex-shrink: 0; }
+.afw-compact .afw-btn  { padding: 6px 10px; font-size: 0.72rem; white-space: nowrap; }
+
+/* ── Card ── */
+.afw-card {
+  position: relative;
+  background: #fff;
+  border: 1.5px solid #fde68a;
+  border-radius: 14px;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.15s, border-color 0.15s;
+}
+.afw-card:hover {
+  box-shadow: 0 6px 22px rgba(180,83,9,0.15);
+  transform: translateY(-2px);
+  border-color: #f59e0b;
+}
+
+/* Badge */
+.afw-badge {
+  position: absolute;
+  top: 10px; left: 10px;
+  background: #b45309;
+  color: #fff;
+  font-size: 0.58rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 99px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Image/emoji */
+.afw-img {
+  font-size: 2.4rem;
+  text-align: center;
+  margin-top: 14px; /* space for badge */
+  line-height: 1;
+}
+
+/* Info */
+.afw-info      { flex: 1; }
+.afw-name      { font-size: 0.82rem; font-weight: 800; color: #0b1d3a; line-height: 1.3; margin-bottom: 3px; }
+.afw-tag       { font-size: 0.65rem; color: #64748b; font-weight: 600; margin-bottom: 4px; }
+.afw-rating    { font-size: 0.68rem; color: #b45309; font-weight: 700; margin-bottom: 5px; }
+.afw-rating span { color: #94a3b8; font-weight: 500; }
+
+/* Price row */
+.afw-price-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+.afw-price { font-size: 0.95rem; font-weight: 900; color: #166534; }
+.afw-was   { font-size: 0.72rem; color: #94a3b8; text-decoration: line-through; }
+.afw-save  {
+  font-size: 0.62rem;
+  font-weight: 800;
+  background: #dcfce7;
+  color: #16a34a;
+  padding: 2px 7px;
+  border-radius: 99px;
+}
+
+/* CTA */
+.afw-cta    { display: flex; flex-direction: column; gap: 3px; align-items: center; margin-top: 4px; }
+.afw-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 9px 12px;
+  background: #ff9900;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 900;
+  border-radius: 9px;
+  letter-spacing: -0.01em;
+  transition: background 0.15s;
+}
+.afw-card:hover .afw-btn { background: #e68900; }
+.afw-prime {
+  font-size: 0.6rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+/* Disclaimer */
+.afw-disclaimer {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  margin-top: 12px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* AFFILIATE WIDGET — RESPONSIVE PATCHES */
+.afw-wrap { padding:clamp(14px,2.5vw,24px); border-radius:clamp(14px,2vw,20px); }
+.afw-grid .afw-products { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+@media(min-width:480px){ .afw-grid .afw-products{grid-template-columns:repeat(3,1fr);} }
+@media(min-width:900px){ .afw-grid .afw-products{grid-template-columns:repeat(4,1fr);} }
+.afw-horizontal .afw-products { display:flex; flex-direction:column; gap:10px; }
+@media(min-width:560px){ .afw-horizontal .afw-products{flex-direction:row;gap:12px;} .afw-horizontal .afw-card{flex:1;} }
+[data-theme="dark"] .afw-wrap { background:#1a1a0d; border-color:#3d3200; }
+[data-theme="dark"] .afw-card { background:#252206; border-color:#4a3d00; }
+[data-theme="dark"] .afw-title { color:var(--text); }
+[data-theme="dark"] .afw-name  { color:var(--text); }

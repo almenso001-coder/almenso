@@ -1,0 +1,13 @@
+# ============================================================
+# ALMENSO — ads.txt
+# 
+# SETUP INSTRUCTIONS:
+# 1. Apply at adsense.google.com
+# 2. Get Publisher ID (format: ca-pub-XXXXXXXXXXXXXXXX)
+# 3. Replace ca-pub-XXXXXXXXXXXXXXXX below with your real ID
+# 4. Same ID daalo Admin Panel → Settings → AdSense mein
+#
+# Format: domain, publisher-id, relationship, certification-id
+# ============================================================
+
+google.com, ca-pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

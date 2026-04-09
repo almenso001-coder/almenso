@@ -1,0 +1,354 @@
+/* ═══════════════════════════════════════════════════
+   ToolWrapper v2 — Improved UI
+   ═══════════════════════════════════════════════════ */
+
+/* Page entrance animation */
+.tw-page {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.tw-page.tw-page-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Hero ── */
+.tw-hero {
+  position: relative;
+  padding: 44px 20px 36px;
+  text-align: center;
+  color: #fff;
+  overflow: hidden;
+}
+
+/* Decorative circles */
+.tw-hero-bg { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.tw-hero-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+}
+.tw-hero-circle-1 {
+  width: 320px; height: 320px;
+  top: -120px; right: -80px;
+}
+.tw-hero-circle-2 {
+  width: 200px; height: 200px;
+  bottom: -80px; left: -60px;
+  background: rgba(255,255,255,0.04);
+}
+
+.tw-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.tw-hero-emoji {
+  font-size: 3.2rem;
+  margin-bottom: 12px;
+  display: block;
+  animation: tw-float 3.5s ease-in-out infinite;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.25));
+}
+
+@keyframes tw-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+.tw-hero-title {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  margin: 0 0 8px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.2);
+}
+
+.tw-hero-tagline {
+  font-size: 0.9rem;
+  opacity: 0.88;
+  margin: 0 auto 14px;
+  max-width: 480px;
+  line-height: 1.5;
+}
+
+.tw-hero-badges {
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.tw-badge {
+  background: rgba(255,255,255,0.13);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 99px;
+  padding: 4px 12px;
+  font-size: 0.67rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(4px);
+}
+
+/* ── Body ── */
+.tw-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 18px 14px;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
+  .tw-body { padding: 20px 18px; }
+}
+
+@media (min-width: 900px) {
+  .tw-body { padding: 28px 20px; gap: 22px; }
+}
+
+/* Description card */
+.tw-desc-card {
+  background: #fff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 14px 18px;
+}
+
+.tw-desc-card p {
+  margin: 0;
+  font-size: 0.87rem;
+  color: #475569;
+  line-height: 1.65;
+}
+
+/* Tool content wrapper */
+.tw-tool-content {
+  width: 100%;
+}
+
+/* Section cards (Guide, FAQ, Related) */
+.tw-section-card {
+  background: #fff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px 18px;
+  box-shadow: 0 2px 12px rgba(15,23,42,0.04);
+}
+
+.tw-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1.5px solid #f1f5f9;
+}
+
+/* Guide steps */
+.tw-guide-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tw-guide-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.tw-step-num {
+  min-width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+  box-shadow: 0 2px 8px rgba(16,185,129,0.3);
+}
+
+.tw-step-body strong {
+  font-size: 0.87rem;
+  color: #1a1a2e;
+  font-weight: 700;
+}
+
+.tw-step-body p {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 4px 0 0;
+  line-height: 1.5;
+}
+
+/* ── FAQ — smooth accordion ── */
+.tw-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tw-faq-item {
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.tw-faq-item.tw-faq-open {
+  border-color: #10b981;
+}
+
+.tw-faq-q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 13px 15px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  transition: background 0.15s;
+}
+
+.tw-faq-q:hover { background: #f8fafc; }
+.tw-faq-item.tw-faq-open .tw-faq-q { background: #f0fdf4; color: #065f46; }
+
+.tw-faq-chevron {
+  color: #94a3b8;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.tw-faq-item.tw-faq-open .tw-faq-chevron {
+  transform: rotate(180deg);
+  color: #10b981;
+}
+
+/* Smooth accordion — CSS grid trick */
+.tw-faq-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.28s ease;
+}
+
+.tw-faq-item.tw-faq-open .tw-faq-body {
+  grid-template-rows: 1fr;
+}
+
+.tw-faq-a {
+  overflow: hidden;
+  font-size: 0.82rem;
+  color: #475569;
+  line-height: 1.65;
+  padding: 0 15px;
+}
+
+.tw-faq-item.tw-faq-open .tw-faq-a {
+  padding: 4px 15px 14px;
+}
+
+/* Blog CTA */
+.tw-blog-cta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  border: 2px solid #10b981;
+  border-radius: 14px;
+  padding: 16px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.tw-blog-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(16,185,129,0.15);
+}
+
+.tw-blog-eyebrow { font-size: 0.7rem; font-weight: 700; color: #10b981; margin-bottom: 4px; }
+.tw-blog-title   { font-size: 0.9rem; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
+.tw-blog-excerpt { font-size: 0.78rem; color: #64748b; line-height: 1.5; }
+.tw-blog-arrow   { font-size: 1.4rem; color: #10b981; flex-shrink: 0; font-weight: 700; }
+
+/* Related tools */
+.tw-rel-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tw-rel-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 99px;
+  border: 1.5px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.tw-rel-btn:hover {
+  border-color: #10b981;
+  background: #ecfdf5;
+  color: #065f46;
+  transform: translateY(-1px);
+}
+
+/* Dark mode */
+[data-theme='dark'] .tw-desc-card,
+[data-theme='dark'] .tw-section-card {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+[data-theme='dark'] .tw-section-title { color: #f1f5f9; border-color: #334155; }
+[data-theme='dark'] .tw-desc-card p   { color: #94a3b8; }
+[data-theme='dark'] .tw-step-body strong { color: #f1f5f9; }
+[data-theme='dark'] .tw-step-body p   { color: #94a3b8; }
+[data-theme='dark'] .tw-faq-item      { border-color: #334155; }
+[data-theme='dark'] .tw-faq-q         { color: #f1f5f9; }
+[data-theme='dark'] .tw-faq-q:hover   { background: #0f172a; }
+[data-theme='dark'] .tw-faq-item.tw-faq-open .tw-faq-q { background: #052e16; color: #6ee7b7; }
+[data-theme='dark'] .tw-faq-a         { color: #94a3b8; }
+[data-theme='dark'] .tw-rel-btn { background: #0f172a; border-color: #334155; color: #94a3b8; }
+[data-theme='dark'] .tw-rel-btn:hover { background: #052e16; border-color: #10b981; color: #6ee7b7; }
+[data-theme='dark'] .tw-blog-cta { background: #1e293b; }
+[data-theme='dark'] .tw-blog-title { color: #f1f5f9; }
+[data-theme='dark'] .tw-blog-excerpt { color: #94a3b8; }
+
+@media (max-width: 480px) {
+  .tw-hero { padding: 32px 16px 28px; }
+  .tw-hero-emoji { font-size: 2.6rem; }
+  .tw-hero-title { font-size: 1.4rem; }
+  .tw-body { padding: 12px 10px; gap: 14px; }
+  .tw-section-card { padding: 16px 14px; }
+}

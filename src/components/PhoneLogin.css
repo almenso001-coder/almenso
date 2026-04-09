@@ -1,0 +1,206 @@
+.pl-wrap {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.pl-header {
+  background: linear-gradient(135deg, #0a2342, #1565c0);
+  padding: 24px 20px 20px;
+  text-align: center;
+  color: #fff;
+}
+.pl-ico   { font-size: 2.4rem; margin-bottom: 8px; }
+.pl-title { font-size: 1rem; font-weight: 900; margin-bottom: 4px; }
+.pl-sub   { font-size: 0.78rem; color: rgba(255,255,255,0.75); }
+
+.pl-err {
+  background: #fef2f2;
+  border: 1.5px solid #fca5a5;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 12px 16px 0;
+  font-size: 0.82rem;
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.pl-body { padding: 16px; }
+
+.pl-field { margin-bottom: 12px; }
+.pl-field label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 5px;
+}
+.pl-field input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: var(--font);
+  background: #f8fafc;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+.pl-field input:focus {
+  border-color: #1565c0;
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(21,101,192,0.1);
+}
+
+/* Phone row with country code */
+.pl-phone-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.pl-cc {
+  flex-shrink: 0;
+  background: #f1f5f9;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px 12px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #475569;
+  white-space: nowrap;
+}
+.pl-phone-row input { flex: 1; }
+
+/* Buttons */
+.pl-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #0a2342, #1565c0);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-weight: 900;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-family: var(--font);
+  min-height: 48px;
+  transition: opacity 0.15s, transform 0.1s;
+  margin-top: 4px;
+}
+.pl-btn:hover   { opacity: 0.92; }
+.pl-btn:active  { transform: scale(0.98); }
+.pl-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.pl-info {
+  text-align: center;
+  font-size: 0.72rem;
+  color: #94a3b8;
+  margin-top: 8px;
+}
+
+.pl-skip {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 0.78rem;
+  cursor: pointer;
+  text-align: center;
+  font-family: var(--font);
+  padding: 4px;
+}
+.pl-skip:hover { color: #475569; }
+
+/* OTP step */
+.pl-otp-sent {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  color: #166534;
+  margin-bottom: 14px;
+}
+
+.pl-resend {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.78rem;
+  color: #64748b;
+}
+.pl-resend button {
+  background: none;
+  border: none;
+  color: #1565c0;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 0.78rem;
+}
+
+.pl-back {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 0.75rem;
+  cursor: pointer;
+  text-align: center;
+  font-family: var(--font);
+}
+
+/* Success */
+.pl-success {
+  text-align: center;
+  padding: 32px 20px;
+}
+.pl-success-ico   { font-size: 3rem; margin-bottom: 10px; }
+.pl-success-title { font-size: 1.1rem; font-weight: 900; color: #0f172a; margin-bottom: 4px; }
+.pl-success-sub   { font-size: 0.85rem; color: #64748b; }
+
+/* Modal */
+.pl-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  backdrop-filter: blur(4px);
+}
+.pl-modal {
+  background: #fff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.pl-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 0.85rem;
+  cursor: pointer;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font);
+  min-height: unset;
+}

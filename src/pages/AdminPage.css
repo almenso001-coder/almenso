@@ -1,0 +1,30 @@
+.admin-page { min-height:100vh; background:#f8f9fa; }
+.admin-header { background:linear-gradient(135deg,#0f8a1f,#059669); padding:14px 20px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+.admin-logo { color:#fff; font-size:1.1rem; font-weight:900; letter-spacing:-0.5px; }
+.admin-logout { background:rgba(255,255,255,0.2); color:#fff; border:1.5px solid rgba(255,255,255,0.3); padding:7px 16px; border-radius:24px; font-size:0.78rem; font-weight:700; cursor:pointer; }
+.admin-tabs { display:flex; overflow-x:auto; background:#fff; border-bottom:2px solid #e5e7eb; padding:0 16px; gap:4px; scrollbar-width:thin; }
+.at-btn { background:none; border:none; border-bottom:3px solid transparent; padding:14px 18px; font-size:0.82rem; font-weight:700; color:#64748b; cursor:pointer; white-space:nowrap; transition:all 0.2s; font-family:var(--font); margin-bottom:-2px; }
+.at-btn:hover { color:#0f8a1f; }
+.at-btn.on { color:#0f8a1f; border-bottom-color:#0f8a1f; }
+.admin-body { padding:20px; max-width:1200px; }
+@media (min-width:768px) { .admin-body { padding:28px 32px; } }
+
+.al-field { margin-bottom:0; }
+.al-field label { display:block; font-size:0.75rem; font-weight:700; color:#475569; margin-bottom:5px; }
+.al-field input, .al-field textarea, .al-field select { width:100%; padding:10px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.87rem; font-family:var(--font); color:#1e293b; background:#f8fafc; transition:border-color 0.2s; box-sizing:border-box; outline:none; }
+.al-field input:focus, .al-field textarea:focus, .al-field select:focus { border-color:#0f8a1f; background:#fff; }
+.al-btn { background:#0f8a1f; color:#fff; border:none; padding:12px 28px; border-radius:10px; font-size:0.88rem; font-weight:800; cursor:pointer; font-family:var(--font); transition:background 0.15s; }
+.al-btn:hover { background:#07660f; }
+.add-btn { background:#0f8a1f; color:#fff; border:none; padding:9px 18px; border-radius:8px; font-size:0.8rem; font-weight:800; cursor:pointer; font-family:var(--font); }
+.add-btn:disabled { background:#94a3b8; }
+.edit-btn { background:#f1f5f9; border:none; padding:8px 12px; border-radius:8px; font-size:0.75rem; font-weight:700; cursor:pointer; font-family:var(--font); color:#1e293b; }
+.del-btn  { background:#fef2f2; border:none; padding:8px 12px; border-radius:8px; font-size:0.75rem; font-weight:700; cursor:pointer; color:#ef4444; }
+.ftab { background:#f1f5f9; border:none; padding:7px 16px; border-radius:8px; font-size:0.8rem; font-weight:700; cursor:pointer; font-family:var(--font); color:#1e293b; }
+.ftab.on { background:#0f8a1f; color:#fff; }
+
+/* ADMIN PAGE — RESPONSIVE PATCHES */
+.admin-wrap,.admin-page { max-width:1200px; margin:0 auto; padding:clamp(14px,2.5vw,28px); }
+.admin-grid { display:grid; grid-template-columns:1fr; gap:14px; }
+@media(min-width:640px){ .admin-grid{grid-template-columns:repeat(2,1fr);} }
+@media(min-width:1024px){ .admin-grid{grid-template-columns:repeat(3,1fr);} }
+[data-theme="dark"] .admin-card { background:var(--card); border-color:var(--border); }

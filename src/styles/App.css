@@ -1,0 +1,112 @@
+/* ── Page Loader ── */
+.page-loader {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.pl-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #0f8a1f;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+.pl-text {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+/* ── Skeleton shimmer ── */
+.skeleton-page {
+  padding: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.sk-bar {
+  background: linear-gradient(90deg, #eef1f5 25%, #e2e8f0 50%, #eef1f5 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0 }
+  100% { background-position:  200% 0 }
+}
+@keyframes spin {
+  to { transform: rotate(360deg) }
+}
+
+/* ════════════════════════════════════════════════════════════
+   SKELETON COMPONENT STYLES
+   ════════════════════════════════════════════════════════════ */
+
+/* Base skeleton styles */
+.skeleton {
+  background: linear-gradient(90deg, #eef1f5 25%, #e2e8f0 50%, #eef1f5 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 8px;
+}
+
+/* Skeleton hero section */
+.sk-hero {
+  background: linear-gradient(135deg, #0b1d3a, #0f3520);
+  padding: 40px 20px;
+  margin-bottom: 16px;
+  border-radius: 0 0 16px 16px;
+}
+.sk-hero .skeleton { background: linear-gradient(90deg, rgba(255,255,255,0.06) 25%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.06) 75%); background-size: 200% 100%; }
+
+.sk-section { background: #fff; border-radius: 16px; padding: 18px; margin-bottom: 14px; border: 1px solid #e2e8f0; }
+
+/* Tool cards row */
+.sk-tools-row { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
+@media(min-width:520px){.sk-tools-row{grid-template-columns:repeat(3,1fr);}}
+@media(min-width:900px){.sk-tools-row{grid-template-columns:repeat(6,1fr);}}
+
+.sk-tool-card { display:flex; align-items:center; gap:12px; padding:12px 14px; border:1.5px solid #e8edf4; border-radius:14px; background:#fff; }
+.sk-tool-ico  { width:44px; height:44px; border-radius:12px; flex-shrink:0; }
+.sk-tool-body { flex:1; }
+
+/* Service cards row */
+.sk-svc-row { display:grid; grid-template-columns:1fr; gap:12px; }
+@media(min-width:600px){.sk-svc-row{grid-template-columns:repeat(2,1fr);}}
+@media(min-width:900px){.sk-svc-row{grid-template-columns:repeat(3,1fr);}}
+
+.sk-svc-card { border:1.5px solid #e8edf4; border-radius:16px; overflow:hidden; background:#fff; }
+.sk-svc-head { height:80px; }
+
+/* Blog card */
+.sk-blog-card { display:flex; align-items:center; gap:12px; padding:14px; border-radius:12px; border:1.5px solid #e2e8f0; margin-bottom:10px; background:#fff; }
+.sk-blog-emoji { width:42px; height:42px; border-radius:10px; flex-shrink:0; }
+
+/* Product cards */
+.sk-prods-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+@media(max-width:380px){.sk-prods-grid{grid-template-columns:repeat(2,1fr);}}
+.sk-prod-card { background:#fff; border:1.5px solid #fde68a; border-radius:14px; padding:14px 10px; display:flex; flex-direction:column; align-items:center; gap:7px; }
+.sk-prod-img  { width:54px; height:54px; border-radius:10px; }
+
+/* Review card */
+.sk-review-card { background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:16px; padding:16px; margin-bottom:12px; }
+.sk-review-av   { width:36px; height:36px; border-radius:50%; flex-shrink:0; }
+
+/* Dark mode skeletons */
+[data-theme="dark"] .skeleton {
+  background: linear-gradient(90deg, #252836 25%, #2d3348 50%, #252836 75%) !important;
+  background-size: 200% 100% !important;
+}
+[data-theme="dark"] .sk-section,
+[data-theme="dark"] .sk-tool-card,
+[data-theme="dark"] .sk-svc-card,
+[data-theme="dark"] .sk-blog-card,
+[data-theme="dark"] .sk-prod-card,
+[data-theme="dark"] .sk-review-card {
+  background: var(--card);
+  border-color: var(--border);
+}

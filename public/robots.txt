@@ -1,0 +1,48 @@
+# Almenso Robots Configuration
+# Allow all bots including AI crawlers
+
+User-agent: *
+Allow: /
+Disallow: /admin-panel
+Disallow: /.git
+Disallow: /node_modules
+Disallow: /*.json$
+Disallow: /build/
+
+Crawl-delay: 1
+Request-rate: 1/1s
+
+# Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# ChatGPT Bot
+User-agent: GPTBot
+Allow: /
+
+# Perplexity Bot
+User-agent: PerplexityBot
+Allow: /
+
+# Claude Bot (Anthropic)
+User-agent: CCBot
+Allow: /
+
+# Other AI crawlers
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# Sitemap location
+Sitemap: https://almenso.vercel.app/sitemap.xml

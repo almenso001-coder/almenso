@@ -1,0 +1,475 @@
+/* ═══════════════════════════════════════════════════
+   INDIVIDUAL TOOL PAGE STYLES
+   ═══════════════════════════════════════════════════ */
+
+.tool-page {
+  min-height: 100vh;
+  background: #f8f9fa;
+  padding-bottom: 60px;
+}
+
+/* ═══════════════════════════════════════════════════
+   BREADCRUMB NAVIGATION
+   ═══════════════════════════════════════════════════ */
+
+.tp-breadcrumb {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+}
+
+.tpb-link {
+  color: #64748b;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.tpb-link:hover {
+  color: #10b981;
+}
+
+.tpb-sep {
+  color: #cbd5e1;
+}
+
+.tpb-current {
+  color: #1e293b;
+  font-weight: 700;
+}
+
+/* ═══════════════════════════════════════════════════
+   TOOL HEADER
+   ═══════════════════════════════════════════════════ */
+
+.tp-header {
+  max-width: 1400px;
+  margin: 0 auto 32px;
+  padding: 0 20px;
+}
+
+.tp-header-content {
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.tph-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tph-info {
+  flex: 1;
+}
+
+.tph-title {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #1e293b;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.5px;
+}
+
+.tph-description {
+  font-size: 1.125rem;
+  color: #64748b;
+  margin: 0 0 16px 0;
+  line-height: 1.6;
+}
+
+.tph-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tph-badge {
+  padding: 6px 14px;
+  background: #f1f5f9;
+  color: #334155;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  border-radius: 20px;
+}
+
+/* ═══════════════════════════════════════════════════
+   TOOL INTERFACE SECTION
+   ═══════════════════════════════════════════════════ */
+
+.tp-tool-section {
+  max-width: 1400px;
+  margin: 0 auto 40px;
+  padding: 0 20px;
+}
+
+.tp-tool-container {
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* ═══════════════════════════════════════════════════
+   ARTICLE LINK CARD
+   ═══════════════════════════════════════════════════ */
+
+.tp-article-link {
+  max-width: 1400px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.tal-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  padding: 40px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  color: #fff;
+  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
+}
+
+.tal-icon {
+  font-size: 3rem;
+  flex-shrink: 0;
+}
+
+.tal-content {
+  flex: 1;
+}
+
+.tal-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0 0 8px 0;
+}
+
+.tal-text {
+  font-size: 1rem;
+  margin: 0 0 20px 0;
+  opacity: 0.95;
+  line-height: 1.5;
+}
+
+.tal-button {
+  display: inline-block;
+  padding: 12px 28px;
+  background: rgba(255, 255, 255, 0.25);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+
+.tal-button:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: translateX(4px);
+}
+
+/* ═══════════════════════════════════════════════════
+   HOW TO USE SECTION
+   ═══════════════════════════════════════════════════ */
+
+.tp-how-to {
+  max-width: 1400px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.tph-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0 0 24px 0;
+  text-align: center;
+}
+
+.tph-content {
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.tph-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tph-step {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.tph-step-number {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.tph-step-text {
+  flex: 1;
+  font-size: 1rem;
+  color: #475569;
+  line-height: 1.8;
+  padding-top: 6px;
+}
+
+/* ═══════════════════════════════════════════════════
+   BENEFITS SECTION
+   ═══════════════════════════════════════════════════ */
+
+.tp-benefits {
+  max-width: 1400px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.tpb-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0 0 32px 0;
+  text-align: center;
+}
+
+.tpb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.tpb-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  border-left: 4px solid #10b981;
+  transition: all 0.2s ease;
+}
+
+.tpb-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.tpb-card-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.tpb-card-title {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0 0 8px 0;
+}
+
+.tpb-card-text {
+  font-size: 0.9375rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════
+   CTA SECTION
+   ═══════════════════════════════════════════════════ */
+
+.tp-cta {
+  max-width: 1400px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.tpc-content {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-radius: 20px;
+  padding: 60px 40px;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 8px 30px rgba(16, 185, 129, 0.3);
+}
+
+.tpc-title {
+  font-size: 2rem;
+  font-weight: 900;
+  margin: 0 0 16px 0;
+}
+
+.tpc-text {
+  font-size: 1.125rem;
+  margin: 0 0 32px 0;
+  opacity: 0.95;
+  line-height: 1.6;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tpc-button {
+  display: inline-block;
+  padding: 16px 40px;
+  background: #fff;
+  color: #10b981;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 1.125rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.tpc-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE DESIGN
+   ═══════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .tp-breadcrumb {
+    padding: 16px;
+    font-size: 0.8125rem;
+  }
+  
+  .tp-header-content {
+    flex-direction: column;
+    padding: 28px;
+  }
+  
+  .tph-icon {
+    width: 70px;
+    height: 70px;
+    font-size: 2rem;
+  }
+  
+  .tph-title {
+    font-size: 1.75rem;
+  }
+  
+  .tph-description {
+    font-size: 1rem;
+  }
+  
+  .tp-tool-container {
+    padding: 28px;
+  }
+  
+  .tal-card {
+    flex-direction: column;
+    padding: 32px;
+    text-align: center;
+  }
+  
+  .tal-title {
+    font-size: 1.25rem;
+  }
+  
+  .tph-content {
+    padding: 28px;
+  }
+  
+  .tpb-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tpc-content {
+    padding: 40px 28px;
+  }
+  
+  .tpc-title {
+    font-size: 1.75rem;
+  }
+  
+  .tpc-text {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tp-header-content {
+    padding: 24px;
+  }
+  
+  .tph-title {
+    font-size: 1.5rem;
+  }
+  
+  .tph-badge {
+    font-size: 0.75rem;
+    padding: 5px 12px;
+  }
+  
+  .tp-tool-container {
+    padding: 24px;
+  }
+  
+  .tal-card {
+    padding: 24px;
+  }
+  
+  .tal-icon {
+    font-size: 2.5rem;
+  }
+  
+  .tph-content {
+    padding: 24px;
+  }
+  
+  .tpb-card {
+    padding: 24px;
+  }
+  
+  .tpc-content {
+    padding: 32px 20px;
+  }
+  
+  .tpc-title {
+    font-size: 1.5rem;
+  }
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Page Nahi Mila | Almenso</title>
+  <meta name="description" content="Yeh page exist nahi karta. Almenso pe wapas jao aur grocery, tools aur services enjoy karo." />
+  <meta name="robots" content="noindex, follow" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f8f9fb;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .wrap {
+      text-align: center;
+      max-width: 420px;
+      width: 100%;
+    }
+    .emoji { font-size: 5rem; margin-bottom: 16px; }
+    .code { font-size: 5rem; font-weight: 900; color: #0c831f; line-height: 1; margin-bottom: 8px; }
+    .title { font-size: 1.3rem; font-weight: 800; color: #1a1a2e; margin-bottom: 10px; }
+    .sub { font-size: 0.88rem; color: #666; line-height: 1.6; margin-bottom: 28px; }
+    .links { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+    .link-card {
+      background: #fff;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 14px 10px;
+      text-decoration: none;
+      color: #1a1a2e;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: border-color 0.2s;
+    }
+    .link-card:hover { border-color: #0c831f; }
+    .link-card .ico { font-size: 1.5rem; display: block; margin-bottom: 5px; }
+    .home-btn {
+      display: block;
+      background: linear-gradient(135deg, #0c831f, #16a34a);
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="emoji">🔍</div>
+    <div class="code">404</div>
+    <div class="title">Yeh Page Nahi Mila!</div>
+    <div class="sub">
+      Aap jo page dhoondh rahe hain woh exist nahi karta ya hata diya gaya hai.<br>
+      Neeche se koi bhi page pe chale jao!
+    </div>
+
+    <div class="links">
+      <a href="/shop" class="link-card"><span class="ico">🛒</span>Shop</a>
+      <a href="/blog" class="link-card"><span class="ico">📝</span>Blog</a>
+      <a href="/tools" class="link-card"><span class="ico">🛠️</span>Free Tools</a>
+      <a href="/contact" class="link-card"><span class="ico">📞</span>Contact</a>
+    </div>
+
+    <a href="/" class="home-btn">🏠 Home Pe Wapas Jao</a>
+  </div>
+
+  <script>
+    // SPA redirect — React Router handle karega
+    setTimeout(() => {
+      if (window.location.pathname !== '/404.html') return
+      window.location.href = '/'
+    }, 5000)
+  </script>
+</body>
+</html>

@@ -1,0 +1,430 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=DM+Mono:wght@500&display=swap');
+
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --green:        #0f8a1f;
+  --green-dark:   #07660f;
+  --green-light:  #edfaf0;
+  --yellow:       #ffc700;
+  --orange:       #f04f23;
+  --blue:         #1a56db;
+  --purple:       #7c3aed;
+  --white:        #ffffff;
+  --bg:           #f8f9fa;
+  --card:         #ffffff;
+  --text:         #0f172a;
+  --text2:        #334155;
+  --muted:        #64748b;
+  --border:       #e2e8f0;
+  --shadow-sm:    0 2px 8px rgba(0,0,0,0.06);
+  --shadow:       0 4px 16px rgba(0,0,0,0.10);
+  --shadow-md:    0 8px 28px rgba(0,0,0,0.12);
+  --radius-sm:    8px;
+  --radius:       12px;
+  --radius-md:    18px;
+  --font:         'DM Sans', sans-serif;
+  --font-mono:    'DM Mono', monospace;
+  --ease-out:     cubic-bezier(0.16,1,0.3,1);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font); background: var(--bg); color: var(--text);
+  -webkit-font-smoothing: antialiased; overflow-x: hidden; letter-spacing: -0.01em;
+}
+button  { cursor: pointer; font-family: var(--font); border: none; outline: none; }
+input, select, textarea { font-family: var(--font); outline: none; }
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+h1,h2,h3,h4 { letter-spacing: -0.02em; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+/* App layout */
+.app-root { min-height: 100vh; background: var(--bg); display: flex; flex-direction: column; }
+.main-content { flex: 1; }
+@media (max-width: 767px) { .main-content { padding-bottom: 64px; } }
+
+/* AdSense */
+.ad-slot-wrap { width:100%; overflow:hidden; min-height:60px; display:block; margin:8px 0; }
+.ad-placeholder {
+  width:100%; min-height:60px; background:#f1f5f9; border:1px dashed #cbd5e1;
+  border-radius:8px; display:flex; align-items:center; justify-content:center;
+}
+.ad-ph-label { font-size:0.7rem; color:#94a3b8; font-weight:600; letter-spacing:0.05em; }
+.adsbygoogle { display:block !important; width:100% !important; }
+
+/* Animations */
+@keyframes fadeUp   { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+@keyframes spin     { to{transform:rotate(360deg)} }
+@keyframes shimmer  { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+
+/* Skeleton */
+.skeleton {
+  background: linear-gradient(90deg,#eef1f5 25%,#e2e8f0 50%,#eef1f5 75%);
+  background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: var(--radius-sm);
+}
+
+/* ═══════════════════════════════════════════════════════
+   GLOBAL MOBILE-FIRST IMPROVEMENTS
+   ═══════════════════════════════════════════════════════ */
+
+/* Minimum tap target size for all interactive elements */
+button, a, [role="button"] {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Exception: icon-only small buttons */
+.icon-btn-sm { min-height: unset; }
+
+/* Form elements full width on mobile */
+input, select, textarea {
+  width: 100%;
+  font-size: 16px; /* Prevents iOS zoom on focus */
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  padding: 12px 14px;
+  background: #f8fafc;
+  color: var(--text);
+  transition: border-color 0.15s, background 0.15s;
+  box-sizing: border-box;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--green);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(15,138,31,0.1);
+  outline: none;
+}
+
+/* Primary CTA buttons - always big enough */
+.btn-primary {
+  min-height: 48px;
+  padding: 12px 24px;
+  background: var(--green);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-primary:hover  { background: var(--green-dark); }
+.btn-primary:active { transform: scale(0.98); }
+.btn-wa {
+  min-height: 48px;
+  padding: 12px 24px;
+  background: #25d366;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.15s;
+}
+.btn-wa:hover { background: #1aaa52; }
+
+/* Section utilities */
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.section-sub {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+/* Card base */
+.card-base {
+  background: #fff;
+  border-radius: 14px;
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card-base:hover {
+  box-shadow: var(--shadow);
+  border-color: #c7d2fe;
+}
+
+/* Responsive container */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+@media (min-width: 768px) { .container { padding: 0 24px; } }
+
+/* Internal link style */
+.internal-link {
+  color: var(--green);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition: text-decoration-color 0.15s;
+}
+.internal-link:hover { text-decoration-color: var(--green); }
+
+/* ════════════════════════════════════════════════════════════
+   DARK MODE
+   Activated by: <html data-theme="dark">
+   Toggled via: DarkModeToggle component
+   ════════════════════════════════════════════════════════════ */
+[data-theme="dark"] {
+  /* Core palette */
+  --bg:       #0f1117;
+  --card:     #1a1d27;
+  --text:     #e2e8f0;
+  --text2:    #94a3b8;
+  --muted:    #64748b;
+  --border:   #2d3348;
+
+  /* Shadows deeper in dark */
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+  --shadow:    0 4px 16px rgba(0,0,0,0.4);
+  --shadow-md: 0 8px 28px rgba(0,0,0,0.5);
+
+  /* Greens stay — brand identity */
+  --green-light: #0d2b12;
+}
+
+/* Dark mode body */
+[data-theme="dark"] body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* White cards → dark cards */
+[data-theme="dark"] .hp-sec,
+[data-theme="dark"] .tp2-sec,
+[data-theme="dark"] .home-section,
+[data-theme="dark"] .tool-card,
+[data-theme="dark"] .tc-card,
+[data-theme="dark"] .tp-card,
+[data-theme="dark"] .testi-card,
+[data-theme="dark"] .svc-card,
+[data-theme="dark"] .hbl-card,
+[data-theme="dark"] .sp-sec,
+[data-theme="dark"] .ip-sec,
+[data-theme="dark"] .sp-form,
+[data-theme="dark"] .ip-form,
+[data-theme="dark"] .ep-form,
+[data-theme="dark"] .tools-info-card,
+[data-theme="dark"] .tp2-seo-card,
+[data-theme="dark"] .legal-container,
+[data-theme="dark"] .about-section {
+  background: var(--card);
+  border-color: var(--border);
+}
+
+/* Inputs in dark */
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background: #252836 !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus,
+[data-theme="dark"] textarea:focus {
+  background: #1a1d27 !important;
+}
+
+/* Text colors */
+[data-theme="dark"] .tc-name,
+[data-theme="dark"] .tp-sec-title,
+[data-theme="dark"] .sec-title,
+[data-theme="dark"] .svc-title,
+[data-theme="dark"] .testi-name,
+[data-theme="dark"] .sp-svc-name,
+[data-theme="dark"] .ip-svc-name,
+[data-theme="dark"] .afw-name,
+[data-theme="dark"] .sp-g-title,
+[data-theme="dark"] .tp2-seo-card h2 {
+  color: var(--text);
+}
+
+[data-theme="dark"] .tc-desc,
+[data-theme="dark"] .svc-desc,
+[data-theme="dark"] .svc-location,
+[data-theme="dark"] .testi-text,
+[data-theme="dark"] .sp-svc-desc,
+[data-theme="dark"] .ip-svc-desc,
+[data-theme="dark"] .sec-sub,
+[data-theme="dark"] .afw-tag,
+[data-theme="dark"] .tp2-seo-card p {
+  color: var(--text2);
+}
+
+/* Page backgrounds */
+[data-theme="dark"] .hp-root,
+[data-theme="dark"] .tp2-page,
+[data-theme="dark"] .sp-page,
+[data-theme="dark"] .ip-page,
+[data-theme="dark"] .ep-page,
+[data-theme="dark"] .tool-page,
+[data-theme="dark"] .legal-page {
+  background: var(--bg);
+}
+
+/* Affiliate widget dark */
+[data-theme="dark"] .afw-wrap {
+  background: #1a1d27;
+  border-color: #2d3348;
+}
+[data-theme="dark"] .afw-card {
+  background: #252836;
+  border-color: #2d3348;
+}
+
+/* Skeleton dark */
+[data-theme="dark"] .sk-bar,
+[data-theme="dark"] .skeleton {
+  background: linear-gradient(90deg,#252836 25%,#2d3348 50%,#252836 75%);
+  background-size: 200% 100%;
+}
+
+/* Category filters dark */
+[data-theme="dark"] .tp2-cat:not(.on) {
+  background: #1a1d27;
+  border-color: #2d3348;
+  color: var(--text2);
+}
+[data-theme="dark"] .tg-filter:not(.on) {
+  background: #1a1d27;
+  border-color: #2d3348;
+  color: var(--text2);
+}
+
+/* Ad placeholder dark */
+[data-theme="dark"] .ad-placeholder {
+  background: #1a1d27;
+  border-color: #2d3348;
+}
+
+/* Smooth transition */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+/* Don't animate transform/opacity transitions */
+button, a, .tool-card, .tc-card, .svc-card, .testi-card {
+  transition-property: background-color, border-color, color, transform, box-shadow, opacity;
+}
+
+/* ── Scroll to Top Button ── */
+.stt-btn {
+  position: fixed;
+  bottom: 80px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--text);
+  color: #fff;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+  transition: opacity 0.2s, transform 0.2s, background 0.15s;
+  opacity: 0.7;
+  /* Don't overlap WA button */
+  right: 76px;
+}
+.stt-btn:hover { opacity: 1; transform: translateY(-2px); background: var(--green); }
+@media (max-width: 767px) { .stt-btn { bottom: 72px; right: 72px; } }
+[data-theme="dark"] .stt-btn { background: #e2e8f0; color: #0f172a; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   GLOBAL RESPONSIVE PATCHES — appended
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* 1. Remove the mobile-only page-wrap restriction */
+.page-wrap {
+  max-width: 100% !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* 2. Prevent ALL horizontal overflow */
+html, body { overflow-x: hidden; }
+* { max-width: 100%; box-sizing: border-box; }
+img, video, svg, canvas, iframe { max-width: 100%; height: auto; }
+
+/* 3. All form inputs — prevent iOS zoom, full-width */
+input, select, textarea {
+  font-size: 16px !important; /* iOS zoom prevention */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 4. Minimum tap targets */
+button { min-height: 36px; }
+
+/* 5. WhatsApp & scroll-to-top positioning — above mobile nav */
+.fab-wa, .whatsapp-float {
+  bottom: 72px !important;
+}
+@media (min-width: 768px) {
+  .fab-wa, .whatsapp-float { bottom: 24px !important; }
+}
+.stt-btn {
+  bottom: 72px !important;
+  right: 70px !important;
+}
+@media (min-width: 768px) {
+  .stt-btn { bottom: 24px !important; right: 24px !important; }
+}
+
+/* 6. Toast — above mobile nav */
+.toast { bottom: 80px; }
+@media (min-width: 768px) { .toast { bottom: 24px; } }
+
+/* 7. App root flex column */
+.app-root { display: flex; flex-direction: column; min-height: 100vh; }
+.main-content { flex: 1; }
+
+/* 8. Safe area padding for iPhone X+ notch/home bar */
+.mob-nav, .tn-drawer, .footer {
+  padding-bottom: max(var(--safe-bottom, 0px), env(safe-area-inset-bottom, 0px));
+}
+
+/* 9. No horizontal scroll inside scroll containers */
+.hscroll, .tp2-cats {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 10. Global smooth transitions for dark mode only (not layout) */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+/* Override for animated elements — keep transform transitions */
+.hero3-pill, .hfc-item, .htc-card, .tc-card, .hsc-card, .htesti-card,
+button, a, [role="button"] {
+  transition-property: background-color, border-color, color, transform, box-shadow, opacity;
+  transition-duration: 0.15s;
+}

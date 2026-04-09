@@ -1,0 +1,177 @@
+/* ═══════════════════════════════════════════════════
+   ADSENSE AD SLOT STYLES
+   ═══════════════════════════════════════════════════ */
+
+.ad-slot {
+  margin: 24px auto;
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.ad-label {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+/* Ad Slot Positions */
+.ad-slot-top {
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
+
+.ad-slot-mid {
+  margin: 40px auto;
+}
+
+.ad-slot-bottom {
+  margin-top: 40px;
+  margin-bottom: 16px;
+}
+
+.ad-slot-sidebar {
+  position: sticky;
+  top: 80px;
+  margin: 0;
+}
+
+.ad-slot-article {
+  margin: 32px 0;
+  padding: 20px 0;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* AdSense Container */
+.adsbygoogle {
+  background: #f8f9fa;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Ad Placeholder (when AdSense not configured) */
+.ad-placeholder {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e5e7eb 100%);
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 40px 20px;
+  margin: 24px auto;
+  text-align: center;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ad-ph-content {
+  max-width: 300px;
+}
+
+.ad-ph-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+  opacity: 0.6;
+}
+
+.ad-ph-text {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.ad-ph-hint {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+/* Ad Layout Container */
+.ad-layout {
+  width: 100%;
+}
+
+.ad-layout-content {
+  position: relative;
+}
+
+/* In-Article Ad */
+.in-article-ad {
+  float: right;
+  margin: 0 0 20px 20px;
+  max-width: 336px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .ad-slot {
+    margin: 16px auto;
+  }
+  
+  .ad-slot-top {
+    margin-bottom: 24px;
+  }
+  
+  .ad-slot-mid,
+  .ad-slot-bottom {
+    margin: 24px auto;
+  }
+  
+  .ad-slot-sidebar {
+    position: static;
+    margin: 24px auto;
+  }
+  
+  .in-article-ad {
+    float: none;
+    margin: 24px auto;
+    max-width: 100%;
+  }
+  
+  .ad-placeholder {
+    padding: 30px 16px;
+    min-height: 80px;
+  }
+  
+  .ad-ph-icon {
+    font-size: 2rem;
+  }
+  
+  .ad-ph-text {
+    font-size: 0.85rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .ad-slot {
+    margin: 12px auto;
+  }
+  
+  .ad-label {
+    font-size: 0.6rem;
+  }
+  
+  .ad-placeholder {
+    padding: 24px 12px;
+  }
+}
+
+/* Print - Hide Ads */
+@media print {
+  .ad-slot,
+  .ad-placeholder {
+    display: none !important;
+  }
+}
+
+/* ADSLOT — RESPONSIVE PATCHES */
+.ad-slot-wrap { width:100%; max-width:100%; overflow:hidden; }
+.ad-placeholder { min-height:60px; padding:clamp(14px,3vw,28px); border-radius:clamp(8px,1.5vw,12px); }
+@media(max-width:640px){ .ad-slot-mid,.ad-slot-bottom { margin:16px auto; } }
+[data-theme="dark"] .ad-placeholder { background:#1a1d27; border-color:#2d3348; }
+[data-theme="dark"] .ad-ph-text { color:#64748b; }

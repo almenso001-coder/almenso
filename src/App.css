@@ -1,0 +1,96 @@
+/* ═══════════════════════════════════════════════════════════════
+   APP LAYOUT — Fully Responsive
+   Mobile-first · All breakpoints covered
+   ═══════════════════════════════════════════════════════════════ */
+
+.app-wrap, .app-root {
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.admin-wrap {
+  background: var(--bg);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(14px, 2.5vw, 28px);
+  width: 100%;
+}
+
+/* Page wrap — full width always (520px cap removed) */
+.page-wrap {
+  width: 100%;
+  max-width: 100% !important;
+  margin: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Main content */
+.main-content {
+  flex: 1;
+  width: 100%;
+}
+@media (max-width: 767px) {
+  .main-content { padding-bottom: 64px; }
+}
+
+/* ── Floating Buttons ── */
+.fab-chat {
+  position: fixed;
+  bottom: 76px;
+  right: 16px;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: #1a1a2e;
+  color: #fff;
+  font-size: 1.2rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  z-index: 140;
+  transition: transform 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.fab-chat:hover { transform: scale(1.1); }
+
+.fab-wa {
+  position: fixed;
+  bottom: 76px;
+  left: 16px;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: #25D366;
+  color: #fff;
+  font-size: 1.2rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(37,211,102,0.4);
+  z-index: 140;
+  transition: transform 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.fab-wa:hover { transform: scale(1.1); }
+
+@media (min-width: 768px) {
+  .fab-chat { bottom: 24px; right: 20px; }
+  .fab-wa   { bottom: 24px; left: 20px; }
+  .main-content { padding-bottom: 0; }
+}
+
+@media (min-width: 1440px) {
+  .fab-chat { right: 32px; }
+  .fab-wa   { left: 32px; }
+}
+
+/* All pages full width */
+.home-page,.shop-page,.svc-page,.earn-page,.tools-page,.contact-page,
+.blog-page,.hp3-root,.tp2-page,.ep-page,.sp-page,.ip-page {
+  width: 100%;
+  max-width: 100%;
+}
