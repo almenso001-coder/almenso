@@ -1,79 +1,83 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'path'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
 
 export default defineConfig({
   plugins: [
     react({
-      babel: { plugins: [] }
-    })
+      babel: { plugins: [] },
+    }),
   ],
 
   // Path aliases
   resolve: {
     alias: {
-      '@':            path.resolve(__dirname, './src'),
-      '@components':  path.resolve(__dirname, './src/components'),
-      '@pages':       path.resolve(__dirname, './src/pages'),
-      '@utils':       path.resolve(__dirname, './src/utils'),
-      '@context':     path.resolve(__dirname, './src/context'),
-    }
+      "@": path.resolve(__dirname, "./src"),
+      "@components": path.resolve(__dirname, "./src/components"),
+      "@pages": path.resolve(__dirname, "./src/pages"),
+      "@utils": path.resolve(__dirname, "./src/utils"),
+      "@context": path.resolve(__dirname, "./src/context"),
+    },
   },
 
   build: {
-    target:                 'es2020',
-    minify:                 'terser',
-    sourcemap:              false,
-    cssCodeSplit:           true,
-    reportCompressedSize:   true,
-    chunkSizeWarningLimit:  800,
-    assetsInlineLimit:      0,
-    emptyOutDir:            true,
+    target: "es2020",
+    minify: "terser",
+    sourcemap: false,
+    cssCodeSplit: true,
+    reportCompressedSize: true,
+    chunkSizeWarningLimit: 800,
+    assetsInlineLimit: 0,
+    emptyOutDir: true,
 
     rollupOptions: {
       output: {
-        chunkFileNames:  'assets/js/[name]-[hash].js',
-        entryFileNames:  'assets/js/[name]-[hash].js',
-        assetFileNames:  'assets/[ext]/[name]-[hash].[ext]',
+        chunkFileNames: "assets/js/[name]-[hash].js",
+        entryFileNames: "assets/js/[name]-[hash].js",
+        assetFileNames: "assets/[ext]/[name]-[hash].[ext]",
 
         // Prevent empty chunks
         manualChunks(id) {
           // React core — always cached
-          if (id.includes('node_modules/react') ||
-              id.includes('node_modules/react-dom')) {
-            return 'vendor-react'
+          if (
+            id.includes("node_modules/react") ||
+            id.includes("node_modules/react-dom")
+          ) {
+            return "vendor-react";
           }
-          if (id.includes('react-router-dom')) {
-            return 'vendor-router'
+          if (id.includes("react-router-dom")) {
+            return "vendor-router";
           }
           // Heavy pages — separate chunks
-          if (id.includes('pages/AdminPage'))   return 'page-admin'
-          if (id.includes('pages/BlogPage'))    return 'page-blog'
+          if (id.includes("pages/AdminPage")) return "page-admin";
+          if (id.includes("pages/BlogPage")) return "page-blog";
           // Tools — by category
-          if (id.includes('tools/calculators')) return 'tools-calc'
-          if (id.includes('tools/converters'))  return 'tools-conv'
-          if (id.includes('tools/image-tools')) return 'tools-img'
-          if (id.includes('tools/text-tools'))  return 'tools-text'
-          if (id.includes('tools/generators'))  return 'tools-gen'
+          if (id.includes("tools/calculators")) return "tools-calc";
+          if (id.includes("tools/converters")) return "tools-conv";
+          if (id.includes("tools/image-tools")) return "tools-img";
+          if (id.includes("tools/text-tools")) return "tools-text";
+          if (id.includes("tools/generators")) return "tools-gen";
           // Service pages together
-          if (id.includes('ElectricianPage') ||
-              id.includes('SolarPage') ||
-              id.includes('InteriorPage')) {
-            return 'pages-services'
+          if (
+            id.includes("ElectricianPage") ||
+            id.includes("SolarPage") ||
+            id.includes("InteriorPage")
+          ) {
+            return "pages-services";
           }
           // All other pages in main chunk
-          if (id.includes('/pages/')) {
-            return 'pages-common'
+          if (id.includes("/pages/")) {
+            return "pages-common";
           }
           // Components in shared chunk
-          if (id.includes('/components/')) {
-            return 'components'
+          if (id.includes("/components/")) {
+            return "components";
           }
         },
       },
       // Safe tree-shaking settings
       treeshake: {
-        moduleSideEffects: 'auto',
+        moduleSideEffects: false,
         propertyReadSideEffects: true,
         tryCatchDeoptimization: false,
       },
@@ -98,10 +102,10 @@ export default defineConfig({
   },
 
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom'],
+    include: ["react", "react-dom", "react-router-dom"],
   },
 
   define: {
-    __APP_VERSION__: JSON.stringify(process.env.npm_package_version || '1.0.0'),
+    __APP_VERSION__: JSON.stringify(process.env.npm_package_version || "1.0.0"),
   },
-})
+});
