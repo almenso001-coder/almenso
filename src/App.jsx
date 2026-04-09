@@ -1199,7 +1199,7 @@ function Layout() {
   );
 }
 
-export default function App() {
+function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider>
@@ -1214,3 +1214,5 @@ export default function App() {
     </ErrorBoundary>
   );
 }
+
+export default App;

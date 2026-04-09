@@ -76,11 +76,11 @@ export default defineConfig({
         },
       },
       // Safe tree-shaking settings
-      treeshake: {
-        moduleSideEffects: false,
-        propertyReadSideEffects: true,
-        tryCatchDeoptimization: false,
-      },
+      // treeshake: {
+      //   moduleSideEffects: false,
+      //   propertyReadSideEffects: true,
+      //   tryCatchDeoptimization: false,
+      // },
     },
 
     // Safer esbuild options
