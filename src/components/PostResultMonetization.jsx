@@ -8,7 +8,7 @@
 import React, { memo, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AdSlot from './AdSlot'
-import { AFFILIATE_PRODUCTS } from './AffiliateWidget'
+import { useAffiliateProducts } from './AffiliateWidget'
 import './PostResultMonetization.css'
 
 const WA = '919258133689'
@@ -206,10 +206,13 @@ const PostResultMonetization = memo(function PostResultMonetization({
   serviceConfig = null,
   adSlotId      = 'mid',
 }) {
+  // Admin-controlled products — hook top level pe call karna zaroori hai
+  const allProducts = useAffiliateProducts()
+
   if (!show) return null
 
   const products = affCategory
-    ? (AFFILIATE_PRODUCTS[affCategory] || AFFILIATE_PRODUCTS.electrical).slice(0, affLimit)
+    ? (allProducts[affCategory] || allProducts.electrical || []).filter(p => p.visible !== false).slice(0, affLimit)
     : []
 
   const hasProducts = products.length > 0

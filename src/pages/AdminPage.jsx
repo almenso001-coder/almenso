@@ -3,7 +3,7 @@
  * Tabs: Leads | Services | Blogs | Products | Shops | Settings
  */
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { useSettings } from "../context/SettingsContext";
+import { useSettings, DEFAULT_AFFILIATE_PRODUCTS } from "../context/SettingsContext";
 import ImageUploadWidget from "../components/ImageUploadWidget";
 import ProductsManager from "../components/ProductsManager";
 import MarketingDashboard from "../components/MarketingDashboard";
@@ -5143,6 +5143,558 @@ function AdminPage() {
     );
   }
 
+  // ── Affiliate Products Manager ────────────────────────────
+  function AffiliateManager() {
+    const { settings, saveSettings, showToast } = useSettings();
+
+    const CATEGORIES = [
+      { id: 'electrical',   label: '⚡ Electrical' },
+      { id: 'solar',        label: '☀️ Solar' },
+      { id: 'finance',      label: '💰 Finance' },
+      { id: 'design',       label: '🖼️ Design' },
+      { id: 'health',       label: '❤️ Health' },
+      { id: 'tech',         label: '🔧 Tech' },
+      { id: 'construction', label: '🏗️ Construction' },
+      { id: 'writing',      label: '✍️ Writing' },
+    ];
+
+    const [activeCat, setActiveCat] = useState('electrical');
+    const [activeSection, setActiveSection] = useState('products'); // 'products' | 'homepage' | 'passive'
+    const [editingId, setEditingId] = useState(null);
+    const [showAddForm, setShowAddForm] = useState(false);
+    const [form, setForm] = useState({});
+
+    const BLANK = { name:'', price:'', was:'', badge:'', img:'🛒', rating:'4.0★', reviews:'1k+', tag:'', link:'', cta:'Buy on Amazon', visible:true };
+
+    // Get all affiliate products (merged: defaults + admin overrides)
+    const getAllProducts = () => {
+      try {
+        if (settings.affiliateProducts) return JSON.parse(settings.affiliateProducts);
+      } catch {}
+      return JSON.parse(JSON.stringify(DEFAULT_AFFILIATE_PRODUCTS));
+    };
+
+
+    const [allProds, setAllProds] = useState(getAllProducts);
+
+    const catProds = allProds[activeCat] || [];
+
+    const saveAll = (updated) => {
+      setAllProds(updated);
+      saveSettings({ affiliateProducts: JSON.stringify(updated) });
+      showToast('✅ Affiliate products saved!');
+    };
+
+    const toggleVisible = (id) => {
+      const updated = { ...allProds, [activeCat]: catProds.map(p => p.id === id ? { ...p, visible: !p.visible } : p) };
+      saveAll(updated);
+    };
+
+    const deleteProduct = (id) => {
+      if (!window.confirm('Yeh product delete karna chahte ho?')) return;
+      const updated = { ...allProds, [activeCat]: catProds.filter(p => p.id !== id) };
+      saveAll(updated);
+    };
+
+    const startEdit = (p) => {
+      setForm({ ...p });
+      setEditingId(p.id);
+      setShowAddForm(false);
+    };
+
+    const saveEdit = () => {
+      if (!form.name || !form.link) { showToast('❌ Name aur Link zaroori hai!'); return; }
+      const updated = { ...allProds, [activeCat]: catProds.map(p => p.id === editingId ? { ...form, id: editingId } : p) };
+      saveAll(updated);
+      setEditingId(null);
+    };
+
+    const addProduct = () => {
+      if (!form.name || !form.link) { showToast('❌ Name aur Link zaroori hai!'); return; }
+      const newId = activeCat[0] + Date.now();
+      const updated = { ...allProds, [activeCat]: [...catProds, { ...form, id: newId }] };
+      saveAll(updated);
+      setShowAddForm(false);
+      setForm({});
+    };
+
+    const resetToDefaults = () => {
+      if (!window.confirm('Sab products default pe reset ho jayenge! Sure?')) return;
+      saveSettings({ affiliateProducts: '' });
+      setAllProds(getAllProducts());
+      showToast('✅ Defaults restore ho gaye!');
+    };
+
+    // Homepage featured products
+    const getFeatured = () => {
+      try { return JSON.parse(settings.hp_featuredProducts || '[]'); } catch { return []; }
+    };
+    const [featured, setFeatured] = useState(getFeatured);
+    const BLANK_FP = { name:'', price:'', image:'🛒', badge:'', link:'' };
+    const [fpEditIdx, setFpEditIdx] = useState(null);
+    const [fpForm, setFpForm] = useState({});
+    const [fpShowAdd, setFpShowAdd] = useState(false);
+
+    const saveFeatured = (list) => {
+      setFeatured(list);
+      saveSettings({ hp_featuredProducts: JSON.stringify(list) });
+      showToast('✅ Homepage products saved!');
+    };
+
+    const S = {
+      wrap: { padding:'20px' },
+      sectionBtns: { display:'flex', gap:8, marginBottom:20 },
+      sBtn: (active) => ({ padding:'8px 18px', borderRadius:8, border:'none', cursor:'pointer', fontWeight:600, fontSize:'0.85rem', background: active ? '#1d4ed8' : '#e2e8f0', color: active ? '#fff' : '#334155' }),
+      catRow: { display:'flex', flexWrap:'wrap', gap:6, marginBottom:18 },
+      catBtn: (active) => ({ padding:'6px 13px', borderRadius:20, border:'none', cursor:'pointer', fontWeight:600, fontSize:'0.8rem', background: active ? '#0f172a' : '#f1f5f9', color: active ? '#fff' : '#475569' }),
+      addBtn: { padding:'8px 16px', background:'#10b981', color:'#fff', border:'none', borderRadius:8, cursor:'pointer', fontWeight:600, fontSize:'0.85rem' },
+      resetBtn: { padding:'8px 16px', background:'#ef4444', color:'#fff', border:'none', borderRadius:8, cursor:'pointer', fontWeight:600, fontSize:'0.82rem' },
+      card: { background:'#fff', border:'1px solid #e2e8f0', borderRadius:10, padding:'14px', marginBottom:12, display:'flex', alignItems:'flex-start', gap:12 },
+      cardImg: { fontSize:'2rem', minWidth:40, textAlign:'center' },
+      cardInfo: { flex:1 },
+      cardName: { fontWeight:700, fontSize:'0.9rem', color:'#0f172a', marginBottom:2 },
+      cardMeta: { fontSize:'0.78rem', color:'#64748b', marginBottom:4 },
+      cardLink: { fontSize:'0.75rem', color:'#3b82f6', wordBreak:'break-all' },
+      cardActions: { display:'flex', flexDirection:'column', gap:6 },
+      editBtn: { padding:'5px 12px', background:'#3b82f6', color:'#fff', border:'none', borderRadius:6, cursor:'pointer', fontSize:'0.78rem', fontWeight:600 },
+      delBtn:  { padding:'5px 12px', background:'#ef4444', color:'#fff', border:'none', borderRadius:6, cursor:'pointer', fontSize:'0.78rem', fontWeight:600 },
+      togBtn: (v) => ({ padding:'5px 10px', background: v ? '#10b981' : '#94a3b8', color:'#fff', border:'none', borderRadius:6, cursor:'pointer', fontSize:'0.75rem', fontWeight:600 }),
+      formBox: { background:'#f8fafc', border:'1px solid #cbd5e1', borderRadius:10, padding:16, marginBottom:16 },
+      formTitle: { fontWeight:700, fontSize:'0.9rem', color:'#0f172a', marginBottom:12 },
+      row2: { display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 },
+      row1: { marginBottom:10 },
+      label: { display:'block', fontSize:'0.78rem', fontWeight:600, color:'#475569', marginBottom:4 },
+      input: { width:'100%', padding:'8px 10px', border:'1px solid #cbd5e1', borderRadius:6, fontSize:'0.85rem', boxSizing:'border-box' },
+      savBtn: { padding:'8px 18px', background:'#1d4ed8', color:'#fff', border:'none', borderRadius:7, cursor:'pointer', fontWeight:700, fontSize:'0.85rem', marginRight:8 },
+      canBtn: { padding:'8px 16px', background:'#e2e8f0', color:'#334155', border:'none', borderRadius:7, cursor:'pointer', fontWeight:600, fontSize:'0.85rem' },
+      badge: (v) => ({ display:'inline-block', padding:'2px 8px', borderRadius:10, fontSize:'0.7rem', fontWeight:700, background: v ? '#dcfce7' : '#f1f5f9', color: v ? '#15803d' : '#94a3b8', marginLeft:6 }),
+      tip: { fontSize:'0.78rem', color:'#64748b', background:'#f0f9ff', border:'1px solid #bae6fd', borderRadius:8, padding:'10px 14px', marginBottom:16 },
+    };
+
+    const ProductForm = ({ title, data, onChange, onSave, onCancel }) => (
+      <div style={S.formBox}>
+        <div style={S.formTitle}>{title}</div>
+        <div style={S.row2}>
+          <div>
+            <label style={S.label}>Product Name *</label>
+            <input style={S.input} value={data.name || ''} onChange={e => onChange('name', e.target.value)} placeholder="e.g. Luminous Inverter 1100W" />
+          </div>
+          <div>
+            <label style={S.label}>Emoji / Image</label>
+            <input style={S.input} value={data.img || ''} onChange={e => onChange('img', e.target.value)} placeholder="🔌" />
+          </div>
+        </div>
+        <div style={S.row2}>
+          <div>
+            <label style={S.label}>Price *</label>
+            <input style={S.input} value={data.price || ''} onChange={e => onChange('price', e.target.value)} placeholder="₹6,200" />
+          </div>
+          <div>
+            <label style={S.label}>Old Price (was)</label>
+            <input style={S.input} value={data.was || ''} onChange={e => onChange('was', e.target.value)} placeholder="₹7,800 (optional)" />
+          </div>
+        </div>
+        <div style={S.row2}>
+          <div>
+            <label style={S.label}>Badge</label>
+            <input style={S.input} value={data.badge || ''} onChange={e => onChange('badge', e.target.value)} placeholder="Best Seller (optional)" />
+          </div>
+          <div>
+            <label style={S.label}>Rating</label>
+            <input style={S.input} value={data.rating || ''} onChange={e => onChange('rating', e.target.value)} placeholder="4.4★" />
+          </div>
+        </div>
+        <div style={S.row2}>
+          <div>
+            <label style={S.label}>Reviews Count</label>
+            <input style={S.input} value={data.reviews || ''} onChange={e => onChange('reviews', e.target.value)} placeholder="12k+" />
+          </div>
+          <div>
+            <label style={S.label}>Tag / Specs</label>
+            <input style={S.input} value={data.tag || ''} onChange={e => onChange('tag', e.target.value)} placeholder="1100VA Pure Sine Wave" />
+          </div>
+        </div>
+        <div style={S.row1}>
+          <label style={S.label}>Affiliate Link * (Amazon/Flipkart full URL)</label>
+          <input style={S.input} value={data.link || ''} onChange={e => onChange('link', e.target.value)} placeholder="https://www.amazon.in/s?k=...&tag=almenso-21" />
+        </div>
+        <div style={S.row1}>
+          <label style={S.label}>Button Text</label>
+          <input style={S.input} value={data.cta || ''} onChange={e => onChange('cta', e.target.value)} placeholder="Buy on Amazon" />
+        </div>
+        <div style={{ marginTop:12 }}>
+          <button style={S.savBtn} onClick={onSave}>💾 Save</button>
+          <button style={S.canBtn} onClick={onCancel}>Cancel</button>
+        </div>
+      </div>
+    );
+
+    const HomepageFeaturedSection = () => {
+
+      const FS = {
+        card: { background:'#fff', border:'1px solid #e2e8f0', borderRadius:10, padding:'14px', marginBottom:10, display:'flex', alignItems:'center', gap:12 },
+        num: { fontWeight:800, fontSize:'1.2rem', color:'#94a3b8', minWidth:28 },
+        img: { fontSize:'2rem', minWidth:36, textAlign:'center' },
+        info: { flex:1 },
+        name: { fontWeight:700, fontSize:'0.9rem', color:'#0f172a' },
+        meta: { fontSize:'0.78rem', color:'#64748b' },
+        actions: { display:'flex', gap:6 },
+      };
+
+      return (
+        <div>
+          <div style={S.tip}>
+            💡 <strong>Homepage pe 3 featured products</strong> dikhte hain (Products section mein). Yahan se links aur naam change karo — turant live ho jaate hain.
+          </div>
+          {featured.map((fp, idx) => (
+            fpEditIdx === idx ? (
+              <div key={idx} style={S.formBox}>
+                <div style={S.formTitle}>✏️ Featured Product #{idx + 1} Edit</div>
+                <div style={S.row2}>
+                  <div>
+                    <label style={S.label}>Name</label>
+                    <input style={S.input} value={fpForm.name || ''} onChange={e => setFpForm(f => ({...f, name: e.target.value}))} />
+                  </div>
+                  <div>
+                    <label style={S.label}>Emoji</label>
+                    <input style={S.input} value={fpForm.image || ''} onChange={e => setFpForm(f => ({...f, image: e.target.value}))} />
+                  </div>
+                </div>
+                <div style={S.row2}>
+                  <div>
+                    <label style={S.label}>Price</label>
+                    <input style={S.input} value={fpForm.price || ''} onChange={e => setFpForm(f => ({...f, price: e.target.value}))} />
+                  </div>
+                  <div>
+                    <label style={S.label}>Badge</label>
+                    <input style={S.input} value={fpForm.badge || ''} onChange={e => setFpForm(f => ({...f, badge: e.target.value}))} />
+                  </div>
+                </div>
+                <div style={S.row1}>
+                  <label style={S.label}>Affiliate Link *</label>
+                  <input style={S.input} value={fpForm.link || ''} onChange={e => setFpForm(f => ({...f, link: e.target.value}))} />
+                </div>
+                <div style={{ marginTop:10 }}>
+                  <button style={S.savBtn} onClick={() => {
+                    const updated = featured.map((x, i) => i === idx ? { ...fpForm, id: x.id || ('fp' + Date.now()) } : x);
+                    saveFeatured(updated);
+                    setFpEditIdx(null);
+                  }}>💾 Save</button>
+                  <button style={S.canBtn} onClick={() => setFpEditIdx(null)}>Cancel</button>
+                </div>
+              </div>
+            ) : (
+              <div key={idx} style={FS.card}>
+                <div style={FS.num}>#{idx + 1}</div>
+                <div style={FS.img}>{fp.image}</div>
+                <div style={FS.info}>
+                  <div style={FS.name}>{fp.name} {fp.badge && <span style={S.badge(true)}>{fp.badge}</span>}</div>
+                  <div style={FS.meta}>{fp.price} · <a href={fp.link} target="_blank" rel="noopener noreferrer" style={{ color:'#3b82f6', fontSize:'0.75rem' }}>Link →</a></div>
+                </div>
+                <div style={FS.actions}>
+                  <button style={S.editBtn} onClick={() => { setFpForm({...fp}); setFpEditIdx(idx); setFpShowAdd(false); }}>✏️ Edit</button>
+                  <button style={S.delBtn} onClick={() => { saveFeatured(featured.filter((_, i) => i !== idx)); }}>🗑️</button>
+                </div>
+              </div>
+            )
+          ))}
+          {featured.length < 6 && !fpShowAdd && (
+            <button style={{ ...S.addBtn, marginTop:8 }} onClick={() => { setFpForm({ ...BLANK_FP, id:'fp'+Date.now() }); setFpShowAdd(true); setFpEditIdx(null); }}>+ Product Add Karo</button>
+          )}
+          {fpShowAdd && (
+            <div style={S.formBox}>
+              <div style={S.formTitle}>➕ New Featured Product</div>
+              <div style={S.row2}>
+                <div>
+                  <label style={S.label}>Name</label>
+                  <input style={S.input} value={fpForm.name || ''} onChange={e => setFpForm(f => ({...f, name: e.target.value}))} />
+                </div>
+                <div>
+                  <label style={S.label}>Emoji</label>
+                  <input style={S.input} value={fpForm.image || ''} onChange={e => setFpForm(f => ({...f, image: e.target.value}))} />
+                </div>
+              </div>
+              <div style={S.row2}>
+                <div>
+                  <label style={S.label}>Price</label>
+                  <input style={S.input} value={fpForm.price || ''} onChange={e => setFpForm(f => ({...f, price: e.target.value}))} />
+                </div>
+                <div>
+                  <label style={S.label}>Badge</label>
+                  <input style={S.input} value={fpForm.badge || ''} onChange={e => setFpForm(f => ({...f, badge: e.target.value}))} />
+                </div>
+              </div>
+              <div style={S.row1}>
+                <label style={S.label}>Affiliate Link *</label>
+                <input style={S.input} value={fpForm.link || ''} onChange={e => setFpForm(f => ({...f, link: e.target.value}))} />
+              </div>
+              <div style={{ marginTop:10 }}>
+                <button style={S.savBtn} onClick={() => {
+                  if (!fpForm.name || !fpForm.link) { showToast('❌ Name aur Link zaroori hai!'); return; }
+                  saveFeatured([...featured, { ...fpForm, id: 'fp' + Date.now() }]);
+                  setFpShowAdd(false);
+                  setFpForm({});
+                }}>💾 Save</button>
+                <button style={S.canBtn} onClick={() => setFpShowAdd(false)}>Cancel</button>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    // ── Passive Income Links Section ──────────────────────────
+    const DEFAULT_PASSIVE = [
+      { id:'pl1', ico:'🏦', title:'Loan Apply Karo',   sub:'BankBazaar · Best rate · 2 min', color:'#2563eb', bg:'#eff6ff', url:'https://www.bankbazaar.com/personal-loan.html', active:true },
+      { id:'pl2', ico:'📈', title:'Demat Account',     sub:'AngelOne · Zero brokerage',       color:'#16a34a', bg:'#f0fdf4', url:'https://www.angelone.in', active:true },
+      { id:'pl3', ico:'💳', title:'Credit Card',       sub:'Best cards · Rewards + cashback', color:'#e11d48', bg:'#fff1f2', url:'https://www.bankbazaar.com/credit-card.html', active:true },
+      { id:'pl4', ico:'☀️', title:'Solar Install',     sub:'Free site visit · 40% subsidy',   color:'#d97706', bg:'#fffbeb', url:'/solar-solutions', active:true },
+    ];
+
+    const PassiveLinksSection = () => {
+      const getPLinks = () => {
+        try {
+          const parsed = JSON.parse(settings.passiveLinks || '[]');
+          return Array.isArray(parsed) && parsed.length ? parsed : DEFAULT_PASSIVE;
+        } catch { return DEFAULT_PASSIVE; }
+      };
+
+      const [links, setLinks] = useState(getPLinks);
+      const [editIdx, setEditIdx] = useState(null);
+      const [addForm, setAddForm] = useState(false);
+      const BLANK_LINK = { id:'pl'+Date.now(), ico:'🔗', title:'', sub:'', color:'#374151', bg:'#f1f5f9', url:'', active:true };
+      const [form, setForm] = useState({ ...BLANK_LINK });
+
+      const saveLinks = (updated) => {
+        setLinks(updated);
+        saveSettings({ passiveLinks: JSON.stringify(updated) });
+        showToast('✅ Passive Income Links saved!');
+      };
+
+      const PL = {
+        card: { background:'#fff', border:'1px solid #e2e8f0', borderRadius:10, padding:'14px', marginBottom:10, display:'flex', alignItems:'center', gap:12 },
+        ico: { fontSize:'1.8rem', minWidth:36, textAlign:'center' },
+        info: { flex:1 },
+        name: { fontWeight:700, fontSize:'0.88rem', color:'#0f172a' },
+        sub: { fontSize:'0.75rem', color:'#64748b' },
+        url: { fontSize:'0.72rem', color:'#3b82f6', wordBreak:'break-all' },
+        actions: { display:'flex', gap:6, flexShrink:0 },
+        formBox: { background:'#f8fafc', border:'1px solid #cbd5e1', borderRadius:10, padding:16, marginBottom:14 },
+        label: { display:'block', fontSize:'0.78rem', fontWeight:600, color:'#475569', marginBottom:4 },
+        input: { width:'100%', padding:'8px 10px', border:'1px solid #cbd5e1', borderRadius:6, fontSize:'0.85rem', boxSizing:'border-box', fontFamily:'inherit' },
+        row2: { display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 },
+        row1: { marginBottom:10 },
+      };
+
+      const LinkForm = ({ title, data, onChange, onSave, onCancel }) => (
+        <div style={PL.formBox}>
+          <div style={{ fontWeight:700, fontSize:'0.9rem', color:'#0f172a', marginBottom:12 }}>{title}</div>
+          <div style={PL.row2}>
+            <div>
+              <label style={PL.label}>Emoji Icon</label>
+              <input style={PL.input} value={data.ico || ''} onChange={e => onChange('ico', e.target.value)} placeholder="🏦" />
+            </div>
+            <div>
+              <label style={PL.label}>Title *</label>
+              <input style={PL.input} value={data.title || ''} onChange={e => onChange('title', e.target.value)} placeholder="Loan Apply Karo" />
+            </div>
+          </div>
+          <div style={PL.row1}>
+            <label style={PL.label}>Sub-text</label>
+            <input style={PL.input} value={data.sub || ''} onChange={e => onChange('sub', e.target.value)} placeholder="BankBazaar · Best rate · 2 min" />
+          </div>
+          <div style={PL.row1}>
+            <label style={PL.label}>Affiliate URL * (full URL ya /path)</label>
+            <input style={PL.input} value={data.url || ''} onChange={e => onChange('url', e.target.value)} placeholder="https://bankbazaar.com/... ya /solar-solutions" />
+          </div>
+          <div style={PL.row2}>
+            <div>
+              <label style={PL.label}>Background Color</label>
+              <input style={{ ...PL.input, cursor:'pointer' }} type="color" value={data.bg || '#f1f5f9'} onChange={e => onChange('bg', e.target.value)} />
+            </div>
+            <div>
+              <label style={PL.label}>Status</label>
+              <select style={{ ...PL.input, cursor:'pointer' }} value={data.active ? 'true' : 'false'} onChange={e => onChange('active', e.target.value === 'true')}>
+                <option value="true">✅ Active (Visible)</option>
+                <option value="false">❌ Hidden</option>
+              </select>
+            </div>
+          </div>
+          <div style={{ marginTop:12 }}>
+            <button style={S.savBtn} onClick={onSave}>💾 Save</button>
+            <button style={S.canBtn} onClick={onCancel}>Cancel</button>
+          </div>
+        </div>
+      );
+
+      return (
+        <div>
+          <div style={S.tip}>
+            💡 <strong>Tools page pe "Passive Income" banner</strong> mein yeh links dikhte hain. Admin panel se apne affiliate links (BankBazaar, AngelOne, insurance, koi bhi) yahan se change karo — turant live ho jaate hain bina deploy kiye.
+          </div>
+
+          {!addForm && editIdx === null && (
+            <button style={{ ...S.addBtn, marginBottom:14 }} onClick={() => { setForm({ ...BLANK_LINK, id:'pl'+Date.now() }); setAddForm(true); }}>
+              + Naya Link Add Karo
+            </button>
+          )}
+
+          {addForm && (
+            <LinkForm
+              title="➕ Naya Passive Income Link"
+              data={form}
+              onChange={(k, v) => setForm(f => ({ ...f, [k]: v }))}
+              onSave={() => {
+                if (!form.title || !form.url) { showToast('❌ Title aur URL zaroori hai!'); return; }
+                saveLinks([...links, { ...form, id: 'pl'+Date.now() }]);
+                setAddForm(false); setForm({ ...BLANK_LINK });
+              }}
+              onCancel={() => { setAddForm(false); setForm({ ...BLANK_LINK }); }}
+            />
+          )}
+
+          {links.map((lk, idx) => (
+            editIdx === idx ? (
+              <LinkForm
+                key={lk.id}
+                title={`✏️ Edit — ${lk.title}`}
+                data={form}
+                onChange={(k, v) => setForm(f => ({ ...f, [k]: v }))}
+                onSave={() => {
+                  if (!form.title || !form.url) { showToast('❌ Title aur URL zaroori hai!'); return; }
+                  saveLinks(links.map((x, i) => i === idx ? { ...form } : x));
+                  setEditIdx(null);
+                }}
+                onCancel={() => setEditIdx(null)}
+              />
+            ) : (
+              <div key={lk.id} style={{ ...PL.card, opacity: lk.active === false ? 0.45 : 1 }}>
+                <div style={{ ...PL.ico, background: lk.bg || '#f1f5f9', borderRadius:10, width:44, height:44, display:'flex', alignItems:'center', justifyContent:'center' }}>{lk.ico}</div>
+                <div style={PL.info}>
+                  <div style={PL.name}>{lk.title} <span style={{ fontSize:'0.68rem', background: lk.active !== false ? '#dcfce7' : '#f1f5f9', color: lk.active !== false ? '#15803d' : '#94a3b8', borderRadius:8, padding:'1px 7px', marginLeft:4 }}>{lk.active !== false ? 'Active' : 'Hidden'}</span></div>
+                  <div style={PL.sub}>{lk.sub}</div>
+                  <div style={PL.url}>{lk.url}</div>
+                </div>
+                <div style={PL.actions}>
+                  <button style={S.editBtn} onClick={() => { setForm({ ...lk }); setEditIdx(idx); setAddForm(false); }}>✏️</button>
+                  <button style={S.togBtn(lk.active !== false)} onClick={() => saveLinks(links.map((x, i) => i === idx ? { ...x, active: !x.active } : x))}>
+                    {lk.active !== false ? '👁️' : '🙈'}
+                  </button>
+                  <button style={S.delBtn} onClick={() => { if (window.confirm('Delete karna chahte ho?')) saveLinks(links.filter((_, i) => i !== idx)); }}>🗑️</button>
+                </div>
+              </div>
+            )
+          ))}
+
+          <button style={{ ...S.resetBtn, marginTop:8 }} onClick={() => { if (window.confirm('Default links restore ho jayenge?')) { saveLinks(DEFAULT_PASSIVE); } }}>
+            🔄 Reset to Defaults
+          </button>
+        </div>
+      );
+    };
+
+    return (
+      <div style={S.wrap}>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16 }}>
+          <div>
+            <h2 style={{ margin:0, fontSize:'1.1rem', fontWeight:800, color:'#0f172a' }}>🛒 Affiliate Products Manager</h2>
+            <p style={{ margin:'4px 0 0', fontSize:'0.8rem', color:'#64748b' }}>Tool pages, articles aur blog mein dikhne wale products yahan se manage karo</p>
+          </div>
+          <button style={S.resetBtn} onClick={resetToDefaults}>🔄 Reset Defaults</button>
+        </div>
+
+        {/* Section toggle */}
+        <div style={S.sectionBtns}>
+          <button style={S.sBtn(activeSection === 'products')} onClick={() => setActiveSection('products')}>📦 Tool/Article Products</button>
+          <button style={S.sBtn(activeSection === 'homepage')} onClick={() => setActiveSection('homepage')}>🏠 Homepage Featured</button>
+          <button style={S.sBtn(activeSection === 'passive')} onClick={() => setActiveSection('passive')}>💸 Passive Income Links</button>
+        </div>
+
+        {activeSection === 'passive' ? (
+          <PassiveLinksSection />
+        ) : activeSection === 'homepage' ? (
+          <HomepageFeaturedSection />
+        ) : (
+          <>
+            <div style={S.tip}>
+              💡 <strong>Tool/Article pages pe</strong> category ke hisaab se products dikhte hain (AffiliateWidget). Electrician tools pe "Electrical", Solar tools pe "Solar" waale products dikhte hain. Yahan se kisi bhi category ke products change, add ya delete karo.
+            </div>
+
+            {/* Category tabs */}
+            <div style={S.catRow}>
+              {CATEGORIES.map(c => (
+                <button key={c.id} style={S.catBtn(activeCat === c.id)} onClick={() => { setActiveCat(c.id); setEditingId(null); setShowAddForm(false); }}>
+                  {c.label} <span style={{ fontWeight:400, opacity:0.7 }}>({(allProds[c.id] || []).length})</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Add new product button */}
+            {!showAddForm && editingId === null && (
+              <button style={{ ...S.addBtn, marginBottom:14 }} onClick={() => { setForm({ ...BLANK }); setShowAddForm(true); setEditingId(null); }}>
+                + Naya Product Add Karo
+              </button>
+            )}
+
+            {/* Add form */}
+            {showAddForm && (
+              <ProductForm
+                title={`➕ New Product — ${CATEGORIES.find(c => c.id === activeCat)?.label}`}
+                data={form}
+                onChange={(k, v) => setForm(f => ({ ...f, [k]: v }))}
+                onSave={addProduct}
+                onCancel={() => { setShowAddForm(false); setForm({}); }}
+              />
+            )}
+
+            {/* Product cards */}
+            {catProds.length === 0 && (
+              <div style={{ textAlign:'center', padding:'30px 0', color:'#94a3b8', fontSize:'0.9rem' }}>
+                Is category mein koi product nahi hai. "Naya Product Add Karo" pe click karo.
+              </div>
+            )}
+
+            {catProds.map(p => (
+              editingId === p.id ? (
+                <ProductForm
+                  key={p.id}
+                  title={`✏️ Edit — ${p.name}`}
+                  data={form}
+                  onChange={(k, v) => setForm(f => ({ ...f, [k]: v }))}
+                  onSave={saveEdit}
+                  onCancel={() => { setEditingId(null); setForm({}); }}
+                />
+              ) : (
+                <div key={p.id} style={{ ...S.card, opacity: p.visible === false ? 0.5 : 1 }}>
+                  <div style={S.cardImg}>{p.img}</div>
+                  <div style={S.cardInfo}>
+                    <div style={S.cardName}>
+                      {p.name}
+                      {p.badge && <span style={S.badge(true)}>{p.badge}</span>}
+                      <span style={S.badge(p.visible !== false)}>{p.visible !== false ? 'Visible' : 'Hidden'}</span>
+                    </div>
+                    <div style={S.cardMeta}>
+                      {p.price}{p.was && ` · was ${p.was}`} · {p.rating} · {p.reviews} reviews
+                    </div>
+                    <div style={S.cardMeta}>{p.tag}</div>
+                    <div style={S.cardLink}>{p.link}</div>
+                  </div>
+                  <div style={S.cardActions}>
+                    <button style={S.editBtn} onClick={() => { setForm({ ...p }); startEdit(p); }}>✏️ Edit</button>
+                    <button style={S.togBtn(p.visible !== false)} onClick={() => toggleVisible(p.id)}>
+                      {p.visible !== false ? '👁️ Hide' : '👁️ Show'}
+                    </button>
+                    <button style={S.delBtn} onClick={() => deleteProduct(p.id)}>🗑️ Del</button>
+                  </div>
+                </div>
+              )
+            ))}
+          </>
+        )}
+      </div>
+    );
+  }
+
   // ── Tools Visibility Manager ─────────────────────────────
   function ToolsManager() {
     const { settings, saveSettings, showToast } = useSettings();
@@ -5545,6 +6097,156 @@ function AdminPage() {
         cat: "🧮 Math",
         hot: false,
       },
+      // ── 💰 Finance (missing) ──────────────────────────────
+      { id: "profit-margin-calculator",       name: "Profit Margin Calculator",       cat: "💰 Finance",      hot: false },
+      { id: "profit-calculator",              name: "Profit Calculator",              cat: "💰 Finance",      hot: false },
+      { id: "roi-calculator",                 name: "ROI Calculator",                 cat: "💰 Finance",      hot: false },
+      { id: "savings-calculator",             name: "Savings Calculator",             cat: "💰 Finance",      hot: false },
+      { id: "simple-interest-calculator",     name: "Simple Interest Calculator",     cat: "💰 Finance",      hot: false },
+      { id: "loan-interest-calculator",       name: "Loan Interest Calculator",       cat: "💰 Finance",      hot: false },
+      { id: "credit-card-interest-calculator",name: "Credit Card Interest Calc",      cat: "💰 Finance",      hot: false },
+      { id: "interest-calculator",            name: "Interest Calculator",            cat: "💰 Finance",      hot: false },
+      { id: "investment-return-calculator",   name: "Investment Return Calculator",   cat: "💰 Finance",      hot: false },
+      { id: "commission-calculator",          name: "Commission Calculator",          cat: "💰 Finance",      hot: false },
+      { id: "markup-calculator",              name: "Markup Calculator",              cat: "💰 Finance",      hot: false },
+      { id: "margin-calculator",              name: "Margin Calculator",              cat: "💰 Finance",      hot: false },
+      { id: "break-even-calculator",          name: "Break Even Calculator",          cat: "💰 Finance",      hot: false },
+      { id: "unit-price-calculator",          name: "Unit Price Calculator",          cat: "💰 Finance",      hot: false },
+      { id: "tip-calculator",                 name: "Tip Calculator",                 cat: "💰 Finance",      hot: false },
+      { id: "percentage-increase-calculator", name: "Percentage Increase Calc",       cat: "💰 Finance",      hot: false },
+      { id: "percentage-decrease-calculator", name: "Percentage Decrease Calc",       cat: "💰 Finance",      hot: false },
+      { id: "percentage-change-calculator",   name: "Percentage Change Calc",         cat: "💰 Finance",      hot: false },
+      { id: "percentage-difference-calculator",name:"Percentage Difference Calc",     cat: "💰 Finance",      hot: false },
+      { id: "mortgage-calculator",            name: "Mortgage Calculator",            cat: "💰 Finance",      hot: false },
+      { id: "retirement-calculator",          name: "Retirement Calculator",          cat: "💰 Finance",      hot: false },
+      { id: "net-worth-calculator",           name: "Net Worth Calculator",           cat: "💰 Finance",      hot: false },
+      { id: "cost-per-unit-calculator",       name: "Cost Per Unit Calculator",       cat: "💰 Finance",      hot: false },
+      { id: "tax-percentage-calculator",      name: "Tax Percentage Calculator",      cat: "💰 Finance",      hot: false },
+      { id: "inflation-calculator",           name: "Inflation Calculator",           cat: "💰 Finance",      hot: false },
+      { id: "savings-goal-calculator",        name: "Savings Goal Calculator",        cat: "💰 Finance",      hot: false },
+      { id: "payback-period-calculator",      name: "Payback Period Calculator",      cat: "💰 Finance",      hot: false },
+      // ── ⚡ Electricity (missing) ──────────────────────────
+      { id: "power-consumption-calculator",   name: "Power Consumption Calc",         cat: "⚡ Electricity",  hot: false },
+      { id: "power-consumption-planner",      name: "Power Consumption Planner",      cat: "⚡ Electricity",  hot: false },
+      { id: "appliance-power-calculator",     name: "Appliance Power Calculator",     cat: "⚡ Electricity",  hot: false },
+      { id: "electrical-load-calculator",     name: "Electrical Load Calculator",     cat: "⚡ Electricity",  hot: false },
+      { id: "energy-consumption-calculator",  name: "Energy Consumption Calc",        cat: "⚡ Electricity",  hot: false },
+      { id: "led-resistor-calculator",        name: "LED Resistor Calculator",        cat: "⚡ Electricity",  hot: false },
+      { id: "ohms-law-calculator",            name: "Ohms Law Calculator",            cat: "⚡ Electricity",  hot: false },
+      { id: "power-factor-calculator",        name: "Power Factor Calculator",        cat: "⚡ Electricity",  hot: false },
+      { id: "electricity-bill-calculator",    name: "Electricity Bill Calculator",    cat: "⚡ Electricity",  hot: false },
+      { id: "voltage-drop-calculator",        name: "Voltage Drop Calculator",        cat: "⚡ Electricity",  hot: false },
+      // ── 🖼️ Image (missing) ──────────────────────────────
+      { id: "image-rotator",                  name: "Image Rotator",                  cat: "🖼️ Image",        hot: false },
+      { id: "image-flipper",                  name: "Image Flipper",                  cat: "🖼️ Image",        hot: false },
+      { id: "image-watermark",                name: "Image Watermark",               cat: "🖼️ Image",        hot: false },
+      { id: "image-grayscale",                name: "Grayscale Converter",            cat: "🖼️ Image",        hot: false },
+      { id: "image-blur",                     name: "Image Blur Tool",                cat: "🖼️ Image",        hot: false },
+      { id: "image-brightness",               name: "Brightness Adjuster",            cat: "🖼️ Image",        hot: false },
+      { id: "image-contrast",                 name: "Contrast Adjuster",              cat: "🖼️ Image",        hot: false },
+      { id: "image-saturation",               name: "Saturation Tool",                cat: "🖼️ Image",        hot: false },
+      { id: "image-sharpen",                  name: "Image Sharpen Tool",             cat: "🖼️ Image",        hot: false },
+      { id: "image-border",                   name: "Image Border Tool",              cat: "🖼️ Image",        hot: false },
+      { id: "image-collage",                  name: "Image Collage Maker",            cat: "🖼️ Image",        hot: false },
+      { id: "screenshot-to-image",            name: "Screenshot to Image",            cat: "🖼️ Image",        hot: false },
+      { id: "base64-image-encoder",           name: "Base64 Image Encoder",           cat: "🖼️ Image",        hot: false },
+      { id: "base64-image-decoder",           name: "Base64 Image Decoder",           cat: "🖼️ Image",        hot: false },
+      { id: "image-metadata-viewer",          name: "Image Metadata Viewer",          cat: "🖼️ Image",        hot: false },
+      { id: "image-converter",                name: "Image Converter",                cat: "🖼️ Image",        hot: false },
+      // ── 📝 Text (missing) ────────────────────────────────
+      { id: "character-counter",              name: "Character Counter",              cat: "📝 Text",         hot: false },
+      { id: "sentence-counter",               name: "Sentence Counter",               cat: "📝 Text",         hot: false },
+      { id: "paragraph-counter",              name: "Paragraph Counter",              cat: "📝 Text",         hot: false },
+      { id: "uppercase-converter",            name: "Uppercase Converter",            cat: "📝 Text",         hot: false },
+      { id: "lowercase-converter",            name: "Lowercase Converter",            cat: "📝 Text",         hot: false },
+      { id: "title-case-converter",           name: "Title Case Converter",           cat: "📝 Text",         hot: false },
+      { id: "capitalize-text",               name: "Capitalize Text",                cat: "📝 Text",         hot: false },
+      { id: "text-reverser",                  name: "Text Reverser",                  cat: "📝 Text",         hot: false },
+      { id: "remove-extra-spaces",            name: "Remove Extra Spaces",            cat: "📝 Text",         hot: false },
+      { id: "text-sorter",                    name: "Text Sorter",                    cat: "📝 Text",         hot: false },
+      { id: "text-diff-checker",              name: "Text Diff Checker",              cat: "📝 Text",         hot: false },
+      { id: "text-to-html-converter",         name: "Text to HTML Converter",         cat: "📝 Text",         hot: false },
+      { id: "html-to-text-converter",         name: "HTML to Text Converter",         cat: "📝 Text",         hot: false },
+      { id: "line-counter",                   name: "Line Counter",                   cat: "📝 Text",         hot: false },
+      { id: "lorem-ipsum-generator",          name: "Lorem Ipsum Generator",          cat: "📝 Text",         hot: false },
+      { id: "text-to-slug-converter",         name: "Text to Slug Converter",         cat: "📝 Text",         hot: false },
+      { id: "random-text-generator",          name: "Random Text Generator",          cat: "📝 Text",         hot: false },
+      // ── 📱 Content (missing) ─────────────────────────────
+      { id: "instagram-bio-generator",        name: "Instagram Bio Generator",        cat: "📱 Content",      hot: false },
+      { id: "youtube-description-generator",  name: "YouTube Description Gen",        cat: "📱 Content",      hot: false },
+      { id: "youtube-thumbnail-extractor",    name: "YouTube Thumbnail Extractor",    cat: "📱 Content",      hot: false },
+      { id: "content-idea-generator",         name: "Content Idea Generator",         cat: "📱 Content",      hot: false },
+      // ── 🔧 Generators (missing) ──────────────────────────
+      { id: "username-generator",             name: "Username Generator",             cat: "🔧 Generators",   hot: false },
+      { id: "business-name-generator",        name: "Business Name Generator",        cat: "🔧 Generators",   hot: false },
+      { id: "domain-name-generator",          name: "Domain Name Generator",          cat: "🔧 Generators",   hot: false },
+      { id: "random-name-generator",          name: "Random Name Generator",          cat: "🔧 Generators",   hot: false },
+      { id: "random-password-generator",      name: "Random Password Generator",      cat: "🔧 Generators",   hot: false },
+      { id: "fake-address-generator",         name: "Fake Address Generator",         cat: "🔧 Generators",   hot: false },
+      { id: "fake-email-generator",           name: "Fake Email Generator",           cat: "🔧 Generators",   hot: false },
+      { id: "color-palette-generator",        name: "Color Palette Generator",        cat: "🔧 Generators",   hot: false },
+      { id: "gradient-generator",             name: "Gradient Generator",             cat: "🔧 Generators",   hot: false },
+      { id: "slug-generator",                 name: "Slug Generator",                 cat: "🔧 Generators",   hot: false },
+      { id: "website-performance-analyzer",   name: "Website Performance Analyzer",   cat: "🔧 Generators",   hot: false },
+      // ── 🧮 Math (missing) ────────────────────────────────
+      { id: "ratio-calculator",               name: "Ratio Calculator",               cat: "🧮 Math",         hot: false },
+      { id: "square-root-calculator",         name: "Square Root Calculator",         cat: "🧮 Math",         hot: false },
+      { id: "cube-calculator",                name: "Cube Calculator",                cat: "🧮 Math",         hot: false },
+      { id: "log-calculator",                 name: "Log Calculator",                 cat: "🧮 Math",         hot: false },
+      { id: "exponent-calculator",            name: "Exponent Calculator",            cat: "🧮 Math",         hot: false },
+      { id: "factorial-calculator",           name: "Factorial Calculator",           cat: "🧮 Math",         hot: false },
+      { id: "gcd-calculator",                 name: "GCD Calculator",                 cat: "🧮 Math",         hot: false },
+      { id: "lcm-calculator",                 name: "LCM Calculator",                 cat: "🧮 Math",         hot: false },
+      { id: "mean-calculator",                name: "Mean Calculator",                cat: "🧮 Math",         hot: false },
+      { id: "median-calculator",              name: "Median Calculator",              cat: "🧮 Math",         hot: false },
+      { id: "mode-calculator",                name: "Mode Calculator",                cat: "🧮 Math",         hot: false },
+      { id: "standard-deviation-calculator",  name: "Standard Deviation Calc",        cat: "🧮 Math",         hot: false },
+      { id: "random-number-generator",        name: "Random Number Generator",        cat: "🧮 Math",         hot: false },
+      { id: "permutation-combination-calculator", name: "Permutation & Combination",  cat: "🧮 Math",         hot: false },
+      { id: "binary-converter",               name: "Binary Converter",               cat: "🧮 Math",         hot: false },
+      { id: "scientific-calculator",          name: "Scientific Calculator",          cat: "🧮 Math",         hot: false },
+      // ── 🏥 Health (missing) ──────────────────────────────
+      { id: "bmr-calculator",                 name: "BMR Calculator",                 cat: "🏥 Health",       hot: false },
+      { id: "calorie-calculator",             name: "Calorie Calculator",             cat: "🏥 Health",       hot: false },
+      { id: "body-fat-calculator",            name: "Body Fat Calculator",            cat: "🏥 Health",       hot: false },
+      { id: "water-intake-calculator",        name: "Water Intake Calculator",        cat: "🏥 Health",       hot: false },
+      { id: "heart-rate-calculator",          name: "Heart Rate Calculator",          cat: "🏥 Health",       hot: false },
+      { id: "ideal-weight-calculator",        name: "Ideal Weight Calculator",        cat: "🏥 Health",       hot: false },
+      { id: "ideal-body-weight-calculator",   name: "Ideal Body Weight Calc",         cat: "🏥 Health",       hot: false },
+      // ── 🏗️ Construction (missing) ────────────────────────
+      { id: "brick-calculator",               name: "Brick Calculator",               cat: "🏗️ Construction", hot: false },
+      { id: "concrete-calculator",            name: "Concrete Calculator",            cat: "🏗️ Construction", hot: false },
+      { id: "paint-calculator",               name: "Paint Calculator",               cat: "🏗️ Construction", hot: false },
+      { id: "tile-calculator",                name: "Tile Calculator",                cat: "🏗️ Construction", hot: false },
+      { id: "flooring-calculator",            name: "Flooring Calculator",            cat: "🏗️ Construction", hot: false },
+      { id: "roofing-calculator",             name: "Roofing Calculator",             cat: "🏗️ Construction", hot: false },
+      { id: "stair-calculator",               name: "Stair Calculator",               cat: "🏗️ Construction", hot: false },
+      { id: "asphalt-calculator",             name: "Asphalt Calculator",             cat: "🏗️ Construction", hot: false },
+      { id: "gravel-calculator",              name: "Gravel Calculator",              cat: "🏗️ Construction", hot: false },
+      { id: "sand-calculator",                name: "Sand Calculator",                cat: "🏗️ Construction", hot: false },
+      // ── 📐 Converters (missing) ──────────────────────────
+      { id: "angle-converter",                name: "Angle Converter",                cat: "📐 Converters",   hot: false },
+      { id: "volume-converter",               name: "Volume Converter",               cat: "📐 Converters",   hot: false },
+      { id: "speed-converter",                name: "Speed Converter",                cat: "📐 Converters",   hot: false },
+      { id: "time-converter",                 name: "Time Converter",                 cat: "📐 Converters",   hot: false },
+      { id: "data-storage-converter",         name: "Data Storage Converter",         cat: "📐 Converters",   hot: false },
+      { id: "pressure-converter",             name: "Pressure Converter",             cat: "📐 Converters",   hot: false },
+      { id: "energy-converter",               name: "Energy Converter",               cat: "📐 Converters",   hot: false },
+      { id: "power-converter",                name: "Power Converter",                cat: "📐 Converters",   hot: false },
+      { id: "fuel-efficiency-converter",      name: "Fuel Efficiency Converter",      cat: "📐 Converters",   hot: false },
+      { id: "density-converter",              name: "Density Converter",              cat: "📐 Converters",   hot: false },
+      { id: "unit-converter",                 name: "Unit Converter (All)",           cat: "📐 Converters",   hot: true  },
+      // ── ⏱️ Date & Time (missing) ─────────────────────────
+      { id: "age-difference-calculator",      name: "Age Difference Calculator",      cat: "⏱️ Date & Time",  hot: false },
+      { id: "date-duration-calculator",       name: "Date Duration Calculator",       cat: "⏱️ Date & Time",  hot: false },
+      { id: "time-duration-calculator",       name: "Time Duration Calculator",       cat: "⏱️ Date & Time",  hot: false },
+      { id: "work-hours-calculator",          name: "Work Hours Calculator",          cat: "⏱️ Date & Time",  hot: false },
+      // ── 🚗 Travel (missing) ──────────────────────────────
+      { id: "fuel-cost-calculator",           name: "Fuel Cost Calculator",           cat: "🚗 Travel",       hot: false },
+      { id: "speed-calculator",               name: "Speed Calculator",               cat: "🚗 Travel",       hot: false },
+      { id: "distance-calculator",            name: "Distance Calculator",            cat: "🚗 Travel",       hot: false },
+      // ── 📱 Content extra ─────────────────────────────────
+      { id: "ai-prompt-generator",            name: "AI Prompt Generator",            cat: "📱 Content",      hot: false },
     ];
 
     const CATS = ["all", ...new Set(ALL_TOOLS.map((t) => t.cat))];
@@ -6573,6 +7275,7 @@ function AdminPage() {
     { id: "services", label: "⚒️ Services" },
     { id: "blogs", label: "📝 Blogs" },
     { id: "products", label: "🛒 Products" },
+    { id: "affiliate", label: "🛒 Affiliate" },
     { id: "tools", label: "🛠️ Tools" },
     { id: "marketing", label: "📊 Marketing" },
     { id: "notifications", label: "🔔 Notifications" },
@@ -6607,6 +7310,7 @@ function AdminPage() {
         {tab === "services" && <ServicesManager />}
         {tab === "blogs" && <BlogManager />}
         {tab === "products" && <ProductsManager />}
+        {tab === "affiliate" && <AffiliateManager />}
         {tab === "tools" && <ToolsManager />}
         {tab === "marketing" && <MarketingDashboard />}
         {tab === "notifications" && <NotificationsManager />}

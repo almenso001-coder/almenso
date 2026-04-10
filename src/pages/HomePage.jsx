@@ -2,11 +2,11 @@
  * ALMENSO HOMEPAGE — Admin Controlled
  * Sab settings Admin Panel → Homepage tab se control hoti hain
  */
-import React, { useState, useEffect, useCallback, memo } from 'react'
+import React, { useCallback, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SEOHead    from '../components/SEOHead'
 import AdSlot     from '../components/AdSlot'
-import { fetchAffiliateProducts } from '../utils/db'
+
 import { useSettings } from '../context/SettingsContext'
 import './HomePage.css'
 
@@ -28,11 +28,7 @@ const SERVICES_META = [
     title:'Interior Design' },
 ]
 
-const DEFAULT_PRODUCTS = [
-  { id:'dp1', name:'Luminous 150Ah Battery', price:'₹11,500', image:'🔋', badge:'Best Seller', link:'https://www.amazon.in/s?k=luminous+150ah+tubular+battery' },
-  { id:'dp2', name:'Havells Ceiling Fan',     price:'₹2,400',  image:'🌀', badge:'Top Pick',   link:'https://www.amazon.in/s?k=havells+ceiling+fan+1200mm' },
-  { id:'dp3', name:'UTL Solar 200W Panel',    price:'₹6,500',  image:'☀️', badge:'Popular',    link:'https://www.amazon.in/s?k=solar+panel+200w' },
-]
+// Featured products ab settings se aate hain — Admin Panel se control karo
 
 const ServiceCard = memo(function ServiceCard({ s, onClick }) {
   return (
@@ -153,7 +149,13 @@ const TopToolsGrid = memo(function TopToolsGrid() {
 export default function HomePage() {
   const navigate  = useNavigate()
   const { settings } = useSettings()
-  const [products, setProducts] = useState(DEFAULT_PRODUCTS)
+  // Featured products directly from settings (Admin Panel se manage)
+  const products = (() => {
+    try {
+      const parsed = JSON.parse(settings.hp_featuredProducts || '[]')
+      return parsed.filter(p => p.visible !== false)
+    } catch { return [] }
+  })()
 
   const WA    = settings.whatsapp || '919258133689'
   const PHONE = settings.phone    || '+919258133689'
@@ -189,13 +191,8 @@ export default function HomePage() {
       price:   settings[s.settingKeys.price]   || '',
     }))
 
-  useEffect(() => {
-    let cancelled = false
-    fetchAffiliateProducts()
-      .then(p => { if (!cancelled && p?.length) setProducts(p.filter(x => x.visible !== false).slice(0, 3)) })
-      .catch(() => {})
-    return () => { cancelled = true }
-  }, [])
+
+
 
   const goTo   = useCallback(path => () => navigate(path), [navigate])
   const openWA = useCallback(() =>

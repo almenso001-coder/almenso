@@ -1,47 +1,69 @@
 /**
- * PWA INSTALL PROMPT
- * Shows "Add to Home Screen" banner after user visits 2+ times
- * Works on Android Chrome, iOS Safari (manual instructions)
+ * PWA INSTALL PROMPT — Bottom banner
+ * 
+ * Rules:
+ * 1. Already installed → kabhi nahi dikhega
+ * 2. Subscribe/install ke baad → dobara nahi dikhega  
+ * 3. Play Store link NAHI — sirf native PWA install
+ * 4. Dismiss karo → 3 din nahi dikhega
+ * 5. 2nd visit ke baad dikhta hai
  */
 import React, { useState, useEffect } from 'react'
+
+const DISMISSED_KEY  = 'pwa_prompt_dismissed_until'
+const INSTALLED_KEY  = 'pwa_installed'
 
 export default function PWAInstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState(null)
   const [show, setShow]                     = useState(false)
   const [isIOS, setIsIOS]                   = useState(false)
-  const [isInstalled, setIsInstalled]       = useState(false)
+  const [installed, setInstalled]           = useState(false)
 
   useEffect(() => {
-    // Check if already installed
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      setIsInstalled(true)
+    // 1. Already installed (standalone mode)?
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+      || window.navigator.standalone === true
+    if (isStandalone || localStorage.getItem(INSTALLED_KEY)) {
+      setInstalled(true)
       return
     }
 
-    // Check iOS
+    // 2. DownloadAppModal ne already subscribe/dismiss kiya?
+    if (localStorage.getItem('almenso_subscribed')) return
+
+    // 3. 3 din ke liye dismiss kiya tha?
+    const dismissedUntil = localStorage.getItem(DISMISSED_KEY)
+    if (dismissedUntil && Date.now() < parseInt(dismissedUntil)) return
+
+    // 4. iOS check
     const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream
     setIsIOS(ios)
 
-    // Visit count — show after 2nd visit
-    const visits = parseInt(sessionStorage.getItem('almenso_visits') || '0') + 1
-    sessionStorage.setItem('almenso_visits', String(visits))
+    // 5. Visit count — 2nd visit ke baad dikhao
+    const visits = parseInt(localStorage.getItem('almenso_visit_count') || '0') + 1
+    localStorage.setItem('almenso_visit_count', String(visits))
 
-    // Already dismissed?
-    const dismissed = localStorage.getItem('pwa_dismissed')
-    if (dismissed) return
-
-    // Android — capture install event
+    // 6. Android — beforeinstallprompt capture
     const handler = (e) => {
       e.preventDefault()
       setDeferredPrompt(e)
-      if (visits >= 2) setShow(true)
+      if (visits >= 2) {
+        setTimeout(() => setShow(true), 5000) // 5 sec delay
+      }
     }
     window.addEventListener('beforeinstallprompt', handler)
 
-    // iOS — show manual instructions after 2 visits
+    // 7. iOS — 2nd visit ke baad manual instructions
     if (ios && visits >= 2) {
-      setTimeout(() => setShow(true), 3000)
+      setTimeout(() => setShow(true), 5000)
     }
+
+    // 8. App install ho gaya
+    window.addEventListener('appinstalled', () => {
+      localStorage.setItem(INSTALLED_KEY, '1')
+      setInstalled(true)
+      setShow(false)
+    })
 
     return () => window.removeEventListener('beforeinstallprompt', handler)
   }, [])
@@ -51,23 +73,25 @@ export default function PWAInstallPrompt() {
     deferredPrompt.prompt()
     const { outcome } = await deferredPrompt.userChoice
     if (outcome === 'accepted') {
+      localStorage.setItem(INSTALLED_KEY, '1')
+      setInstalled(true)
       setShow(false)
-      setIsInstalled(true)
     }
     setDeferredPrompt(null)
   }
 
   const dismiss = () => {
     setShow(false)
-    localStorage.setItem('pwa_dismissed', '1')
+    // 3 din ke liye dismiss
+    localStorage.setItem(DISMISSED_KEY, String(Date.now() + 3 * 24 * 60 * 60 * 1000))
   }
 
-  if (!show || isInstalled) return null
+  if (!show || installed) return null
 
   return (
     <div style={{
       position: 'fixed',
-      bottom: 72,  // above MobileNav
+      bottom: 72,
       left: 12,
       right: 12,
       background: '#0f172a',
@@ -79,7 +103,6 @@ export default function PWAInstallPrompt() {
       display: 'flex',
       alignItems: 'center',
       gap: 12,
-      animation: 'fadeUp 0.3s ease',
     }}>
       {/* App icon */}
       <div style={{
@@ -96,36 +119,32 @@ export default function PWAInstallPrompt() {
         </div>
         {isIOS ? (
           <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.4 }}>
-            Safari mein <strong>Share</strong> → <strong>"Add to Home Screen"</strong> dabao
+            Safari → <strong>Share ↑</strong> → <strong>"Add to Home Screen"</strong>
           </div>
         ) : (
           <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.7)' }}>
-            Fast load · Offline kaam kare · App jaisa experience
+            Fast load · Offline kaam kare · No Play Store
           </div>
         )}
       </div>
 
       {/* Buttons */}
       <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
-        {!isIOS && (
-          <button
-            onClick={install}
-            style={{
-              background: '#0f8a1f', color: '#fff', border: 'none',
-              borderRadius: 8, padding: '8px 14px', fontWeight: 800,
-              fontSize: '0.78rem', cursor: 'pointer', fontFamily: 'var(--font)',
-              whiteSpace: 'nowrap',
-            }}>
+        {!isIOS && deferredPrompt && (
+          <button onClick={install} style={{
+            background: '#0f8a1f', color: '#fff', border: 'none',
+            borderRadius: 8, padding: '8px 14px', fontWeight: 800,
+            fontSize: '0.78rem', cursor: 'pointer', fontFamily: 'inherit',
+            whiteSpace: 'nowrap',
+          }}>
             Install
           </button>
         )}
-        <button
-          onClick={dismiss}
-          style={{
-            background: 'rgba(255,255,255,0.1)', color: '#fff', border: 'none',
-            borderRadius: 8, padding: '8px 10px', fontWeight: 600,
-            fontSize: '0.78rem', cursor: 'pointer', fontFamily: 'var(--font)',
-          }}>
+        <button onClick={dismiss} style={{
+          background: 'rgba(255,255,255,0.1)', color: '#fff', border: 'none',
+          borderRadius: 8, padding: '8px 10px', fontWeight: 600,
+          fontSize: '0.78rem', cursor: 'pointer', fontFamily: 'inherit',
+        }}>
           ✕
         </button>
       </div>

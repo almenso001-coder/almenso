@@ -319,14 +319,9 @@ export async function updateLeadStatusDB(id, status) {
 // ════════════════════════════════════════════════════════════
 const LS_AFF = 'almenso_affiliate_products'
 
-const DEFAULT_AFF_PRODUCTS = [
-  { id:'aff1', name:'Luminous 150Ah Tubular Battery', category:'electrical', badge:'Best Seller', price:'₹11,500', image:'🔋', link:'https://www.amazon.in/s?k=luminous+150ah+tubular+battery', visible:true },
-  { id:'aff2', name:'Havells 1200mm Ceiling Fan', category:'electrical', badge:'Top Pick', price:'₹2,400', image:'🌀', link:'https://www.amazon.in/s?k=havells+ceiling+fan+1200mm', visible:true },
-  { id:'aff3', name:'Polycab 1.5 sq mm Wire (90m)', category:'electrical', badge:'Best Value', price:'₹1,800', image:'⚡', link:'https://www.amazon.in/s?k=polycab+wire+1.5sqmm', visible:true },
-  { id:'aff4', name:'Luminous 900VA Inverter', category:'solar', badge:'Popular', price:'₹4,200', image:'🔌', link:'https://www.amazon.in/s?k=luminous+900va+inverter', visible:true },
-  { id:'aff5', name:'UTL Solar 200W Panel', category:'solar', badge:'New', price:'₹6,500', image:'☀️', link:'https://www.amazon.in/s?k=solar+panel+200w', visible:true },
-  { id:'aff6', name:'Asian Paints Apcolite (4L)', category:'interior', badge:'Top Rated', price:'₹1,200', image:'🎨', link:'https://www.amazon.in/s?k=asian+paints+apcolite', visible:true },
-]
+// NOTE: Hardcoded links hata diye — ab Admin Panel → Affiliate tab se control hota hai
+// Firebase/localStorage mein admin-saved products aate hain, fallback SettingsContext ke DEFAULT_AFFILIATE_PRODUCTS hain
+const DEFAULT_AFF_PRODUCTS = []
 
 export async function fetchAffiliateProducts(category = null) {
   const fb = await loadFirebase()

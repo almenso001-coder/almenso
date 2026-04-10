@@ -239,15 +239,36 @@ const CAT_COLORS = {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   PASSIVE INCOME BANNER — shown after tools grid
+   PASSIVE INCOME BANNER — Admin se controlled, settings se aata hai
 ═══════════════════════════════════════════════════════════ */
+const DEFAULT_PASSIVE_LINKS = [
+  { id:'pl1', ico:'🏦', title:'Loan Apply Karo',   sub:'BankBazaar · Best rate · 2 min', color:'#2563eb', bg:'#eff6ff', url:'https://www.bankbazaar.com/personal-loan.html', active:true },
+  { id:'pl2', ico:'📈', title:'Demat Account',     sub:'AngelOne · Zero brokerage',       color:'#16a34a', bg:'#f0fdf4', url:'https://www.angelone.in', active:true },
+  { id:'pl3', ico:'💳', title:'Credit Card',       sub:'Best cards · Rewards + cashback', color:'#e11d48', bg:'#fff1f2', url:'https://www.bankbazaar.com/credit-card.html', active:true },
+  { id:'pl4', ico:'☀️', title:'Solar Install',     sub:'Free site visit · 40% subsidy',   color:'#d97706', bg:'#fffbeb', url:'/solar-solutions', active:true },
+]
+
 const PassiveIncomeBanner = memo(function PassiveIncomeBanner({ nav }) {
-  const items = [
-    { ico:'🏦', title:'Loan Apply Karo', sub:'BankBazaar · Best rate · 2 min', color:'#2563eb', bg:'#eff6ff', action:() => window.open('https://www.bankbazaar.com/personal-loan.html','_blank') },
-    { ico:'📈', title:'Demat Account', sub:'AngelOne · Zero brokerage', color:'#16a34a', bg:'#f0fdf4', action:() => window.open('https://www.angelone.in','_blank') },
-    { ico:'💳', title:'Credit Card', sub:'Best cards · Rewards + cashback', color:'#e11d48', bg:'#fff1f2', action:() => window.open('https://www.bankbazaar.com/credit-card.html','_blank') },
-    { ico:'☀️', title:'Solar Install', sub:'Free site visit · 40% subsidy', color:'#d97706', bg:'#fffbeb', action:() => nav('/solar-solutions') },
-  ]
+  const { settings } = useSettings()
+
+  // Admin se passiveLinks aate hain — fallback to defaults
+  let items = DEFAULT_PASSIVE_LINKS
+  try {
+    if (settings.passiveLinks) {
+      const parsed = JSON.parse(settings.passiveLinks)
+      if (Array.isArray(parsed) && parsed.length) items = parsed
+    }
+  } catch {}
+
+  const activeItems = items.filter(item => item.active !== false)
+  if (!activeItems.length) return null
+
+  const handleClick = (url) => {
+    if (!url) return
+    if (url.startsWith('/')) nav(url)
+    else window.open(url, '_blank', 'noopener,noreferrer')
+  }
+
   return (
     <div style={{ background:'#0f172a', borderRadius:20, padding:'24px 20px', marginBottom:16 }}>
       <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16, flexWrap:'wrap', gap:8 }}>
@@ -258,13 +279,13 @@ const PassiveIncomeBanner = memo(function PassiveIncomeBanner({ nav }) {
         </div>
       </div>
       <div style={{ display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:10 }}>
-        {items.map(item => (
-          <button key={item.title} onClick={item.action}
+        {activeItems.map(item => (
+          <button key={item.id || item.title} onClick={() => handleClick(item.url)}
             style={{ display:'flex', alignItems:'center', gap:10, padding:'12px 14px', background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.08)', borderRadius:14, cursor:'pointer', fontFamily:'inherit', textAlign:'left', transition:'background 0.15s' }}
             onMouseEnter={e => e.currentTarget.style.background='rgba(255,255,255,0.09)'}
             onMouseLeave={e => e.currentTarget.style.background='rgba(255,255,255,0.04)'}
           >
-            <div style={{ width:40, height:40, borderRadius:10, background:item.bg, display:'flex', alignItems:'center', justifyContent:'center', fontSize:'1.3rem', flexShrink:0 }}>
+            <div style={{ width:40, height:40, borderRadius:10, background:item.bg || '#f1f5f9', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'1.3rem', flexShrink:0 }}>
               {item.ico}
             </div>
             <div style={{ minWidth:0 }}>

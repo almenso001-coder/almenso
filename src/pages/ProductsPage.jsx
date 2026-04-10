@@ -7,31 +7,12 @@ import React, { useState, useEffect, useMemo } from 'react'
 import SEOHead from '../components/SEOHead'
 import AdSlot from '../components/AdSlot'
 import { fetchAffiliateProducts } from '../utils/db'
+import { useSettings, DEFAULT_AFFILIATE_PRODUCTS } from '../context/SettingsContext'
 import './ProductsPage.css'
 
-// ── Hard-coded products (always show even without Firebase) ──
-const DEFAULT_PRODUCTS = [
-  // ⚡ Electrical
-  { id:'e1', name:'Luminous Zelio+ 1100VA Inverter',      category:'electrical', price:'₹6,200', was:'₹7,800', badge:'Best Seller', rating:4.4, rev:'12k+', tag:'Pure Sine Wave · ISI Mark', deal:'Today only', img:'🔌', amazon:'https://www.amazon.in/s?k=luminous+zelio+1100+inverter&tag=almenso-21',           flip:'https://www.flipkart.com/search?q=luminous+zelio+1100+inverter', visible:true },
-  { id:'e2', name:'Luminous 150Ah Tall Tubular Battery',  category:'electrical', price:'₹11,500',was:'₹13,000',badge:'Top Pick',    rating:4.3, rev:'8k+',  tag:'36 Month Warranty',        deal:null,          img:'🔋', amazon:'https://www.amazon.in/s?k=luminous+150ah+tubular+battery&tag=almenso-21',          flip:'https://www.flipkart.com/search?q=luminous+150ah+tubular+battery', visible:true },
-  { id:'e3', name:'Polycab 1.5sqmm FR Wire 90m',          category:'electrical', price:'₹1,800', was:'₹2,200', badge:'ISI Certified',rating:4.5, rev:'5k+',  tag:'FR PVC · Fire Resistant',  deal:null,          img:'⚡', amazon:'https://www.amazon.in/s?k=polycab+1.5+sqmm+wire+90m&tag=almenso-21',              flip:'https://www.flipkart.com/search?q=polycab+wire+1.5sqmm', visible:true },
-  { id:'e4', name:'Schneider MCB 32A Double Pole',         category:'electrical', price:'₹450',   was:null,     badge:'Quality Brand',rating:4.3, rev:'3k+',  tag:'Double Pole · IS Certified',deal:null,          img:'🔒', amazon:'https://www.amazon.in/s?k=schneider+mcb+32a+double+pole&tag=almenso-21',          flip:null, visible:true },
-  { id:'e5', name:'Syska LED 9W Pack of 10',               category:'electrical', price:'₹549',   was:'₹799',  badge:'Save 31%',    rating:4.2, rev:'20k+', tag:'Cool White · 2yr Warranty', deal:'Combo deal',  img:'💡', amazon:'https://www.amazon.in/s?k=syska+led+9w+pack+10&tag=almenso-21',                  flip:'https://www.flipkart.com/search?q=syska+led+9w+pack', visible:true },
-  { id:'e6', name:'Havells Crabtree 6A Switch Plate',      category:'electrical', price:'₹380',   was:null,     badge:'Premium',     rating:4.4, rev:'7k+',  tag:'Modular · Shock Proof',     deal:null,          img:'🔘', amazon:'https://www.amazon.in/s?k=havells+crabtree+6a+switch&tag=almenso-21',             flip:null, visible:true },
-  // ☀️ Solar
-  { id:'s1', name:'UTL Solar Panel 200W Mono PERC',        category:'solar',      price:'₹6,500', was:'₹8,500', badge:'Most Popular', rating:4.3, rev:'2k+',  tag:'25yr Warranty · Tier-1',   deal:'PM Subsidy',  img:'☀️', amazon:'https://www.amazon.in/s?k=solar+panel+200w+mono+perc&tag=almenso-21',            flip:'https://www.flipkart.com/search?q=solar+panel+200w', visible:true },
-  { id:'s2', name:'Luminous 40A MPPT Charge Controller',   category:'solar',      price:'₹3,200', was:null,     badge:'Top Pick',    rating:4.2, rev:'1.5k+',tag:'LCD Display · 40A',         deal:null,          img:'🔆', amazon:'https://www.amazon.in/s?k=luminous+40a+mppt+charge+controller&tag=almenso-21',    flip:null, visible:true },
-  { id:'s3', name:'Exide 150Ah C10 Tubular Battery',       category:'solar',      price:'₹12,000',was:'₹14,500',badge:'Best Life',   rating:4.4, rev:'6k+',  tag:'5 Year Warranty · C10',    deal:null,          img:'🔋', amazon:'https://www.amazon.in/s?k=exide+150ah+c10+battery&tag=almenso-21',                flip:'https://www.flipkart.com/search?q=exide+150ah+c10', visible:true },
-  { id:'s4', name:'UTL Gamma+ 3kVA Solar PCU',             category:'solar',      price:'₹18,500',was:null,     badge:'Grid-Tie',    rating:4.1, rev:'800+', tag:'3kVA · MPPT Inbuilt',       deal:'Free Consult',img:'🔌', amazon:'https://www.amazon.in/s?k=utl+3kva+solar+pcu&tag=almenso-21',                    flip:null, visible:true },
-  // 🏠 Interior / General
-  { id:'g1', name:'Philips Air Fryer HD9200/90',           category:'interior',   price:'₹5,295', was:'₹7,000', badge:'Most Popular', rating:4.4, rev:'30k+', tag:'4.1L · 90% Less Oil',      deal:null,          img:'🍳', amazon:'https://www.amazon.in/s?k=philips+air+fryer+hd9200&tag=almenso-21',              flip:'https://www.flipkart.com/search?q=philips+air+fryer', visible:true },
-  { id:'g2', name:'Amazon Echo Dot 5th Gen',               category:'interior',   price:'₹4,499', was:'₹5,999', badge:'Smart Home',   rating:4.5, rev:'60k+', tag:'Alexa · Improved Bass',    deal:'25% off',     img:'🔵', amazon:'https://www.amazon.in/s?k=amazon+echo+dot+5th+gen&tag=almenso-21',               flip:null, visible:true },
-  { id:'g3', name:'Prestige Iris 750W Mixer Grinder',      category:'interior',   price:'₹2,195', was:'₹3,500', badge:'Kitchen Pick', rating:4.3, rev:'25k+', tag:'3 Jars · 5yr Warranty',    deal:null,          img:'🫙', amazon:'https://www.amazon.in/s?k=prestige+iris+mixer+grinder+750w&tag=almenso-21',     flip:'https://www.flipkart.com/search?q=prestige+iris+750w+mixer', visible:true },
-  // 🔧 Other
-  { id:'t1', name:'boAt Airdopes 141 TWS Earbuds',         category:'other',      price:'₹999',   was:'₹2,499', badge:'Bestseller',   rating:4.0, rev:'100k+',tag:'42hr Battery · IPX4',      deal:'Limited time',img:'🎧', amazon:'https://www.amazon.in/s?k=boat+airdopes+141&tag=almenso-21',                    flip:'https://www.flipkart.com/search?q=boat+airdopes+141', visible:true },
-  { id:'t2', name:'Realme Power Bank 20000mAh 33W',        category:'other',      price:'₹1,299', was:'₹1,999', badge:'Fast Charge',  rating:4.2, rev:'25k+', tag:'33W · USB-C · 3 Ports',    deal:null,          img:'🔋', amazon:'https://www.amazon.in/s?k=realme+power+bank+20000mah+33w&tag=almenso-21',       flip:'https://www.flipkart.com/search?q=realme+power+bank+20000mah', visible:true },
-  { id:'t3', name:'SanDisk 256GB Pen Drive USB 3.2',       category:'other',      price:'₹999',   was:'₹1,499', badge:'Fast Transfer',rating:4.5, rev:'50k+', tag:'400MB/s Read · Compact',   deal:null,          img:'💾', amazon:'https://www.amazon.in/s?k=sandisk+256gb+usb+3.2+pen+drive&tag=almenso-21',     flip:'https://www.flipkart.com/search?q=sandisk+256gb+pen+drive', visible:true },
-]
+// ── Hard-coded products — SIRF FALLBACK hain jab Admin ne kuch save nahi kiya ──
+// Admin Panel → 🛒 Affiliate tab → category products se override hote hain
+const DEFAULT_PRODUCTS = []  // Empty — SettingsContext ke DEFAULT_AFFILIATE_PRODUCTS use honge
 
 const CATEGORIES = [
   { id:'all',        label:'🛍️ All',        emoji:'🛍️' },
@@ -187,7 +168,28 @@ function ProductCard({ p }) {
 
 // ── Featured section for HomePage ──────────────────────────
 export function FeaturedProducts() {
+  const { settings } = useSettings()
   const [products, setProducts] = useState([])
+
+  // SettingsContext se default products
+  let settingsProds = []
+  try {
+    const parsed = settings.affiliateProducts ? JSON.parse(settings.affiliateProducts) : {}
+    const merged = { ...DEFAULT_AFFILIATE_PRODUCTS, ...parsed }
+    // Mix karo — best seller wale pehle
+    const allFlat = Object.values(merged).flat().filter(p => p.visible !== false)
+    settingsProds = allFlat
+      .filter(p => ['Best Seller','Most Popular','Bestseller','Top Pick'].includes(p.badge))
+      .slice(0, 4)
+      .map(p => ({
+        id: p.id, name: p.name, category: 'electrical',
+        price: p.price, was: p.was || null,
+        badge: p.badge, rating: parseFloat(p.rating) || 4.2,
+        rev: p.reviews || '1k+', tag: p.tag || '',
+        deal: null, img: p.img || '🛍️',
+        amazon: p.link || '#', flip: null,
+      }))
+  } catch {}
 
   useEffect(() => {
     fetchAffiliateProducts()
@@ -200,22 +202,16 @@ export function FeaturedProducts() {
             badge: p.badge || 'Top Pick', rating: p.rating || 4.2,
             rev: p.reviews || '1k+', tag: p.description || '',
             deal: null, img: p.image || '🛍️',
-            amazon: p.affiliateLink || '#', flip: p.flipkartLink || null,
+            amazon: p.affiliateLink || p.link || '#', flip: p.flipkartLink || null,
           })))
-        } else {
-          // Fallback to hard-coded featured
-          setProducts(DEFAULT_PRODUCTS.filter(p => ['Best Seller','Most Popular','Bestseller'].includes(p.badge)).slice(0, 4))
         }
       })
-      .catch(() => {
-        setProducts(DEFAULT_PRODUCTS.filter(p => ['Best Seller','Most Popular','Bestseller'].includes(p.badge)).slice(0, 4))
-      })
+      .catch(() => {})
   }, [])
 
-  const featured = products.length
-    ? products
-    : DEFAULT_PRODUCTS.filter(p => ['Best Seller','Most Popular','Bestseller'].includes(p.badge)).slice(0, 4)
+  const featured = products.length ? products : settingsProds
   if (!featured.length) return null
+
   return (
     <div style={{ background:'#fff', borderRadius:14, padding:20, margin:'20px 0', border:'1.5px solid #e2e8f0' }}>
       <div style={{ textAlign:'center', marginBottom:18 }}>
@@ -238,12 +234,37 @@ export function FeaturedProducts() {
 
 // ── Main Products Page ──────────────────────────────────────
 export default function ProductsPage() {
+  const { settings } = useSettings()
   const [adminProducts, setAdminProducts] = useState([])
   const [loaded,        setLoaded]        = useState(false)
   const [category,      setCategory]      = useState('all')
   const [search,        setSearch]        = useState('')
 
-  // Try fetching Admin-added products — fallback to DEFAULT_PRODUCTS if empty
+  // SettingsContext se products (Admin Affiliate tab)
+  const getSettingsProducts = () => {
+    try {
+      const parsed = settings.affiliateProducts ? JSON.parse(settings.affiliateProducts) : {}
+      const merged = { ...DEFAULT_AFFILIATE_PRODUCTS, ...parsed }
+      return Object.entries(merged).flatMap(([cat, prods]) =>
+        prods.filter(p => p.visible !== false).map(p => ({
+          id: p.id, name: p.name,
+          category: cat,
+          price: p.price, was: p.was || null,
+          badge: p.badge || null,
+          rating: parseFloat(p.rating) || 4.2,
+          rev: p.reviews || '1k+',
+          tag: p.tag || '',
+          deal: null,
+          img: p.img || '🛍️',
+          amazon: p.link || '#',
+          flip: null,
+          visible: true,
+        }))
+      )
+    } catch { return [] }
+  }
+
+  // Firebase/localStorage se try karo
   useEffect(() => {
     fetchAffiliateProducts()
       .then(data => {
@@ -253,7 +274,6 @@ export default function ProductsPage() {
       .catch(() => setLoaded(true))
   }, [])
 
-  // Admin products override default — agar admin ne kuch add kiya ho toh woh dikhao
   const normalizeAdminProduct = (p) => ({
     id:       p.id,
     name:     p.name,
@@ -265,15 +285,16 @@ export default function ProductsPage() {
     rev:      p.reviews || '1k+',
     tag:      p.description || '',
     deal:     p.deal || null,
-    img:      p.image || '🛍️',
-    amazon:   p.affiliateLink || '#',
+    img:      p.image || p.img || '🛍️',
+    amazon:   p.affiliateLink || p.link || '#',
     flip:     p.flipkartLink || null,
     visible:  p.visible !== false,
   })
 
+  // Priority: Firebase/LS admin products → SettingsContext products → empty
   const allProducts = loaded && adminProducts.length
     ? adminProducts.filter(p => p.visible !== false).map(normalizeAdminProduct)
-    : DEFAULT_PRODUCTS
+    : getSettingsProducts()
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase()
@@ -411,14 +432,39 @@ export default function ProductsPage() {
   )
 }
 
-// ── Reusable widget for tool/blog pages ──────────────────────
+// ── Reusable widget for tool/blog pages — Admin-controlled ──
 export function RelatedProducts({ category = 'electrical', limit = 3 }) {
-  const products = DEFAULT_PRODUCTS
-    .filter(p => p.category === category)
+  const { settings } = useSettings()
+
+  // Admin affiliate products se pehle try karo (SettingsContext)
+  let adminProds = {}
+  try {
+    if (settings.affiliateProducts) {
+      adminProds = JSON.parse(settings.affiliateProducts)
+    }
+  } catch {}
+
+  // Merge: admin overrides + defaults
+  const merged = { ...DEFAULT_AFFILIATE_PRODUCTS, ...adminProds }
+
+  // Category map: ProductsPage category → AffiliateWidget category
+  const catMap = {
+    electrical: 'electrical', solar: 'solar', finance: 'finance',
+    interior: 'construction', other: 'tech', health: 'health',
+    design: 'design', writing: 'writing', tech: 'tech', construction: 'construction',
+    general: 'electrical',
+  }
+  const affCat = catMap[category] || category
+
+  const pool = (merged[affCat] || merged.electrical || [])
+    .filter(p => p.visible !== false)
     .slice(0, limit)
 
-  const fallback = DEFAULT_PRODUCTS.slice(0, limit)
-  const show     = products.length ? products : fallback
+  // Fallback to DEFAULT_PRODUCTS if nothing found
+  const fallbackPool = DEFAULT_PRODUCTS.filter(p => p.category === category).slice(0, limit)
+    || DEFAULT_PRODUCTS.slice(0, limit)
+
+  const show = pool.length ? pool : fallbackPool
 
   return (
     <div style={{
@@ -427,18 +473,24 @@ export function RelatedProducts({ category = 'electrical', limit = 3 }) {
     }}>
       <div style={{ fontWeight:900, fontSize:'0.9rem', color:'#0a2342', marginBottom:12 }}>🛒 Recommended Products</div>
       <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
-        {show.map(p => (
-          <a key={p.id} href={p.amazon} target="_blank" rel="noopener noreferrer sponsored"
-            style={{ display:'flex', alignItems:'center', gap:10, textDecoration:'none', padding:'8px', background:'#f8fafc', borderRadius:8, border:'1px solid #e2e8f0' }}>
-            <span style={{ fontSize:'1.5rem', flexShrink:0 }}>{p.img}</span>
-            <div style={{ flex:1, minWidth:0 }}>
-              <div style={{ fontSize:'0.78rem', fontWeight:700, color:'#0f172a', lineHeight:1.3,
-                overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{p.name}</div>
-              <div style={{ fontSize:'0.72rem', color:'#dc2626', fontWeight:700 }}>{p.price}</div>
-            </div>
-            <span style={{ fontSize:'0.85rem', color:'#64748b', flexShrink:0 }}>→</span>
-          </a>
-        ))}
+        {show.map(p => {
+          const link = p.link || p.amazon || '#'
+          const name = p.name
+          const price = p.price
+          const img = p.img || p.image || '🛍️'
+          return (
+            <a key={p.id} href={link} target="_blank" rel="noopener noreferrer sponsored"
+              style={{ display:'flex', alignItems:'center', gap:10, textDecoration:'none', padding:'8px', background:'#f8fafc', borderRadius:8, border:'1px solid #e2e8f0' }}>
+              <span style={{ fontSize:'1.5rem', flexShrink:0 }}>{img}</span>
+              <div style={{ flex:1, minWidth:0 }}>
+                <div style={{ fontSize:'0.78rem', fontWeight:700, color:'#0f172a', lineHeight:1.3,
+                  overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{name}</div>
+                <div style={{ fontSize:'0.72rem', color:'#dc2626', fontWeight:700 }}>{price}</div>
+              </div>
+              <span style={{ fontSize:'0.85rem', color:'#64748b', flexShrink:0 }}>→</span>
+            </a>
+          )
+        })}
       </div>
       <div style={{ fontSize:'0.62rem', color:'#94a3b8', marginTop:8 }}>Affiliate links · Commission milti hai hume</div>
     </div>
