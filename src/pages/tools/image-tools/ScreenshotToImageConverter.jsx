@@ -103,7 +103,7 @@ export default function ScreenshotToImageConverter() {
         <>
           <div className="tp-card">
             <div className="tp-sec-title">🔎 Preview</div>
-            <img src={preview} alt="Screenshot" style={{ width:'100%', borderRadius:10, maxHeight:320, objectFit:'contain', background:'#f1f5f9' }} />
+            <img loading="lazy" src={preview} alt="Screenshot" style={{ width:'100%', borderRadius:10, maxHeight:320, objectFit:'contain', background:'#f1f5f9' }} />
           </div>
 
           <div className="tp-card">

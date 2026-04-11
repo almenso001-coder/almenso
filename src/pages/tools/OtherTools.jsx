@@ -1186,7 +1186,7 @@ export function QRCodeGenerator() {
       {qrUrl && (
         <div className="tp-card" style={{ textAlign:'center' }}>
           <div className="tp-sec-title">✅ Aapka QR Code Ready Hai</div>
-          <img loading="lazy" src={qrUrl} alt="QR Code" style={{ borderRadius:12, border:'3px solid #0c831f', maxWidth:'100%', display:'block', margin:'0 auto 16px' }} />
+          <img loading="lazy" loading="lazy" src={qrUrl} alt="QR Code" style={{ borderRadius:12, border:'3px solid #0c831f', maxWidth:'100%', display:'block', margin:'0 auto 16px' }} />
           <div style={{ display:'flex', gap:8, justifyContent:'center', flexWrap:'wrap' }}>
             <a href={qrUrl} download="almenso-qr-code.png" target="_blank" rel="noreferrer"
               style={{ display:'inline-block', padding:'10px 20px', background:'#0c831f', color:'#fff',

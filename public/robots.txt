@@ -45,4 +45,4 @@ User-agent: LinkedInBot
 Allow: /
 
 # Sitemap location
-Sitemap: https://almenso.vercel.app/sitemap.xml
+Sitemap: https://almenso.com/sitemap.xml

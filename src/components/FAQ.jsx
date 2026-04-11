@@ -4,7 +4,6 @@
  */
 
 import React, { useState } from 'react'
-import SEOHead from './SEOHead'
 import { generateFAQSchema } from '../utils/seoHelpers'
 import './FAQ.css'
 
@@ -15,13 +14,16 @@ export default function FAQ({ faqs, title = 'Frequently Asked Questions' }) {
     setOpenIndex(openIndex === index ? null : index)
   }
   
-  // Generate FAQ schema for SEO
+  // Generate FAQ schema for SEO — inject directly to avoid duplicate via SEOHead
   const faqSchema = generateFAQSchema(faqs)
   
   return (
     <section className="faq-section">
-      {/* Schema markup for rich snippets */}
-      <SEOHead schema={faqSchema} />
+      {/* FAQPage JSON-LD for rich snippets — injected inline, no duplication */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       
       <div className="faq-header">
         <h2 className="faq-title">{title}</h2>

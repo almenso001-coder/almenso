@@ -3,15 +3,18 @@
  * Dynamic page for each tool with SEO, ads, and article interlinking
  */
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import SEOHead from '../components/SEOHead'
+import Breadcrumb from '../components/Breadcrumb'
 import AdSlot from '../components/AdSlot'
 import FAQ from '../components/FAQ'
 import { RelatedTools } from '../components/ToolCard'
 import { TOOLS_DATABASE } from '../data/toolsDatabase'
 import { generateArticle } from '../utils/articleGenerator'
 import { generateWebAppSchema, generateBreadcrumbSchema } from '../utils/seoHelpers'
+import ShareButton from '../components/ShareButton'
+import { trackToolUse, trackCTA } from '../utils/analytics'
 import './ToolPage.css'
 
 export default function ToolPage({ children }) {
@@ -46,28 +49,31 @@ export default function ToolPage({ children }) {
   
   // Combine schemas
   const schemas = [webAppSchema, breadcrumbSchema]
+
+  // Analytics: fire tool-use event once per mount
+  useEffect(() => {
+    trackToolUse(tool.id, tool.name)
+  }, [tool.id, tool.name])
   
   return (
     <div className="tool-page">
       {/* SEO Head */}
       <SEOHead
-        title={tool.seoTitle}
+        title={tool.seoTitle || `${tool.name} — Free Online Tool | Almenso`}
         description={tool.metaDescription}
         keywords={tool.keywords}
         canonical={`/tools/${tool.id}`}
-        image={`https://almenso.com/og-images/${tool.id}.jpg`}
+        image={`https://almenso.com/preview.svg`}
         type="WebApplication"
         schema={schemas}
       />
       
       {/* Breadcrumb Navigation */}
-      <nav className="tp-breadcrumb">
-        <Link to="/" className="tpb-link">Home</Link>
-        <span className="tpb-sep">›</span>
-        <Link to="/tools" className="tpb-link">Tools</Link>
-        <span className="tpb-sep">›</span>
-        <span className="tpb-current">{tool.name}</span>
-      </nav>
+      <Breadcrumb items={[
+        { label: 'Home', href: '/' },
+        { label: 'Tools', href: '/tools' },
+        { label: tool.name },
+      ]} />
       
       {/* Tool Header */}
       <header className="tp-header">
@@ -82,6 +88,11 @@ export default function ToolPage({ children }) {
               <span className="tph-badge">{formatCategory(tool.category)}</span>
               <span className="tph-badge">Free Forever</span>
               <span className="tph-badge">No Registration</span>
+              <ShareButton
+                title={`${tool.name} — Almenso`}
+                text={`${tool.description} Try it free on Almenso!`}
+                style={{ marginLeft: 'auto' }}
+              />
             </div>
           </div>
         </div>
@@ -106,8 +117,8 @@ export default function ToolPage({ children }) {
             <p className="tal-text">
               Read our comprehensive guide with tips, tricks, and best practices
             </p>
-            <Link to={`/blog/${article.slug}`} className="tal-button">
-              Read Complete Guide →
+            <Link to={`/blog/${article.slug}`} className="tal-button" onClick={() => trackCTA('read_guide', tool.name)}>
+              📖 Read Complete Guide →
             </Link>
           </div>
         </div>
@@ -167,8 +178,8 @@ export default function ToolPage({ children }) {
           <p className="tpc-text">
             Read our detailed {article.wordCount}-word guide with expert tips, common mistakes to avoid, and advanced techniques
           </p>
-          <Link to={`/blog/${article.slug}`} className="tpc-button">
-            Read Full Article →
+          <Link to={`/blog/${article.slug}`} className="tpc-button" onClick={() => trackCTA('read_guide', tool.name)}>
+            📖 Read Full Guide →
           </Link>
         </div>
       </section>

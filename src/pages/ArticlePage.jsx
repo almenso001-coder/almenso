@@ -3,15 +3,18 @@
  * Auto-generated SEO articles with tool interlinking
  */
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import SEOHead from '../components/SEOHead'
+import Breadcrumb from '../components/Breadcrumb'
 import AdSlot, { InArticleAd } from '../components/AdSlot'
 import FAQ from '../components/FAQ'
 import { RelatedTools, ToolLink } from '../components/ToolCard'
 import { TOOLS_DATABASE } from '../data/toolsDatabase'
 import { getArticleBySlug } from '../utils/articleGenerator'
 import { generateArticleSchema, generateBreadcrumbSchema, calculateReadingTime } from '../utils/seoHelpers'
+import ShareButton from '../components/ShareButton'
+import { trackCTA, trackPageView } from '../utils/analytics'
 import './ArticlePage.css'
 
 // Simple HTML sanitizer (basic version)
@@ -78,27 +81,31 @@ export default function ArticlePage() {
   ])
   
   const schemas = [articleSchema, breadcrumbSchema, article.schema]
+
+  // Track article page view
+  useEffect(() => {
+    trackPageView(`/blog/${article.slug}`)
+  }, [article.slug])
   
   return (
     <div className="article-page">
       {/* SEO Head */}
       <SEOHead
-        title={article.seoTitle}
+        title={article.seoTitle || `${article.title} | Almenso`}
         description={article.metaDescription}
         keywords={article.keywords}
         canonical={`/blog/${article.slug}`}
+        image={`https://almenso.com/preview.svg`}
         type="article"
         schema={schemas}
       />
       
       {/* Breadcrumb */}
-      <nav className="ap-breadcrumb">
-        <Link to="/" className="apb-link">Home</Link>
-        <span className="apb-sep">›</span>
-        <Link to="/blog" className="apb-link">Blog</Link>
-        <span className="apb-sep">›</span>
-        <span className="apb-current">{tool.name}</span>
-      </nav>
+      <Breadcrumb items={[
+        { label: 'Home', href: '/' },
+        { label: 'Blog', href: '/blog' },
+        { label: tool.name },
+      ]} />
       
       {/* Article Header */}
       <header className="ap-header">
@@ -115,6 +122,11 @@ export default function ArticlePage() {
             </span>
             <span className="aph-reading">⏱️ {article.readTime} min read</span>
             <span className="aph-words">📝 {article.wordCount} words</span>
+            <ShareButton
+              title={article.title}
+              text={article.metaDescription}
+              style={{ marginLeft: 'auto' }}
+            />
           </div>
         </div>
       </header>
@@ -135,7 +147,7 @@ export default function ArticlePage() {
                 <div className="atl-title">{tool.name}</div>
                 <div className="atl-desc">{tool.description}</div>
               </div>
-              <div className="atl-arrow">→</div>
+              <div className="atl-arrow">🚀 Use Tool</div>
             </Link>
           </div>
           
@@ -253,8 +265,8 @@ export default function ArticlePage() {
             <div className="apc-content">
               <h3 className="apc-title">Ready to Try {tool.name}?</h3>
               <p className="apc-text">Start using the tool now - it's free and requires no registration!</p>
-              <Link to={`/tools/${tool.id}`} className="apc-button">
-                Use {tool.name} Now →
+              <Link to={`/tools/${tool.id}`} className="apc-button" onClick={() => trackCTA('use_tool', tool.name)}>
+                🚀 Use {tool.name} Now — Free →
               </Link>
             </div>
           </div>

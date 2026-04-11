@@ -139,7 +139,7 @@ export default function ImageCollageMaker() {
         <>
           <div className="tp-card">
             <div className="tp-sec-title">✅ Your Collage</div>
-            <img src={result} alt="Collage" style={{ width:'100%', borderRadius:10, maxHeight:400, objectFit:'contain', background:'#f1f5f9' }} />
+            <img loading="lazy" src={result} alt="Collage" style={{ width:'100%', borderRadius:10, maxHeight:400, objectFit:'contain', background:'#f1f5f9' }} />
           </div>
           <div className="tp-card" style={{ textAlign:'center' }}>
             <button onClick={download} style={{ minHeight:44, padding:'0 24px', background:'#0f8a1f', color:'#fff', border:'none', borderRadius:10, fontWeight:800, fontSize:'0.88rem', cursor:'pointer', fontFamily:'inherit' }}>

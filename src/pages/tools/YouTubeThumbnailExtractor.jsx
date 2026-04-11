@@ -85,7 +85,7 @@ export default function YouTubeThumbnailExtractor() {
             {THUMBNAILS.map(t => (
               <a key={t.key} href={buildUrl(videoId, t.key)} target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}>
                 <div style={{ border: '1px solid #e5e7eb', borderRadius: 12, overflow: 'hidden', background: '#fafafa' }}>
-                  <img loading="lazy" src={buildUrl(videoId, t.key)} alt={t.label} style={{ width: '100%', height: 120, objectFit: 'cover' }} />
+                  <img loading="lazy" loading="lazy" src={buildUrl(videoId, t.key)} alt={t.label} style={{ width: '100%', height: 120, objectFit: 'cover' }} />
                   <div style={{ padding: 10, fontWeight: 700, fontSize: '0.85rem', color: '#111' }}>{t.label}</div>
                 </div>
               </a>

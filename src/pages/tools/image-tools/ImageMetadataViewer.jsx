@@ -66,7 +66,7 @@ export default function ImageMetadataViewer() {
       {preview && (
         <div className="tp-card">
           <div className="tp-sec-title">🔎 Preview</div>
-          <img src={preview} alt="Preview" style={{ width:'100%', borderRadius:10, maxHeight:280, objectFit:'contain', background:'#f1f5f9' }} />
+          <img loading="lazy" src={preview} alt="Preview" style={{ width:'100%', borderRadius:10, maxHeight:280, objectFit:'contain', background:'#f1f5f9' }} />
         </div>
       )}
 

@@ -3,7 +3,7 @@ import { useLanguage } from '../context/LanguageContext'
 
 const SITE      = 'Almenso'
 const SITE_URL  = 'https://almenso.com'
-const DEFAULT_IMG = `${SITE_URL}/icon-512.svg`
+const DEFAULT_IMG = `${SITE_URL}/preview.svg`
 
 const DEFAULT_DESC = {
   hi: 'हल्द्वानी में 100+ फ्री ऑनलाइन टूल्स — GST, EMI, बिजली बिल कैलकुलेटर। इलेक्ट्रीशियन, सोलर, इंटीरियर सर्विस।',
@@ -80,6 +80,9 @@ export default function SEOHead({
     setMeta('og:description',      desc,       'property')
     setMeta('og:url',              canon,      'property')
     setMeta('og:image',            img,        'property')
+    setMeta('og:image:width',      '1200',     'property')
+    setMeta('og:image:height',     '630',      'property')
+    setMeta('og:image:alt',        clean,      'property')
     setMeta('og:site_name',        SITE,       'property')
     setMeta('og:locale',           locale,     'property')
     setMeta('og:locale:alternate', altLocale,  'property')

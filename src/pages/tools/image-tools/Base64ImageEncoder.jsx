@@ -78,7 +78,7 @@ export default function Base64ImageEncoder() {
 
           <div className="tp-card">
             <div className="tp-sec-title">🔍 Preview</div>
-            <img src={result} alt="Preview" style={{ width:'100%', maxHeight:200, objectFit:'contain', background:'#f1f5f9', borderRadius:10 }} />
+            <img loading="lazy" src={result} alt="Preview" style={{ width:'100%', maxHeight:200, objectFit:'contain', background:'#f1f5f9', borderRadius:10 }} />
           </div>
 
           <div className="tp-card">

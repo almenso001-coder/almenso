@@ -122,12 +122,12 @@ export default function ImageWatermark() {
           <div style={{ display:'grid', gridTemplateColumns: result ? '1fr 1fr' : '1fr', gap:12 }}>
             <div>
               <div style={{ fontSize:'0.72rem', fontWeight:800, color:'#94a3b8', marginBottom:6 }}>ORIGINAL</div>
-              <img src={preview} alt="Original" style={{ width:'100%', borderRadius:10, maxHeight:260, objectFit:'contain', background:'#f1f5f9' }} />
+              <img loading="lazy" src={preview} alt="Original" style={{ width:'100%', borderRadius:10, maxHeight:260, objectFit:'contain', background:'#f1f5f9' }} />
             </div>
             {result && (
               <div>
                 <div style={{ fontSize:'0.72rem', fontWeight:800, color:'#0ea5e9', marginBottom:6 }}>WATERMARKED ✅</div>
-                <img src={result} alt="Result" style={{ width:'100%', borderRadius:10, maxHeight:260, objectFit:'contain', background:'#f1f5f9' }} />
+                <img loading="lazy" src={result} alt="Result" style={{ width:'100%', borderRadius:10, maxHeight:260, objectFit:'contain', background:'#f1f5f9' }} />
               </div>
             )}
           </div>

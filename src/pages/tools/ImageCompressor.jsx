@@ -222,11 +222,11 @@ export default function ImageCompressor() {
           <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:10 }}>
             <div style={{ textAlign:'center' }}>
               <div style={{ fontSize:'0.72rem', fontWeight:800, color:'#dc2626', marginBottom:6 }}>❌ BEFORE (Original)</div>
-              <img loading="lazy" src={preview.original} alt="original" style={{ width:'100%', borderRadius:8, border:'2px solid #fca5a5', objectFit:'cover', maxHeight:180 }} />
+              <img loading="lazy" loading="lazy" src={preview.original} alt="original" style={{ width:'100%', borderRadius:8, border:'2px solid #fca5a5', objectFit:'cover', maxHeight:180 }} />
             </div>
             <div style={{ textAlign:'center' }}>
               <div style={{ fontSize:'0.72rem', fontWeight:800, color:'#16a34a', marginBottom:6 }}>✅ AFTER (Compressed)</div>
-              <img loading="lazy" src={preview.compressed} alt="compressed" style={{ width:'100%', borderRadius:8, border:'2px solid #86efac', objectFit:'cover', maxHeight:180 }} />
+              <img loading="lazy" loading="lazy" src={preview.compressed} alt="compressed" style={{ width:'100%', borderRadius:8, border:'2px solid #86efac', objectFit:'cover', maxHeight:180 }} />
             </div>
           </div>
           <div style={{ textAlign:'center', background:'#f0fdf4', borderRadius:8, padding:'8px', fontSize:'0.82rem', fontWeight:800, color:'#16a34a' }}>
@@ -256,7 +256,7 @@ export default function ImageCompressor() {
         ) : (
           <div key={i} className="tp-card">
             <div style={{ display:'flex', gap:10, marginBottom:12 }}>
-              <img loading="lazy" src={r.url} alt={r.name} style={{ width:72, height:72, objectFit:'cover', borderRadius:8, border:'1.5px solid #e5e7eb', cursor:'pointer' }}
+              <img loading="lazy" loading="lazy" src={r.url} alt={r.name} style={{ width:72, height:72, objectFit:'cover', borderRadius:8, border:'1.5px solid #e5e7eb', cursor:'pointer' }}
                 onClick={()=>setPreview({ original: r.original, compressed: r.url, saving: r.saving })} />
               <div style={{ flex:1 }}>
                 <div style={{ fontWeight:800, fontSize:'0.82rem', marginBottom:6, wordBreak:'break-all' }}>{r.name}</div>

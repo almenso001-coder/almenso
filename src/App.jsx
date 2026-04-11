@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Suspense, lazy } from "react";
 import {
-  HashRouter,
+  BrowserRouter,
   Routes,
   Route,
   useLocation,
@@ -1205,9 +1205,9 @@ function App() {
       <ThemeProvider>
         <SettingsProvider>
           <LanguageProvider>
-            <HashRouter>
+            <BrowserRouter>
               <Layout />
-            </HashRouter>
+            </BrowserRouter>
           </LanguageProvider>
         </SettingsProvider>
       </ThemeProvider>

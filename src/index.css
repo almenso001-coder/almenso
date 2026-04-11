@@ -1,4 +1,12 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 :root {
   --green: #0c831f;
@@ -12,12 +20,14 @@
   --text: #1a1a1a;
   --muted: #666;
   --border: #e0e0e0;
-  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   --radius: 12px;
-  --font: 'Poppins', sans-serif;
+  --font: "Poppins", sans-serif;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   font-family: var(--font);
@@ -28,18 +38,41 @@ body {
 }
 
 /* Fix wavy background on body/sections */
-.sec, .page-wrap, .home-page, .main-content {
+.sec,
+.page-wrap,
+.home-page,
+.main-content {
   background-image: none !important;
 }
 
-button { cursor: pointer; font-family: var(--font); border: none; outline: none; }
-input { font-family: var(--font); outline: none; border: none; }
-a { text-decoration: none; color: inherit; }
+button {
+  cursor: pointer;
+  font-family: var(--font);
+  border: none;
+  outline: none;
+}
+input {
+  font-family: var(--font);
+  outline: none;
+  border: none;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
 
 /* Scrollbar */
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: #f1f1f1; }
-::-webkit-scrollbar-thumb { background: var(--green); border-radius: 4px; }
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--green);
+  border-radius: 4px;
+}
 
 /* Horizontal scroll container */
 .hscroll {
@@ -50,7 +83,9 @@ a { text-decoration: none; color: inherit; }
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
-.hscroll::-webkit-scrollbar { display: none; }
+.hscroll::-webkit-scrollbar {
+  display: none;
+}
 
 /* Toast */
 .toast {
@@ -85,16 +120,23 @@ a { text-decoration: none; color: inherit; }
 }
 
 @media (min-width: 768px) {
-  .page-wrap { max-width: 100%; box-shadow: none; }
+  .page-wrap {
+    max-width: 100%;
+    box-shadow: none;
+  }
 }
 
 /* Overlay */
 .overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.5);
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
   z-index: 100;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s;
 }
-.overlay.on { opacity: 1; pointer-events: all; }
+.overlay.on {
+  opacity: 1;
+  pointer-events: all;
+}

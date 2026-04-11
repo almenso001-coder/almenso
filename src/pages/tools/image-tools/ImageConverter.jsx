@@ -89,7 +89,7 @@ export default function ImageConverter() {
       {preview && (
         <div className="tp-card">
           <div className="tp-sec-title">🔎 Preview</div>
-          <img src={result || preview} alt="Preview" style={{ width:'100%', borderRadius:10, maxHeight:300, objectFit:'contain', background:'#f1f5f9' }} />
+          <img loading="lazy" src={result || preview} alt="Preview" style={{ width:'100%', borderRadius:10, maxHeight:300, objectFit:'contain', background:'#f1f5f9' }} />
         </div>
       )}
       {result && (

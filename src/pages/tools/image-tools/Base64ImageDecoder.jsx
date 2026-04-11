@@ -67,7 +67,7 @@ export default function Base64ImageDecoder() {
         <>
           <div className="tp-card">
             <div className="tp-sec-title">🖼️ Decoded Image</div>
-            <img src={preview} alt="Decoded" style={{ width:'100%', maxHeight:360, objectFit:'contain', background:'repeating-conic-gradient(#e2e8f0 0% 25%,#fff 0% 50%) 0 0/20px 20px', borderRadius:10 }} />
+            <img loading="lazy" src={preview} alt="Decoded" style={{ width:'100%', maxHeight:360, objectFit:'contain', background:'repeating-conic-gradient(#e2e8f0 0% 25%,#fff 0% 50%) 0 0/20px 20px', borderRadius:10 }} />
           </div>
           <div className="tp-card" style={{ textAlign:'center' }}>
             <button onClick={download} style={{ minHeight:44, padding:'0 24px', background:'#0f8a1f', color:'#fff', border:'none', borderRadius:10, fontWeight:800, fontSize:'0.88rem', cursor:'pointer', fontFamily:'inherit' }}>

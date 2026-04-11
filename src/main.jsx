@@ -1,9 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
+import { initAnalytics } from './utils/analytics'
 import './styles/index.css'
 import './styles/responsive.css'
 import './styles/responsive-patches.css'
+
+// ── Init Analytics (GA4) — reads ID from Admin Panel settings
+initAnalytics()
 
 // ── Critical: Ensure root element exists ──────────────────────
 const rootElement = document.getElementById('root')

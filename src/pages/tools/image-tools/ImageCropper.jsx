@@ -109,7 +109,7 @@ export default function ImageCropper() {
       {preview && (
         <div className="tp-card">
           <div className="tp-sec-title">🔎 {result ? 'Cropped Result' : 'Original Preview'}</div>
-          <img src={result || preview} alt="Preview" ref={imgRef} style={{ width:'100%', borderRadius:10, maxHeight:320, objectFit:'contain', background:'#f1f5f9' }} />
+          <img loading="lazy" src={result || preview} alt="Preview" ref={imgRef} style={{ width:'100%', borderRadius:10, maxHeight:320, objectFit:'contain', background:'#f1f5f9' }} />
         </div>
       )}
 

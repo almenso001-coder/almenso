@@ -531,3 +531,445 @@
 .hfc-item {
   opacity: 1 !important;
 }
+
+/* ════════════════════════════════════════════════════════════════
+   HOMEPAGE v3 ADDITIONS
+   New classes for: Call Now btn, WA tooltip, tools labels/cats,
+   float card footer, local SEO section, internal links
+════════════════════════════════════════════════════════════════ */
+
+/* ── Call Now CTA button (hero) ───────────────────────────────── */
+.hero3-btn-call {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 52px;
+  padding: 0 20px;
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  border-radius: 13px;
+  font-weight: 900;
+  font-size: .88rem;
+  cursor: pointer;
+  font-family: var(--font);
+  text-decoration: none;
+  letter-spacing: -.01em;
+  transition: background .15s, transform .12s, box-shadow .15s;
+  box-shadow: 0 4px 16px rgba(220,38,38,.35);
+  white-space: nowrap;
+}
+.hero3-btn-call:hover  { background: #b91c1c; box-shadow: 0 6px 22px rgba(220,38,38,.45); }
+.hero3-btn-call:active { transform: scale(.97); }
+
+/* ── WhatsApp button wrapper + tooltip ───────────────────────── */
+.hero3-wa-wrap {
+  position: relative;
+  display: inline-flex;
+}
+.hero3-wa-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f2937;
+  color: #f9fafb;
+  font-size: .65rem;
+  font-weight: 700;
+  white-space: nowrap;
+  padding: 5px 10px;
+  border-radius: 8px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .2s;
+  z-index: 10;
+}
+.hero3-wa-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #1f2937;
+}
+.hero3-wa-wrap:hover .hero3-wa-tooltip { opacity: 1; }
+
+/* ── Float card footer: two-button row ──────────────────────── */
+.hfc-footer-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.hfc-call-now {
+  display: block;
+  width: 100%;
+  padding: 11px;
+  background: #fef2f2;
+  border: none;
+  border-top: 1px solid #fecaca;
+  color: #dc2626;
+  font-size: .75rem;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: var(--font);
+  text-align: center;
+  text-decoration: none;
+  transition: background .15s;
+  letter-spacing: .01em;
+}
+.hfc-call-now:hover { background: #fee2e2; }
+/* Improve Book → label readability */
+.hfc-item-book {
+  font-size: .72rem;
+  font-weight: 900;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255,255,255,.08);
+}
+
+/* ── Tools section: Popular / Trending label row ─────────────── */
+.hp3-tools-label-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.hp3-tools-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .03em;
+}
+.hp3-tools-label--popular {
+  background: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #fed7aa;
+}
+.hp3-tools-label--trending {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+/* ── Tool category quick-jump pills ─────────────────────────── */
+.hp3-tool-cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #f1f5f9;
+}
+.hp3-tool-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 99px;
+  font-size: .75rem;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all .15s;
+  white-space: nowrap;
+}
+.hp3-tool-cat:hover {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+}
+
+/* ── LOCAL SEO SECTION ───────────────────────────────────────── */
+.hp3-local-seo {
+  background: linear-gradient(135deg, #f0f9ff 0%, #f8fafc 100%);
+  border-radius: 20px;
+  border: 1px solid #e0f2fe;
+  padding: 32px 28px !important;
+}
+.hp3-local-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .hp3-local-inner { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* Left column */
+.hp3-local-h2 { margin-bottom: 10px !important; }
+
+.hp3-local-desc {
+  font-size: .85rem;
+  color: #475569;
+  line-height: 1.7;
+  margin-bottom: 18px;
+}
+
+.hp3-local-services {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 12px;
+}
+.hp3-local-services li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: .8rem;
+  font-weight: 600;
+  color: #334155;
+}
+.hp3-local-services li span {
+  font-size: .9rem;
+  flex-shrink: 0;
+}
+@media (max-width: 480px) {
+  .hp3-local-services { grid-template-columns: 1fr; }
+}
+
+/* Trust badges */
+.hp3-local-trust {
+  display: flex;
+  gap: 0;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 14px 0;
+  margin-bottom: 20px;
+}
+.hp3-trust-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+  border-right: 1px solid #f1f5f9;
+  padding: 0 8px;
+}
+.hp3-trust-item:last-child { border-right: none; }
+.hp3-trust-num {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #0f172a;
+  line-height: 1;
+}
+.hp3-trust-lbl {
+  font-size: .6rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+/* Local CTAs */
+.hp3-local-ctas {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.hp3-local-book {
+  min-height: 44px;
+  padding: 0 20px;
+  background: #1d4ed8;
+  color: #fff;
+  border: none;
+  border-radius: 11px;
+  font-weight: 900;
+  font-size: .82rem;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: background .15s, transform .12s;
+  white-space: nowrap;
+}
+.hp3-local-book:hover  { background: #1e40af; }
+.hp3-local-book:active { transform: scale(.97); }
+.hp3-local-call {
+  min-height: 44px;
+  padding: 0 16px;
+  background: #dc2626;
+  color: #fff;
+  border-radius: 11px;
+  font-weight: 800;
+  font-size: .82rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background .15s;
+  white-space: nowrap;
+}
+.hp3-local-call:hover { background: #b91c1c; }
+.hp3-local-wa {
+  min-height: 44px;
+  padding: 0 16px;
+  background: #25d366;
+  color: #fff;
+  border: none;
+  border-radius: 11px;
+  font-weight: 800;
+  font-size: .82rem;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: background .15s;
+}
+.hp3-local-wa:hover { background: #1aaa52; }
+
+/* Right column: service card */
+.hp3-local-card {
+  background: #fff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.06);
+}
+.hp3-lc-head {
+  background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
+  color: #fff;
+  font-size: .82rem;
+  font-weight: 800;
+  padding: 14px 18px;
+  letter-spacing: .01em;
+}
+.hp3-lc-area {
+  padding: 14px 18px 10px;
+}
+.hp3-lc-area-title {
+  font-size: .65rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 8px;
+}
+.hp3-lc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.hp3-lc-area-tag {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  border-radius: 99px;
+  padding: 3px 10px;
+  font-size: .68rem;
+  font-weight: 700;
+}
+.hp3-lc-price {
+  padding: 8px 18px;
+  font-size: .78rem;
+  font-weight: 700;
+  color: #475569;
+  border-top: 1px solid #f1f5f9;
+}
+.hp3-lc-cta {
+  display: block;
+  width: 100%;
+  padding: 13px 18px;
+  background: #dc2626;
+  color: #fff;
+  font-size: .82rem;
+  font-weight: 900;
+  text-align: center;
+  text-decoration: none;
+  font-family: var(--font);
+  transition: background .15s;
+  letter-spacing: .01em;
+}
+.hp3-lc-cta:hover { background: #b91c1c; }
+.hp3-lc-note {
+  padding: 9px 18px;
+  font-size: .67rem;
+  color: #94a3b8;
+  font-weight: 600;
+  text-align: center;
+  border-top: 1px solid #f8fafc;
+}
+
+/* Internal links block */
+.hp3-internal-links {
+  background: #fff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.hp3-il-title {
+  padding: 10px 16px;
+  font-size: .65rem;
+  font-weight: 800;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  border-bottom: 1px solid #f1f5f9;
+  background: #fafafa;
+}
+.hp3-il-link {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #f8fafc;
+  font-size: .78rem;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  font-family: var(--font);
+  text-align: left;
+  transition: background .12s, color .12s;
+}
+.hp3-il-link:last-child { border-bottom: none; }
+.hp3-il-link:hover {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+/* ── Dark mode support ──────────────────────────────────────── */
+[data-theme="dark"] .hp3-local-seo {
+  background: linear-gradient(135deg, #0f172a 0%, #111827 100%);
+  border-color: #1e3a5f;
+}
+[data-theme="dark"] .hp3-local-trust,
+[data-theme="dark"] .hp3-local-card,
+[data-theme="dark"] .hp3-internal-links {
+  background: #1f2937;
+  border-color: #374151;
+}
+[data-theme="dark"] .hp3-trust-num { color: #f1f5f9; }
+[data-theme="dark"] .hp3-local-desc,
+[data-theme="dark"] .hp3-local-services li { color: #94a3b8; }
+[data-theme="dark"] .hp3-il-link { color: #cbd5e1; }
+[data-theme="dark"] .hp3-il-link:hover { background: #1e3a5f; color: #93c5fd; }
+[data-theme="dark"] .hp3-lc-price { color: #94a3b8; }
+[data-theme="dark"] .hp3-il-title { background: #1a2535; color: #4b5563; }
+[data-theme="dark"] .hp3-tool-cat { background: #1f2937; border-color: #374151; color: #cbd5e1; }
+[data-theme="dark"] .hp3-tool-cat:hover { background: #1e3a5f; border-color: #3b82f6; color: #93c5fd; }
+[data-theme="dark"] .hfc-call-now { background: #1f1a1a; border-color: #7f1d1d; color: #fca5a5; }
+[data-theme="dark"] .hfc-call-now:hover { background: #2d1515; }
+
+/* ── Mobile tweaks ──────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .hero3-btn-call { min-height: 46px; padding: 0 14px; font-size: .82rem; }
+  .hp3-tool-cats  { gap: 6px; }
+  .hp3-tool-cat   { padding: 6px 11px; font-size: .7rem; }
+  .hp3-local-seo  { padding: 20px 16px !important; border-radius: 14px; }
+  .hp3-local-ctas { gap: 8px; }
+  .hp3-local-book { width: 100%; justify-content: center; }
+  .hp3-trust-num  { font-size: .95rem; }
+}

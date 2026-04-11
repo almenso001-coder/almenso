@@ -10,6 +10,7 @@ import AdSlot from '../components/AdSlot'
 import { ToolGrid } from '../components/ToolCard'
 import { TOOLS_DATABASE, TOOL_CATEGORIES } from '../data/toolsDatabase'
 import './ToolsDirectory.css'
+import { trackPageView } from '../utils/analytics'
 
 export default function ToolsDirectory() {
   const location = useLocation()
@@ -17,6 +18,9 @@ export default function ToolsDirectory() {
   const queryParams = new URLSearchParams(location.search)
   
   const [searchQuery, setSearchQuery] = useState(queryParams.get('search') || '')
+
+  // Track page view
+  React.useEffect(() => { trackPageView('/tools') }, [])
   const [selectedCategory, setSelectedCategory] = useState(queryParams.get('category') || 'all')
   const [filteredTools, setFilteredTools] = useState(TOOLS_DATABASE)
   
@@ -78,9 +82,9 @@ export default function ToolsDirectory() {
     <div className="tools-directory">
       {/* SEO Meta Tags */}
       <SEOHead
-        title="All Tools - 50+ Free Online Tools | Almenso"
-        description="Browse our complete collection of 50+ free online tools including calculators, image tools, PDF tools, text tools, SEO tools, and developer tools."
-        keywords={['online tools directory', 'free tools', 'web tools', 'calculator tools', 'image editor']}
+        title="Free Online Tools Directory — Calculators, Converters, Image & PDF Tools | Almenso"
+        description="Browse 50+ free online tools: GST calculator, BMI calculator, image compressor, PDF tools, text tools, and more. No login required. Works on mobile & desktop."
+        keywords={['free online tools india', 'gst calculator', 'bmi calculator', 'image compressor', 'pdf tools', 'online calculator', 'haldwani tools']}
         canonical="/tools"
       />
       
