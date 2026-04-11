@@ -4,6 +4,8 @@ import ConverterTemplate from '../../../components/converters/ConverterTemplate'
 export default function AreaConverter() {
   return (
     <ConverterTemplate
+      emoji="📐"
+      heroColor="linear-gradient(135deg,#0f172a,#059669)"
       title="Area Converter — Square Meters, Acres, Square Feet"
       description="Convert area between square meters, acres, square feet, and square yards. Handy for land planning and real estate."
       converterName="Area"

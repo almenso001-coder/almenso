@@ -4,6 +4,8 @@ import ConverterTemplate from '../../../components/converters/ConverterTemplate'
 export default function DataStorageConverter() {
   return (
     <ConverterTemplate
+      emoji="💾"
+      heroColor="linear-gradient(135deg,#0f172a,#6366f1)"
       title="Data Storage Converter — Bytes, KB, MB, GB"
       description="Convert between bytes, kilobytes, megabytes and gigabytes. Useful for file sizes, storage planning, and tech specs."
       converterName="Data Storage"

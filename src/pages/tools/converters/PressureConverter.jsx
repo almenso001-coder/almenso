@@ -4,6 +4,8 @@ import ConverterTemplate from '../../../components/converters/ConverterTemplate'
 export default function PressureConverter() {
   return (
     <ConverterTemplate
+      emoji="🔵"
+      heroColor="linear-gradient(135deg,#0f172a,#0ea5e9)"
       title="Pressure Converter — Pascals, PSI, Bar"
       description="Convert pressure between pascals, psi, bar, and mmHg. Helpful for tyre pressure, weather, and engineering."
       converterName="Pressure"

@@ -519,3 +519,15 @@
     font-size: 0.75rem;
   }
 }
+
+/* ── Visibility fallback overrides — animation trigger na ho toh bhi visible rahe ── */
+.htc-grid .htc-card {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+.htesti-card {
+  opacity: 1 !important;
+}
+.hfc-item {
+  opacity: 1 !important;
+}

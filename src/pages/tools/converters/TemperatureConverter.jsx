@@ -4,6 +4,8 @@ import ConverterTemplate from '../../../components/converters/ConverterTemplate'
 export default function TemperatureConverter() {
   return (
     <ConverterTemplate
+      emoji="🌡️"
+      heroColor="linear-gradient(135deg,#0f172a,#ef4444)"
       title="Temperature Converter — Celsius, Fahrenheit, Kelvin"
       description="Quickly convert temperatures between Celsius, Fahrenheit, and Kelvin. Ideal for weather, cooking and science."
       converterName="Temperature"

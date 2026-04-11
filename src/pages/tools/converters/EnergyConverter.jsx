@@ -4,6 +4,8 @@ import ConverterTemplate from '../../../components/converters/ConverterTemplate'
 export default function EnergyConverter() {
   return (
     <ConverterTemplate
+      emoji="⚡"
+      heroColor="linear-gradient(135deg,#0f172a,#d97706)"
       title="Energy Converter — Joules, Calories, kWh"
       description="Convert energy values between joules, calories, kilowatt-hours and BTUs. Useful for nutrition, physics, and electricity."
       converterName="Energy"

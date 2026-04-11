@@ -4,6 +4,8 @@ import ConverterTemplate from '../../../components/converters/ConverterTemplate'
 export default function VolumeConverter() {
   return (
     <ConverterTemplate
+      emoji="🧊"
+      heroColor="linear-gradient(135deg,#0f172a,#0891b2)"
       title="Volume Converter — Liters, Milliliters, Gallons"
       description="Convert volume between liters, milliliters, gallons, and cubic meters. Great for recipes, liquids, and storage planning."
       converterName="Volume"

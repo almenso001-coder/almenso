@@ -4,6 +4,8 @@ import ConverterTemplate from '../../../components/converters/ConverterTemplate'
 export default function PowerConverter() {
   return (
     <ConverterTemplate
+      emoji="⚡"
+      heroColor="linear-gradient(135deg,#0f172a,#b45309)"
       title="Power Converter — Watts, Kilowatts, Horsepower"
       description="Convert power between watts, kilowatts, and horsepower. Great for appliances, engines, and power calculations."
       converterName="Power"

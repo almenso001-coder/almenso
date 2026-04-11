@@ -42,10 +42,12 @@ export default function ToolWrapper({
 
   const serviceConfig = serviceCategory ? SERVICE_CONFIGS[serviceCategory] : null
 
-  // Pick a gradient based on heroColor or default
-  const heroBg = heroColor
-    ? `linear-gradient(135deg, ${heroColor}ee 0%, ${heroColor}99 100%)`
-    : 'linear-gradient(135deg, #0b1d3a 0%, #0f3520 100%)'
+  // heroColor gradient string hai ya plain color — detect karo
+  const heroBg = !heroColor
+    ? 'linear-gradient(135deg, #0b1d3a 0%, #0f3520 100%)'
+    : heroColor.includes('gradient') || heroColor.includes('#') && heroColor.includes(',')
+      ? heroColor   // Already full gradient string — seedha use karo
+      : `linear-gradient(135deg, ${heroColor}ee 0%, ${heroColor}99 100%)` // Plain hex color
 
   return (
     <ToolResultCtx.Provider value={{ showMonetization: showMon, setShowMonetization: setShowMon }}>

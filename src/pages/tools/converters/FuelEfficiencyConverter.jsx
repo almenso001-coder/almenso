@@ -4,6 +4,8 @@ import ConverterTemplate from '../../../components/converters/ConverterTemplate'
 export default function FuelEfficiencyConverter() {
   return (
     <ConverterTemplate
+      emoji="⛽"
+      heroColor="linear-gradient(135deg,#0f172a,#16a34a)"
       title="Fuel Efficiency Converter — km/L, MPG, L/100km"
       description="Convert fuel efficiency between kilometers per liter, miles per gallon, and liters per 100 km. Helpful for comparing vehicles."
       converterName="Fuel Efficiency"

@@ -19,7 +19,7 @@ import ToolWrapper from '../ToolWrapper'
 export default function ConverterTemplate({
   title, description, converterName, baseUnit, inputs = [], formula,
   affCategory = null, toolPath = null,
-  heroColor = '#0f766e', emoji = '🔄',
+  heroColor = 'linear-gradient(135deg, #0f172a 0%, #0f766e 100%)', emoji = '🔄',
   keywords = '',
 }) {
   const initialValues = useMemo(() => {

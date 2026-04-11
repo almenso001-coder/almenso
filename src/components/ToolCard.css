@@ -405,3 +405,9 @@
 .tool-card:nth-child(4) { animation-delay: 150ms; }
 .tool-card:nth-child(5) { animation-delay: 200ms; }
 .tool-card:nth-child(6) { animation-delay: 250ms; }
+
+/* ── Visibility fallback — animation trigger na ho toh bhi visible rahe ── */
+.tool-card {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}

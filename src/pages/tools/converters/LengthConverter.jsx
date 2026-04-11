@@ -4,6 +4,8 @@ import ConverterTemplate from '../../../components/converters/ConverterTemplate'
 export default function LengthConverter() {
   return (
     <ConverterTemplate
+      emoji="📏"
+      heroColor="linear-gradient(135deg,#0f172a,#0369a1)"
       title="Length Converter — Meters, Kilometers, Feet & More"
       description="Convert between meters, kilometers, feet, inches and miles in one place. Great for travel, DIY, and planning projects."
       converterName="Length"

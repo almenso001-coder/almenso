@@ -20,6 +20,7 @@
   text-align: center;
   color: #fff;
   overflow: hidden;
+  background-color: #0b1d3a; /* Fallback agar gradient fail ho */
 }
 
 /* Decorative circles */
@@ -351,4 +352,10 @@
   .tw-hero-title { font-size: 1.4rem; }
   .tw-body { padding: 12px 10px; gap: 14px; }
   .tw-section-card { padding: 16px 14px; }
+}
+
+/* ── Visibility fallback — agar animation trigger na ho ── */
+.tw-page {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }

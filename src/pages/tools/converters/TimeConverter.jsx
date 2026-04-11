@@ -4,6 +4,8 @@ import ConverterTemplate from '../../../components/converters/ConverterTemplate'
 export default function TimeConverter() {
   return (
     <ConverterTemplate
+      emoji="⏱️"
+      heroColor="linear-gradient(135deg,#0f172a,#be185d)"
       title="Time Converter — Seconds, Minutes, Hours & Days"
       description="Convert time between seconds, minutes, hours, and days. Useful for scheduling, workouts, and time tracking."
       converterName="Time"

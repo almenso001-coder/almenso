@@ -4,6 +4,8 @@ import ConverterTemplate from '../../../components/converters/ConverterTemplate'
 export default function SpeedConverter() {
   return (
     <ConverterTemplate
+      emoji="🚀"
+      heroColor="linear-gradient(135deg,#0f172a,#f59e0b)"
       title="Speed Converter — km/h, m/s, mph & Knots"
       description="Convert speed between kilometers per hour, meters per second, miles per hour and knots. Great for travel, sports, and navigation." 
       converterName="Speed"

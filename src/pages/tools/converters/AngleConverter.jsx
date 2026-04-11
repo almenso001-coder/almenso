@@ -4,6 +4,8 @@ import ConverterTemplate from '../../../components/converters/ConverterTemplate'
 export default function AngleConverter() {
   return (
     <ConverterTemplate
+      emoji="🔵"
+      heroColor="linear-gradient(135deg,#0f172a,#4f46e5)"
       title="Angle Converter — Degrees, Radians, Gradians"
       description="Convert angles between degrees, radians, and gradians. Useful for geometry, engineering, and graphics."
       converterName="Angle"

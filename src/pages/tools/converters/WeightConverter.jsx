@@ -4,6 +4,8 @@ import ConverterTemplate from '../../../components/converters/ConverterTemplate'
 export default function WeightConverter() {
   return (
     <ConverterTemplate
+      emoji="⚖️"
+      heroColor="linear-gradient(135deg,#0f172a,#7c3aed)"
       title="Weight Converter — Kilograms, Pounds, Ounces"
       description="Convert weight between kilograms, grams, pounds, ounces, and stones. Useful for cooking, shopping, and shipping."
       converterName="Weight"

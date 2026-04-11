@@ -4,6 +4,8 @@ import ConverterTemplate from '../../../components/converters/ConverterTemplate'
 export default function CurrencyConverter() {
   return (
     <ConverterTemplate
+      emoji="💱"
+      heroColor="linear-gradient(135deg,#0f172a,#15803d)"
       title="Currency Converter — USD, EUR, GBP, INR"
       description="Convert between US dollars, euros, British pounds and Indian rupees with fixed sample rates. Great for quick estimates."
       converterName="Currency"

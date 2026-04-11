@@ -4,6 +4,8 @@ import ConverterTemplate from '../../../components/converters/ConverterTemplate'
 export default function DensityConverter() {
   return (
     <ConverterTemplate
+      emoji="⚗️"
+      heroColor="linear-gradient(135deg,#0f172a,#7e22ce)"
       title="Density Converter — kg/m³, g/cm³, lb/ft³"
       description="Convert density between kilograms per cubic meter, grams per cubic centimeter and pounds per cubic foot. Useful for materials and fluids."
       converterName="Density"
