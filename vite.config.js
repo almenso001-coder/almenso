@@ -5,11 +5,7 @@ import path from "path";
 export default defineConfig({
   base: "/",
 
-  plugins: [
-    react({
-      babel: { plugins: [] },
-    }),
-  ],
+  plugins: [react()],
 
   // Path aliases
   resolve: {
